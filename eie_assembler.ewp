@@ -624,7 +624,7 @@
                 <option>
                     <name>OOCOutputFormat</name>
                     <version>3</version>
-                    <state>4</state>
+                    <state>1</state>
                 </option>
                 <option>
                     <name>OCOutputOverride</name>
@@ -632,7 +632,7 @@
                 </option>
                 <option>
                     <name>OOCOutputFile</name>
-                    <state>eie_ide.sim</state>
+                    <state>eie_assembler.hex</state>
                 </option>
                 <option>
                     <name>OOCCommandLineProducer</name>
@@ -687,7 +687,7 @@
                 </option>
                 <option>
                     <name>IlinkOutputFile</name>
-                    <state>eie_ide.out</state>
+                    <state>eie_assembler.out</state>
                 </option>
                 <option>
                     <name>IlinkDebugInfoEnable</name>
@@ -2034,7 +2034,7 @@
         <name>$PROJ_DIR$\exceptions.h</name>
     </file>
     <file>
-        <name>$PROJ_DIR$\main.c</name>
+        <name>$PROJ_DIR$\main_assembler.s</name>
     </file>
     <file>
         <name>$PROJ_DIR$\sam3u2c_flash.icf</name>

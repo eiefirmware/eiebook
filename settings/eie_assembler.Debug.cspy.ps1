@@ -23,9 +23,9 @@ param([String]$debugfile = "");
 
 if ($debugfile -eq "")
 {
-& "C:\Program Files\IAR Systems\EWARM_8_10_1\common\bin\cspybat" -f "D:\EiE\EiE Git\eiebook\settings\eie_ide.Debug.general.xcl" --backend -f "D:\EiE\EiE Git\eiebook\settings\eie_ide.Debug.driver.xcl" 
+& "C:\Program Files\IAR Systems\EWARM_8_10_1\common\bin\cspybat" -f "D:\EiE\EiE Git\eiebook\settings\eie_assembler.Debug.general.xcl" --backend -f "D:\EiE\EiE Git\eiebook\settings\eie_assembler.Debug.driver.xcl" 
 }
 else
 {
-& "C:\Program Files\IAR Systems\EWARM_8_10_1\common\bin\cspybat" -f "D:\EiE\EiE Git\eiebook\settings\eie_ide.Debug.general.xcl" --debug_file=$debugfile --backend -f "D:\EiE\EiE Git\eiebook\settings\eie_ide.Debug.driver.xcl" 
+& "C:\Program Files\IAR Systems\EWARM_8_10_1\common\bin\cspybat" -f "D:\EiE\EiE Git\eiebook\settings\eie_assembler.Debug.general.xcl" --debug_file=$debugfile --backend -f "D:\EiE\EiE Git\eiebook\settings\eie_assembler.Debug.driver.xcl" 
 }

@@ -2326,7 +2326,7 @@
         <name>$PROJ_DIR$\exceptions.h</name>
     </file>
     <file>
-        <name>$PROJ_DIR$\main.c</name>
+        <name>$PROJ_DIR$\main_assembler.s</name>
     </file>
     <file>
         <name>$PROJ_DIR$\sam3u2c_flash.icf</name>
