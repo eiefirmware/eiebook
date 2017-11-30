@@ -1,0 +1,19 @@
+"--endian=little" 
+
+"--cpu=Cortex-M3" 
+
+"--fpu=None" 
+
+"-p" 
+
+"C:\Program Files\IAR Systems\EWARM_8_10_1\arm\CONFIG\debugger\Atmel\ATSAM3U2E.ddf" 
+
+"--semihosting=none" 
+
+"--device=ATSAM3U2E" 
+
+"--multicore_nr_of_cores=1" 
+
+
+
+
