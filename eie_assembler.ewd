@@ -44,11 +44,11 @@
                 </option>
                 <option>
                     <name>MemFile</name>
-                    <state>$TOOLKIT_DIR$\CONFIG\debugger\Atmel\ATSAM3U2E.ddf</state>
+                    <state>$TOOLKIT_DIR$\CONFIG\debugger\Atmel\ATSAM3U2C.ddf</state>
                 </option>
                 <option>
                     <name>RunToEnable</name>
-                    <state>0</state>
+                    <state>1</state>
                 </option>
                 <option>
                     <name>RunToName</name>
@@ -84,7 +84,7 @@
                 </option>
                 <option>
                     <name>OCDynDriverList</name>
-                    <state>ARMSIM_ID</state>
+                    <state>JLINK_ID</state>
                 </option>
                 <option>
                     <name>OCLastSavedByProductVersion</name>
@@ -112,7 +112,7 @@
                 </option>
                 <option>
                     <name>FlashLoadersV3</name>
-                    <state>$TOOLKIT_DIR$\config\flashloader\Atmel\sam3u2e\sam3u2e-flash.board</state>
+                    <state>$TOOLKIT_DIR$\config\flashloader\Atmel\sam3u2c\sam3u2c-flash.board</state>
                 </option>
                 <option>
                     <name>OCImagesSuppressCheck1</name>
@@ -823,7 +823,7 @@
                 <option>
                     <name>CCJLinkResetList</name>
                     <version>6</version>
-                    <state>5</state>
+                    <state>7</state>
                 </option>
                 <option>
                     <name>CCJLinkInterfaceCmdLine</name>
@@ -888,7 +888,7 @@
                 </option>
                 <option>
                     <name>CCCpuClockEdit</name>
-                    <state></state>
+                    <state>96.0</state>
                 </option>
                 <option>
                     <name>CCSwoClockAuto</name>

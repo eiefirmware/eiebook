@@ -78,7 +78,7 @@
                 </option>
                 <option>
                     <name>OGChipSelectEditMenu</name>
-                    <state>ATSAM3U2E	Atmel ATSAM3U2E</state>
+                    <state>ATSAM3U2C	Atmel ATSAM3U2C</state>
                 </option>
                 <option>
                     <name>GenLowLevelInterface</name>
@@ -138,7 +138,7 @@
                 </option>
                 <option>
                     <name>GFPUDeviceSlave</name>
-                    <state>ATSAM3U2E	Atmel ATSAM3U2E</state>
+                    <state>ATSAM3U2C	Atmel ATSAM3U2C</state>
                 </option>
                 <option>
                     <name>FPU2</name>
@@ -2032,6 +2032,9 @@
     </file>
     <file>
         <name>$PROJ_DIR$\exceptions.h</name>
+    </file>
+    <file>
+        <name>$PROJ_DIR$\kill_x_cycles.s</name>
     </file>
     <file>
         <name>$PROJ_DIR$\main_assembler.s</name>

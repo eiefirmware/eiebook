@@ -19,7 +19,7 @@
 ; convention, that's where the compiler would put it.
 ; All timing is shown in [ ].  The function overhead is subtracted off the value passed
 ; in, then the value is reduced by the number of cycles it takes for each run of the kill_x_loop
-; There will be a remainder error here, but it's 0 or 1 cycle.
+; There will be a remainder error here, but it's at most 2 cycles.
 ;
 ; Requires:
 ;	- R0 is an unsigned value holding the number of cycles to be passed
