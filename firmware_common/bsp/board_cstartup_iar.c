@@ -1,5 +1,14 @@
+/*!
+@file board_cstartup_iar.c 
+@brief Atmel-supplied source file for IAR board startup.
+
+This file captures the vector table in FLASH and has the required
+entry symbols to make the IAR compiler happy and generate the proper
+startup code to do low level initializations and then call main.
+*/
+
 /* ----------------------------------------------------------------------------
- *         ATMEL Microcontroller Software Support 
+*         ATMEL Microcontroller Software Support 
  * ----------------------------------------------------------------------------
  * Copyright (c) 2008, Atmel Corporation
  *
@@ -27,11 +36,9 @@
  * ----------------------------------------------------------------------------
  */
 
-//------------------------------------------------------------------------------
-//         Headers
-//------------------------------------------------------------------------------
-#include "exceptions.h"
-#include "AT91SAM3U4.h"
+#include "configuration.h"
+
+
 
 //------------------------------------------------------------------------------
 //         Types
@@ -62,8 +69,8 @@ extern unsigned int __ICFEDIT_vector_start__;
 // it is where the SP start value is found, and the NVIC vector
 // table register (VTOR) is initialized to this address if != 0.
 
-#pragma section = ".vectors"
-#pragma location = ".vectors"
+#pragma section  = ".intvec"
+#pragma location = ".intvec"
 const IntVector __vector_table[] =
 {
     { .__ptr = __sfe( "CSTACK" ) },
@@ -125,7 +132,7 @@ const IntVector __vector_table[] =
 //------------------------------------------------------------------------------
 int __low_level_init( void )
 {
-    unsigned int * src = __section_begin(".vectors");
+    unsigned int * src = __section_begin(".intvec");
 
     AT91C_BASE_NVIC->NVIC_VTOFFR = ((unsigned int)(src)) | (0x0 << 7);
     

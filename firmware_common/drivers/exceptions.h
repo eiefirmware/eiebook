@@ -1,3 +1,8 @@
+/*!
+@file exceptions.h 
+@brief Atmel-supplied header file for exceptions.c
+*/
+
 /* ----------------------------------------------------------------------------
  *         ATMEL Microcontroller Software Support 
  * ----------------------------------------------------------------------------
@@ -36,19 +41,14 @@
 //         Types
 //------------------------------------------------------------------------------
 
-/// Function prototype for exception table items - interrupt handler.
-//typedef void( *IrqHandler )( void );
+/*! 
+@enum IntFunc
+@brief Function pointer defintion for interrupt handler functions.
+*/
 typedef void( *IntFunc )( void );
 
 /// Weak attribute
-
-#if defined   ( __CC_ARM   )
-    #define WEAK __attribute__ ((weak))
-#elif defined ( __ICCARM__ )
     #define WEAK __weak
-#elif defined (  __GNUC__  )
-    #define WEAK __attribute__ ((weak))
-#endif
 
 //------------------------------------------------------------------------------
 //         Global functions

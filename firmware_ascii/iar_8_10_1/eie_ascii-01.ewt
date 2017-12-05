@@ -18,7 +18,7 @@
                     <analyzeTimeoutEnabled>1</analyzeTimeoutEnabled>
                     <analyzeTimeout>600</analyzeTimeout>
                     <enableParallel>0</enableParallel>
-                    <parallelThreads>4</parallelThreads>
+                    <parallelThreads>2</parallelThreads>
                     <enableFalsePositives>0</enableFalsePositives>
                     <messagesLimitEnabled>1</messagesLimitEnabled>
                     <messagesLimit>100</messagesLimit>
@@ -1148,7 +1148,7 @@
                 </option>
                 <option>
                     <name>GenRtcEnable</name>
-                    <state>0</state>
+                    <state>1</state>
                 </option>
                 <option>
                     <name>GenRtcCheckPtrsNonInstrFunc</name>
@@ -1174,7 +1174,7 @@
                     <analyzeTimeoutEnabled>1</analyzeTimeoutEnabled>
                     <analyzeTimeout>600</analyzeTimeout>
                     <enableParallel>0</enableParallel>
-                    <parallelThreads>4</parallelThreads>
+                    <parallelThreads>2</parallelThreads>
                     <enableFalsePositives>0</enableFalsePositives>
                     <messagesLimitEnabled>1</messagesLimitEnabled>
                     <messagesLimit>100</messagesLimit>
@@ -2313,25 +2313,79 @@
             </data>
         </settings>
     </configuration>
-    <file>
-        <name>$PROJ_DIR$\AT91SAM3U4.h</name>
-    </file>
-    <file>
-        <name>$PROJ_DIR$\board_cstartup_iar.c</name>
-    </file>
-    <file>
-        <name>$PROJ_DIR$\exceptions.c</name>
-    </file>
-    <file>
-        <name>$PROJ_DIR$\exceptions.h</name>
-    </file>
-    <file>
-        <name>$PROJ_DIR$\kill_x_cycles.s</name>
-    </file>
-    <file>
-        <name>$PROJ_DIR$\main_assembler.s</name>
-    </file>
-    <file>
-        <name>$PROJ_DIR$\sam3u2c_flash.icf</name>
-    </file>
+    <group>
+        <name>_BSP</name>
+        <group>
+            <name>Includes</name>
+            <file>
+                <name>$PROJ_DIR$\..\..\firmware_common\bsp\AT91SAM3U4.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\..\firmware_common\bsp\configuration.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\bsp\eief1-pcb-01.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\..\firmware_common\bsp\sam3u2-flash.icf</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\..\firmware_common\bsp\typedefs.h</name>
+            </file>
+        </group>
+        <group>
+            <name>Source</name>
+            <file>
+                <name>$PROJ_DIR$\..\..\firmware_common\bsp\board_cstartup_iar.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\bsp\eief1-pcb-01.c</name>
+            </file>
+        </group>
+    </group>
+    <group>
+        <name>_CMSIS</name>
+        <file>
+            <name>$PROJ_DIR$\..\..\firmware_common\cmsis\core_cm3.h</name>
+        </file>
+    </group>
+    <group>
+        <name>_Drivers</name>
+        <group>
+            <name>Include</name>
+            <file>
+                <name>$PROJ_DIR$\..\..\firmware_common\drivers\exceptions.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\..\firmware_common\drivers\interrupts.h</name>
+            </file>
+        </group>
+        <group>
+            <name>Source</name>
+            <file>
+                <name>$PROJ_DIR$\..\..\firmware_common\drivers\exceptions.c</name>
+            </file>
+        </group>
+    </group>
+    <group>
+        <name>Application</name>
+        <group>
+            <name>Include</name>
+            <file>
+                <name>$PROJ_DIR$\..\application\main.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\..\firmware_common\application\user_app1.h</name>
+            </file>
+        </group>
+        <group>
+            <name>Source</name>
+            <file>
+                <name>$PROJ_DIR$\..\application\main.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\..\firmware_common\application\user_app1.c</name>
+            </file>
+        </group>
+    </group>
 </project>

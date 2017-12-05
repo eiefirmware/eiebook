@@ -1,7 +1,7 @@
 //  ----------------------------------------------------------------------------
 //          ATMEL Microcontroller Software Support  -  ROUSSET  -
 //  ----------------------------------------------------------------------------
-//  Copyright (c) 2008, Atmel Corporation
+//  Copyright (c) 2009, Atmel Corporation
 // 
 //  All rights reserved.
 // 
@@ -27,40 +27,8 @@
 //  ----------------------------------------------------------------------------
 // File Name           : AT91SAM3U4.h
 // Object              : AT91SAM3U4 definitions
-// Generated           : AT91 SW Application Group  06/04/2009 (13:20:13)
-// 
-// CVS Reference       : /AT91SAM3U4.pl/1.37/Wed May 27 12:18:53 2009//
-// CVS Reference       : /SYS_SAM3U4.pl/1.4/Fri Oct 17 13:27:57 2008//
-// CVS Reference       : /HMATRIX2_SAM3U4.pl/1.4/Tue May  5 11:28:12 2009//
-// CVS Reference       : /PMC_SAM3U4.pl/1.7/Fri Oct 17 13:27:54 2008//
-// CVS Reference       : /EBI_SAM9260.pl/1.1/Fri Sep 30 12:12:14 2005//
-// CVS Reference       : /EFC2_SAM3U4.pl/1.3/Mon Mar  2 10:12:06 2009//
-// CVS Reference       : /HSDRAMC1_6100A.pl/1.2/Mon Aug  9 10:52:25 2004//
-// CVS Reference       : /HSMC4_xxxx.pl/1.9/Fri Oct 17 13:27:56 2008//
-// CVS Reference       : /HECC_6143A.pl/1.1/Wed Feb  9 17:16:57 2005//
-// CVS Reference       : /CORTEX_M3_NVIC.pl/1.7/Tue Jan 27 16:16:24 2009//
-// CVS Reference       : /CORTEX_M3_MPU.pl/1.3/Fri Oct 17 13:27:48 2008//
-// CVS Reference       : /CORTEX_M3.pl/1.1/Mon Sep 15 15:22:06 2008//
-// CVS Reference       : /PDC_6074C.pl/1.2/Thu Feb  3 09:02:11 2005//
-// CVS Reference       : /DBGU_SAM3U4.pl/1.3/Tue May  5 11:28:09 2009//
-// CVS Reference       : /PIO3_xxxx.pl/1.6/Mon Mar  9 10:43:37 2009//
-// CVS Reference       : /RSTC_6098A.pl/1.4/Fri Oct 17 13:27:55 2008//
-// CVS Reference       : /SHDWC_6122A.pl/1.3/Wed Oct  6 14:16:58 2004//
-// CVS Reference       : /SUPC_SAM3U4.pl/1.2/Tue May  5 11:29:05 2009//
-// CVS Reference       : /RTTC_6081A.pl/1.2/Thu Nov  4 13:57:22 2004//
-// CVS Reference       : /PITC_6079A.pl/1.2/Thu Nov  4 13:56:22 2004//
-// CVS Reference       : /WDTC_6080A.pl/1.3/Thu Nov  4 13:58:52 2004//
-// CVS Reference       : /TC_6082A.pl/1.8/Fri Oct 17 13:27:58 2008//
-// CVS Reference       : /MCI_6101F.pl/1.3/Fri Jan 23 09:15:32 2009//
-// CVS Reference       : /TWI_6061B.pl/1.3/Fri Oct 17 13:27:59 2008//
-// CVS Reference       : /US_6089J.pl/1.3/Fri Oct 17 13:27:59 2008//
-// CVS Reference       : /SSC_SAM3U4.pl/1.1/Thu Jun  4 09:02:35 2009//
-// CVS Reference       : /SPI2.pl/1.5/Thu Jun  4 08:58:10 2009//
-// CVS Reference       : /PWM_6343B_V400.pl/1.3/Fri Oct 17 13:27:54 2008//
-// CVS Reference       : /HDMA_SAM3U4.pl/1.4/Thu Jun  4 09:24:04 2009//
-// CVS Reference       : /UDPHS_SAM9_7ept6dma4iso.pl/1.4/Tue Jun 24 13:05:14 2008//
-// CVS Reference       : /ADC_SAM3UE.pl/1.4/Fri Feb 20 12:19:18 2009//
-// CVS Reference       : /RTC_1245D.pl/1.3/Fri Sep 17 14:01:31 2004//
+// Generated           : AT91 SW Application Group  11/17/2009 (13:04:57)
+
 //  ----------------------------------------------------------------------------
 
 #ifndef AT91SAM3U4_H
@@ -443,6 +411,7 @@ typedef struct _AT91S_SYS {
     AT91_REG SUPC_WUIR; // Supply Controller Wake Up Inputs Register
     AT91_REG SUPC_SR;   // Supply Controller Status Register
 	AT91_REG	 Reserved64[2]; 	// 
+
 	AT91_REG	 RTTC_RTMR; 	// Real-time Mode Register
 	AT91_REG	 RTTC_RTAR; 	// Real-time Alarm Register
 	AT91_REG	 RTTC_RTVR; 	// Real-time Value Register
@@ -712,6 +681,10 @@ typedef struct _AT91S_HSMC4 {
 #define AT91C_HSMC4_ECCRESET  (0x1 <<  0) // (HSMC4) Reset ECC
 // -------- HSMC4_ECCCMD : (HSMC4 Offset: 0x24) ECC mode register -------- 
 #define AT91C_ECC_PAGE_SIZE   (0x3 <<  0) // (HSMC4) Nand Flash page size
+#define 	AT91C_ECC_PAGE_SIZE_528_Bytes            (0x0) // (HSMC4) 512 bytes plus 16 bytes page size
+#define 	AT91C_ECC_PAGE_SIZE_1056_Bytes           (0x1) // (HSMC4) 1024 bytes plus 32 bytes page size
+#define 	AT91C_ECC_PAGE_SIZE_2112_Bytes           (0x2) // (HSMC4) 2048 bytes plus 64 bytes page size
+#define 	AT91C_ECC_PAGE_SIZE_4224_Bytes           (0x3) // (HSMC4) 4096 bytes plus 128 bytes page size
 #define AT91C_ECC_TYPCORRECT  (0x3 <<  4) // (HSMC4) Nand Flash page size
 #define 	AT91C_ECC_TYPCORRECT_ONE_PER_PAGE         (0x0 <<  4) // (HSMC4) 
 #define 	AT91C_ECC_TYPCORRECT_ONE_EVERY_256_BYTES  (0x1 <<  4) // (HSMC4) 
@@ -935,7 +908,7 @@ typedef struct _AT91S_HMATRIX2 {
 // -------- MATRIX_MCFG6 : (HMATRIX2 Offset: 0x18) Master Configuration Register -------- 
 // -------- MATRIX_MCFG7 : (HMATRIX2 Offset: 0x1c) Master Configuration Register -------- 
 // -------- MATRIX_SCFG0 : (HMATRIX2 Offset: 0x40) Slave Configuration Register 0 -------- 
-#define AT91C_MATRIX_SLOT_CYCLE (0x1FF <<  0) // (HMATRIX2) Maximum Number of Allowed Cycles for a Burst
+#define AT91C_MATRIX_SLOT_CYCLE (0xFF <<  0) // (HMATRIX2) Maximum Number of Allowed Cycles for a Burst
 #define AT91C_MATRIX_DEFMSTR_TYPE (0x3 << 16) // (HMATRIX2) Default Master Type
 #define 	AT91C_MATRIX_DEFMSTR_TYPE_NO_DEFMSTR           (0x0 << 16) // (HMATRIX2) No Default Master. At the end of current slave access, if no other master request is pending, the slave is deconnected from all masters. This results in having a one cycle latency for the first transfer of a burst.
 #define 	AT91C_MATRIX_DEFMSTR_TYPE_LAST_DEFMSTR         (0x1 << 16) // (HMATRIX2) Last Default Master. At the end of current slave access, if no other master request is pending, the slave stay connected with the last master having accessed it. This results in not having the one cycle latency when the last master re-trying access on the slave.
@@ -1179,14 +1152,11 @@ typedef struct _AT91S_NVIC {
 #define AT91C_NVIC_VECTCLRACTIVE (0x1 <<  1) // (NVIC) Clear active vector bit
 #define AT91C_NVIC_SYSRESETREQ (0x1 <<  2) // (NVIC) Causes a signal to be asserted to the outer system that indicates a reset is requested
 #define AT91C_NVIC_PRIGROUP   (0x7 <<  8) // (NVIC) Interrupt priority grouping field
-#define 	AT91C_NVIC_PRIGROUP_0                    (0x0 <<  8) // (NVIC) indicates seven bits of pre-emption priority, one bit of subpriority
-#define 	AT91C_NVIC_PRIGROUP_1                    (0x1 <<  8) // (NVIC) indicates six bits of pre-emption priority, two bits of subpriority
-#define 	AT91C_NVIC_PRIGROUP_2                    (0x2 <<  8) // (NVIC) indicates five bits of pre-emption priority, three bits of subpriority
-#define 	AT91C_NVIC_PRIGROUP_3                    (0x3 <<  8) // (NVIC) indicates four bits of pre-emption priority, four bits of subpriority
-#define 	AT91C_NVIC_PRIGROUP_4                    (0x4 <<  8) // (NVIC) indicates three bits of pre-emption priority, five bits of subpriority
-#define 	AT91C_NVIC_PRIGROUP_5                    (0x5 <<  8) // (NVIC) indicates two bits of pre-emption priority, six bits of subpriority
-#define 	AT91C_NVIC_PRIGROUP_6                    (0x6 <<  8) // (NVIC) indicates one bit of pre-emption priority, seven bits of subpriority
-#define 	AT91C_NVIC_PRIGROUP_7                    (0x7 <<  8) // (NVIC) indicates no pre-emption priority, eight bits of subpriority
+#define 	AT91C_NVIC_PRIGROUP_3                    (0x3 <<  8) // (NVIC) indicates four bits of pre-emption priority, none bit of subpriority
+#define 	AT91C_NVIC_PRIGROUP_4                    (0x4 <<  8) // (NVIC) indicates three bits of pre-emption priority, one bit of subpriority
+#define 	AT91C_NVIC_PRIGROUP_5                    (0x5 <<  8) // (NVIC) indicates two bits of pre-emption priority, two bits of subpriority
+#define 	AT91C_NVIC_PRIGROUP_6                    (0x6 <<  8) // (NVIC) indicates one bit of pre-emption priority, three bits of subpriority
+#define 	AT91C_NVIC_PRIGROUP_7                    (0x7 <<  8) // (NVIC) indicates no pre-emption priority, four bits of subpriority
 #define AT91C_NVIC_ENDIANESS  (0x1 << 15) // (NVIC) Data endianness bit
 #define AT91C_NVIC_VECTKEY    (0xFFFF << 16) // (NVIC) Register key
 // -------- NVIC_SCR : (NVIC Offset: 0xd10) System Control Register -------- 
@@ -1742,7 +1712,7 @@ typedef struct _AT91S_PMC {
 #define 	AT91C_PMC_PRES_CLK_16               (0x4 <<  4) // (PMC) Selected clock divided by 16
 #define 	AT91C_PMC_PRES_CLK_32               (0x5 <<  4) // (PMC) Selected clock divided by 32
 #define 	AT91C_PMC_PRES_CLK_64               (0x6 <<  4) // (PMC) Selected clock divided by 64
-#define 	AT91C_PMC_PRES_CLK_6                (0x7 <<  4) // (PMC) Selected clock divided by 6
+#define 	AT91C_PMC_PRES_CLK_3                (0x7 <<  4) // (PMC) Selected clock divided by 3
 // -------- PMC_PCKR : (PMC Offset: 0x40) Programmable Clock Register -------- 
 // -------- PMC_IER : (PMC Offset: 0x60) PMC Interrupt Enable Register -------- 
 #define AT91C_PMC_MOSCXTS     (0x1 <<  0) // (PMC) Main Crystal Oscillator Status/Enable/Disable/Mask
@@ -3420,6 +3390,8 @@ typedef struct _AT91S_TWI {
 //              SOFTWARE API DEFINITION  FOR Usart
 // *****************************************************************************
 #ifndef __ASSEMBLY__
+
+
 typedef struct _AT91S_USART {
 	AT91_REG	 US_CR; 	// Control Register
 	AT91_REG	 US_MR; 	// Mode Register
@@ -3506,7 +3478,6 @@ typedef struct _AT91S_USART {
 #define 	AT91C_US_USMODE_ISO7816_0            (0x4) // (USART) ISO7816 protocol: T = 0
 #define 	AT91C_US_USMODE_ISO7816_1            (0x6) // (USART) ISO7816 protocol: T = 1
 #define 	AT91C_US_USMODE_IRDA                 (0x8) // (USART) IrDA
-#define 	AT91C_US_USMODE_SWHSH                (0xC) // (USART) Software Handshaking
 #define AT91C_US_CLKS         (0x3 <<  4) // (USART) Clock Selection (Baud Rate generator Input Clock
 #define 	AT91C_US_CLKS_CLOCK                (0x0 <<  4) // (USART) Clock
 #define 	AT91C_US_CLKS_FDIV1                (0x1 <<  4) // (USART) fdiv1
@@ -3518,6 +3489,7 @@ typedef struct _AT91S_USART {
 #define 	AT91C_US_CHRL_7_BITS               (0x2 <<  6) // (USART) Character Length: 7 bits
 #define 	AT91C_US_CHRL_8_BITS               (0x3 <<  6) // (USART) Character Length: 8 bits
 #define AT91C_US_SYNC         (0x1 <<  8) // (USART) Synchronous Mode Select
+#define AT91C_US_CPHA         (0x1 <<  8) // (USART) Synchronous Mode Select
 #define AT91C_US_PAR          (0x7 <<  9) // (USART) Parity type
 #define 	AT91C_US_PAR_EVEN                 (0x0 <<  9) // (USART) Even Parity
 #define 	AT91C_US_PAR_ODD                  (0x1 <<  9) // (USART) Odd Parity
@@ -3535,6 +3507,7 @@ typedef struct _AT91S_USART {
 #define 	AT91C_US_CHMODE_LOCAL                (0x2 << 14) // (USART) Local Loopback: Transmitter Output Signal is connected to Receiver Input Signal.
 #define 	AT91C_US_CHMODE_REMOTE               (0x3 << 14) // (USART) Remote Loopback: RXD pin is internally connected to TXD pin.
 #define AT91C_US_MSBF         (0x1 << 16) // (USART) Bit Order
+#define AT91C_US_CPOL         (0x1 << 16) // (USART) SPI mode clock polarity
 #define AT91C_US_MODE9        (0x1 << 17) // (USART) 9-bit Character length
 #define AT91C_US_CKLO         (0x1 << 18) // (USART) Clock Output Select
 #define AT91C_US_OVER         (0x1 << 19) // (USART) Over Sampling Mode
@@ -3773,7 +3746,7 @@ typedef struct _AT91S_PWMC_CH {
 // *****************************************************************************
 #ifndef __ASSEMBLY__
 typedef struct _AT91S_PWMC {
-	AT91_REG	 PWMC_MR; 	// PWMC Mode Register
+	AT91_REG	 PWMC_CLK; 	// PWMC Mode Register
 	AT91_REG	 PWMC_ENA; 	// PWMC Enable Register
 	AT91_REG	 PWMC_DIS; 	// PWMC Disable Register
 	AT91_REG	 PWMC_SR; 	// PWMC Status Register
@@ -3781,7 +3754,7 @@ typedef struct _AT91S_PWMC {
 	AT91_REG	 PWMC_IDR1; 	// PWMC Interrupt Disable Register 1
 	AT91_REG	 PWMC_IMR1; 	// PWMC Interrupt Mask Register 1
 	AT91_REG	 PWMC_ISR1; 	// PWMC Interrupt Status Register 1
-	AT91_REG	 PWMC_SYNC; 	// PWM Synchronized Channels Register
+	AT91_REG	 PWMC_SCM;  	// PWM Synchronized Channels Register
 	AT91_REG	 Reserved0[1]; 	// 
 	AT91_REG	 PWMC_UPCR; 	// PWM Update Control Register
 	AT91_REG	 PWMC_SCUP; 	// PWM Update Period Register
@@ -4582,7 +4555,7 @@ typedef struct _AT91S_SPI {
 #define 	AT91C_SPI_BITS_15                   (0x7 <<  4) // (SPI) 15 Bits Per transfer
 #define 	AT91C_SPI_BITS_16                   (0x8 <<  4) // (SPI) 16 Bits Per transfer
 #define AT91C_SPI_SCBR        (0xFF <<  8) // (SPI) Serial Clock Baud Rate
-#define AT91C_SPI_DLYBS       (0xFF << 16) // (SPI) Serial Clock Baud Rate
+#define AT91C_SPI_DLYBS       (0xFF << 16) // (SPI) Delay Before SPCK
 #define AT91C_SPI_DLYBCT      (0xFF << 24) // (SPI) Delay Between Consecutive Transfers
 
 // *****************************************************************************
@@ -6688,7 +6661,7 @@ typedef struct _AT91S_HDMA {
 #define AT91C_ID_PMC    ( 5) // PMC
 #define AT91C_ID_EFC0   ( 6) // EFC0
 #define AT91C_ID_EFC1   ( 7) // EFC1
-#define AT91C_ID_DBGU   ( 8) // DBGU
+#define AT91C_ID_DBGU   ( 8) // DBGU (standalone UART)
 #define AT91C_ID_HSMC4  ( 9) // HSMC4
 #define AT91C_ID_PIOA   (10) // Parallel IO Controller A
 #define AT91C_ID_PIOB   (11) // Parallel IO Controller B
@@ -6714,6 +6687,9 @@ typedef struct _AT91S_HDMA {
 
 // *****************************************************************************
 //               BASE ADDRESS DEFINITIONS FOR AT91SAM3U4
+// How do these casts work?
+// AT91_CAST does nothing for C code, so essentially the type cast is just the generic peripheral struct AT91PS_x
+// So AT91C_BASE_X should just be an address to the starting peripheral register address 
 // *****************************************************************************
 #define AT91C_BASE_SYS       (AT91_CAST(AT91PS_SYS) 	0x400E0000) // (SYS) Base Address
 #define AT91C_BASE_HSMC4_CS0 (AT91_CAST(AT91PS_HSMC4_CS) 	0x400E0070) // (HSMC4_CS0) Base Address
