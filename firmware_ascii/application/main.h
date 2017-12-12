@@ -24,6 +24,10 @@ FIRMWARE_SUB_REV1: should be updated when a pull request is made to the MASTER b
 /***********************************************************************************************************************
 * Constant Definitions
 ***********************************************************************************************************************/
+/* G_u32SystemFlags */
+#define _SYSTEM_SLEEPING                (u32)0x80000000   /*!< G_u32SystemFlags set into sleep mode to go back to sleep if woken before 1ms period */
+/* end G_u32SystemFlags */
+
 
 
 

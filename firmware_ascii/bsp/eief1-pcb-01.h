@@ -14,12 +14,24 @@ Type Definitions
 /***********************************************************************************************************************
 * Constants
 ***********************************************************************************************************************/
-
+#define OSC_VALUE                 (u32)12000000                              /*!< @brief Crystal oscillator value */
+#define MAINCK                    OSC_VALUE                                  /*!< @brief Main clock is base crystal frequency */
+#define MULA                      (u32)7                                     /*!< @brief PLL multiplier */
+#define DIVA                      (u32)1                                     /*!< @brief PLL divider value */
+#define PLLACK_VALUE              (u32)(MAINCK * (MULA + 1)) / DIVA          /*!< @brief PLL scaled clock is 96 MHz */
+#define CPU_DIVIDER               (u32)2                                     /*!< @brief Divider to get CPU clock */
+#define CCLK_VALUE                PLLACK_VALUE / CPU_DIVIDER                 /*!< @brief CPU clock 48 MHz */
+#define MCK                       CCLK_VALUE                                 /*!< @brief Alternate name for CPU clock 48 MHz */
+#define PERIPHERAL_DIVIDER        (u32)1                                     /*!< @brief Peripheral clock divider */
+#define PCLK_VALUE                CCLK_VALUE / PERIPHERAL_DIVIDER            /*!< @brief Peripheral clock 48 MHz */
 
 
 /***********************************************************************************************************************
 * Macros
 ***********************************************************************************************************************/
+#define WATCHDOG_BONE()     (AT91C_BASE_WDTC->WDTC_WDCR = WDT_CR_FEED)       /*!< @brief Reloads the Watchdog countdown timer*/
+#define HEARTBEAT_ON()      (AT91C_BASE_PIOA->PIO_CODR = PA_31_HEARTBEAT)    /*!< @brief Turns on Heartbeat LED */
+#define HEARTBEAT_OFF()     (AT91C_BASE_PIOA->PIO_SODR = PA_31_HEARTBEAT)    /*!< @brief Turns off Heartbeat LED */
 
 
 /***********************************************************************************************************************
@@ -34,6 +46,10 @@ Type Definitions
 /*------------------------------------------------------------------------------------------------------------------*/
 /*! @protectedsection */                                                                                            
 /*--------------------------------------------------------------------------------------------------------------------*/
+void WatchDogSetup(void);
+void ClockSetup(void);
+void GpioSetup(void);
+void SystemSleep(void);
 
 
 /***********************************************************************************************************************
@@ -41,6 +57,8 @@ Type Definitions
 ***********************************************************************************************************************/
 /* Hardware Definition for PCB EIEF1-PCB-01 */
 
+/* Port A bit positions */
+#define PA_31_HEARTBEAT         (u32)0x80000000
 
 
 /*! @cond DOXYGEN_EXCLUDE */
@@ -48,13 +66,83 @@ Type Definitions
 Perihperal Setup Initializations
 
 Bookmarks:
-@@@@@ Clock, Power Control, Systick and Watchdog setup values
+@@@@@ Watchdog, Power Control, Clock, and Systick setup values
 
 ***********************************************************************************************************************/
 
 /***********************************************************************************************************************
-@@@@@ Clock, Systick and Power Control setup values
+@@@@@ Watchdog, Power Control, Clock, and Systick setup values
 ***********************************************************************************************************************/
+/* Watch Dog Values
+The watchdog oscillator is on the internal 32k RC with a 128 prescaler = 3.9ms / tick.  
+For a minimum 5 second watchdog timeout, the watchdog
+counter must be set at 1280. */
+
+#define WDT_MR_INIT      (u32)0x1FFF6500
+/*
+    31 [0] Reserved
+    30 [0] "
+    29 [0] WDIDLEHLT Watchdog runs when system is idle
+    28 [1] WDDBGHLT Watchdog stops in debug state
+
+    27 [1] WDD Watchdog delta value (allow resets any time)
+    26 [1] "
+    25 [1] "
+    24 [1] "
+
+    23 [1] "
+    22 [1] "
+    21 [1] "
+    20 [1] "
+
+    19 [1] "
+    18 [1] "
+    17 [1] "
+    16 [1] "
+
+    15 [0] WDDIS Watchdog is not disabled
+    14 [1] WDRPROC watchdog reset processor on
+    13 [1] WDRSTEN Watchdog reset enable on
+    12 [0] WDFIEN Watchdog fault interrupt enable off
+
+    11 [0] WDV Watchdog counter value: 0x500 = 1280 x (128 x 1/32768) = 5 seconds
+    10 [1] "
+    09 [0] "
+    08 [1] "
+
+    07 [0] "
+    06 [0] "
+    05 [0] "
+    04 [0] "
+
+    03 [0] "
+    02 [0] "
+    01 [0] "
+    00 [0] "
+*/
+
+
+#define WDT_CR_FEED  (u32)0xA5000001
+/*
+    31 [1] Key
+    30 [0] " 
+    29 [1] "
+    28 [0] "
+
+    27 [0] "
+    26 [1] "
+    25 [0] "
+    24 [1] "
+
+    23 - 04 [0] Reserved
+
+    03 [0] Reserved
+    02 [0] "
+    01 [0] "
+    00 [1] WDRSTT Restart watchdog
+*/
+
+
 #define PMC_PCER_INIT (u32)0x27FCED73
 /*
     31 [0] Reserved
@@ -241,74 +329,6 @@ Since we want PLLACK at 96 MHz:
 */
 
 
-/* Watch Dog Values
-The watchdog oscillator is on the internal 32k RC with a 128 prescaler = 3.9ms / tick.  
-For a minimum 5 second watchdog timeout, the watchdog
-counter must be set at 1280. */
-
-#define WDT_CR_FEED  (u32)0xA5000001
-/*
-    31 [1] Key
-    30 [0] " 
-    29 [1] "
-    28 [0] "
-
-    27 [0] "
-    26 [1] "
-    25 [0] "
-    24 [1] "
-
-    23 - 04 [0] Reserved
-
-    03 [0] Reserved
-    02 [0] "
-    01 [0] "
-    00 [1] WDRSTT Restart watchdog
-*/
-
-
-#define WDT_MR_INIT      (u32)0x1FFF0500
-/*
-    31 [0] Reserved
-    30 [0] "
-    29 [0] WDIDLEHLT Watchdog runs when system is idle
-    28 [1] WDDBGHLT Watchdog stops in debug state
-
-    27 [1] WDD Watchdog delta value (allow resets any time)
-    26 [1] "
-    25 [1] "
-    24 [1] "
-
-    23 [1] "
-    22 [1] "
-    21 [1] "
-    20 [1] "
-
-    19 [1] "
-    18 [1] "
-    17 [1] "
-    16 [1] "
-
-    15 [0] WDDIS Watchdog is enabled
-    14 [0] WDRPROC watchdog reset processor off
-    13 [0] WDRSTEN Watchdog reset enable off
-    12 [0] WDFIEN Watchdog fault interrupt enable off
-
-    11 [0] WDV Watchdog counter value: 0x500 = 1280 x (128 x 1/32768) = 5 seconds
-    10 [1] "
-    09 [0] "
-    08 [1] "
-
-    07 [0] "
-    06 [0] "
-    05 [0] "
-    04 [0] "
-
-    03 [0] "
-    02 [0] "
-    01 [0] "
-    00 [0] "
-*/
 
 
 /*--------------------------------------------------------------------------------------------------------------------*/
