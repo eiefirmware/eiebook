@@ -8,7 +8,7 @@ To start a new task using this user_app1 as a template:
 2. Use ctrl-h to find and replace all instances of "user_app1" with "yournewtaskname"
 3. Use ctrl-h to find and replace all instances of "UserApp1" with "YourNewTaskName"
 4. Use ctrl-h to find and replace all instances of "USER_APP1" with "YOUR_NEW_TASK_NAME"
-5. Add #include yournewtaskname.h" to configuration.h
+5. Add "#include yournewtaskname.h" to configuration.h
 6. Add/update any special configurations required in configuration.h (e.g. peripheral assignment and setup values)
 7. Delete this text (between the dashed lines)
 ----------------------------------------------------------------------------------------------------------------------
