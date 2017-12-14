@@ -13,8 +13,8 @@ All Global variable names shall start with "G_"
 ***********************************************************************************************************************/
 /* New variables */
 volatile u32 G_u32SystemTime1ms = 0;     /*!< @brief Global system time incremented every ms, max 2^32 (~49 days) */
-volatile u32 G_u32SystemTime1s = 0;      /*!< @brief Global system time incremented every second, max 2^32 (~136 years) */
-volatile u32 G_u32SystemFlags = 0;       /*!< @brief Global system flags */
+volatile u32 G_u32SystemTime1s  = 0;     /*!< @brief Global system time incremented every second, max 2^32 (~136 years) */
+volatile u32 G_u32SystemFlags   = 0;     /*!< @brief Global system flags */
 
 
 /*--------------------------------------------------------------------------------------------------------------------*/
@@ -40,6 +40,10 @@ void main(void)
   WatchDogSetup(); 
   ClockSetup();
   GpioSetup();
+  
+  /* Driver initialization */
+  LedInitialize();
+
 
   /* Application initialization */
   UserApp1Initialize();
@@ -48,6 +52,9 @@ void main(void)
   while(1)
   {
     WATCHDOG_BONE();
+
+    /* Drivers */
+    LedRunActiveState();
     
     /* Applications */
     UserApp1RunActiveState();

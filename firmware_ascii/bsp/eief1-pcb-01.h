@@ -24,6 +24,42 @@ $$$$$ PWM and Timer setup values
 Type Definitions
 ***********************************************************************************************************************/
 
+/*! 
+@enum LedPortType
+@brief Processor-specific port address offsets.
+*/
+typedef enum {LED_PORTA = 0, LED_PORTB = 0x80} LedPortType;                /*!< @enum @brief Offset between port registers (in 32 bit words) */
+
+/*! 
+@enum LedActiveType
+@brief Real names for type of LED function.
+*/
+typedef enum {LED_ACTIVE_LOW = 0, LED_ACTIVE_HIGH = 1} LedActiveType;      /*!< @enum @brief ACTIVE_HIGH means the LED is on when the pin is at Vcc - hardware dependent */
+
+/*! 
+@struct LedConfigurationType
+@brief LED parameters necessary to fully describe an LED.
+*/
+typedef struct
+{
+  u32 u32BitPosition;             /*!< @brief LED bit position within port */
+  LedPortType ePort;              /*!< @brief LED port position */
+  LedActiveType eActiveState;     /*!< @brief LED hardware active type */
+}LedConfigurationType;
+
+/*! 
+@enum LedNameType
+@brief Logical names for LEDs in the system.
+
+The order of the LEDs in LedNameType must match the order of the definition 
+in G_asBspLedConfigurations Led_au32BitPositions from eief1-pcb-01.c 
+*/
+typedef enum {WHITE = 0, PURPLE, BLUE, CYAN, GREEN, YELLOW, ORANGE, RED, LCD_RED, LCD_GREEN, LCD_BLUE} LedNameType;
+
+#define U8_TOTAL_LEDS             (u8)11        /*!< @brief Total number of LEDs in the system */
+
+
+
 
 /***********************************************************************************************************************
 * Constants
@@ -142,6 +178,9 @@ void SystemSleep(void);
 
 
 /*! @cond DOXYGEN_EXCLUDE */
+
+
+
 /***********************************************************************************************************************
 @@@@@ Watchdog, Power Control, Clock, and Systick setup values
 ***********************************************************************************************************************/
@@ -725,7 +764,7 @@ Default start-up IO values are held here.
     00 [0] PA_00_TP54 N/A
 */
 
-#define PIOB_SODR_INIT (u32)0x01BFFE00
+#define PIOB_SODR_INIT (u32)0x01A00200
 /*
     31 [0] PB_31_
     30 [0] PB_30_
@@ -740,20 +779,20 @@ Default start-up IO values are held here.
     23 [1] PB_23_ANT_MRDY output high
     22 [0] PB_22_ANT_USPI2_CS N/A
     21 [1] PB_21_ANT_RESET output high
-    20 [1] PB_20_LED_RED output high
+    20 [0] PB_20_LED_RED output low (off)
 
-    19 [1] PB_19_LED_GRN output high
-    18 [1] PB_18_LED_BLU output high
-    17 [1] PB_17_LED_YLW output high
-    16 [1] PB_16_LED_CYN output high
+    19 [0] PB_19_LED_GRN output low (off)
+    18 [0] PB_18_LED_BLU output low (off)
+    17 [0] PB_17_LED_YLW output low (off)
+    16 [0] PB_16_LED_CYN output low (off)
 
-    15 [1] PB_15_LED_ORG output high
-    14 [1] PB_14_LED_PRP output high
-    13 [1] PB_13_LED_WHT output high
-    12 [1] PB_12_LCD_BL_BLU output high
+    15 [0] PB_15_LED_ORG output low (off)
+    14 [0] PB_14_LED_PRP output low (off)
+    13 [0] PB_13_LED_WHT output low (off)
+    12 [0] PB_12_LCD_BL_BLU output low (off)
 
-    11 [1] PB_11_LCD_BL_GRN output high
-    10 [1] PB_10_LCD_BL_RED output high
+    11 [0] PB_11_LCD_BL_GRN output low (off)
+    10 [0] PB_10_LCD_BL_RED output low (off)
     09 [1] PB_09_LCD_RST output high
     08 [0] PB_08_TP62 N/A
 

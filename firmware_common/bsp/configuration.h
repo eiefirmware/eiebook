@@ -38,8 +38,6 @@ Includes
 #include "main.h"
 #include "typedefs.h"
 
-/* Common driver header files */
-
 /* EIEF1-PCB-01 specific header files */
 #ifdef EIE1
 #include "eief1-pcb-01.h"
@@ -53,6 +51,9 @@ Includes
 #include "mpgl2-ehdw-02.h"
 #endif /* MPGL2_R01 */
 #endif /* MPGL2 */
+
+/* Common driver header files */
+#include "leds.h" 
 
 /* Common application header files */
 #include "user_app1.h"
