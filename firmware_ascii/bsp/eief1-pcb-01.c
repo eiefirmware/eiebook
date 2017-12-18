@@ -25,8 +25,6 @@ PROTECTED FUNCTIONS
 
 #include "configuration.h"
 
-extern	void kill_x_cycles(u32);
-
 /***********************************************************************************************************************
 Global variable definitions with scope across entire project.
 All Global variable names shall start with "G_xxBsp"
@@ -212,38 +210,38 @@ void GpioSetup(void)
 /*!---------------------------------------------------------------------------------------------------------------------
 @fn void SystemSleep(void)
 
-@brief Puts the system into sleep mode.
+@brief Puts the system into sleep mode.  
 
-Right now, sleep mode is just a for loop that does nothing
-for 1ms of time. So it's more like "lazy" mode, even though
-it's running full speed and burning power.
+_SYSTEM_SLEEPING is set here so if the system wakes up because of a non-Systick
+interrupt, it can go back to sleep.
+
+Deep sleep mode is currently disabled, so maximum processor power savings are 
+not yet realized.  To enable deep sleep, there are certain considerations for 
+waking up that would need to be taken care of.
 
 Requires:
-- Main clock is 48MHz
-- The "for" loop is 4 instruction cycles
+- SysTick is running with interrupt enabled for wake from Sleep LPM
 
 Promises:
-- Processor will block to kill the desired time
+- Configures processor for sleep while still allowing any required
+  interrupt to wake it up.
+- G_u32SystemFlags _SYSTEM_SLEEPING is set
 
 */
 void SystemSleep(void)
 {    
-  /* Set the sleep flag (which doesn't do anything yet) */
+  /* Set the sleep flag (cleared only in SysTick ISR */
   G_u32SystemFlags |= _SYSTEM_SLEEPING;
+ 
+  /* Set the system control register for Sleep (but not Deep Sleep) */
+  AT91C_BASE_PMC->PMC_FSMR  &= ~AT91C_PMC_LPM;
+  AT91C_BASE_NVIC->NVIC_SCR &= ~AT91C_NVIC_SLEEPDEEP;
 
-  /* Kill the desired number of instructions */
-  kill_x_cycles(48000);
-
-  /* Clear the sleep flag */
-  G_u32SystemFlags &= ~_SYSTEM_SLEEPING;
-  
-  /* Update Timers */
-  G_u32SystemTime1ms++;
-  if( (G_u32SystemTime1ms % 1000) == 0)
+  while(G_u32SystemFlags & _SYSTEM_SLEEPING)
   {
-    G_u32SystemTime1s++;
+    __WFI();
   }
-  
+    
 } /* end SystemSleep(void) */
 
 

@@ -40,7 +40,7 @@ void ButtonRunActiveState(void);
 State Machine Declarations
 ***********************************************************************************************************************/
 static void ButtonSM_Idle(void);                
-static void ButtonSM_Error(void)          
+static void ButtonSM_Error(void);        
 
 
 #endif /* __BUTTONS_H */

@@ -2080,6 +2080,9 @@
         <group>
             <name>Include</name>
             <file>
+                <name>$PROJ_DIR$\..\..\firmware_common\drivers\buttons.h</name>
+            </file>
+            <file>
                 <name>$PROJ_DIR$\..\..\firmware_common\drivers\exceptions.h</name>
             </file>
             <file>
@@ -2092,7 +2095,13 @@
         <group>
             <name>Source</name>
             <file>
+                <name>$PROJ_DIR$\..\..\firmware_common\drivers\buttons.c</name>
+            </file>
+            <file>
                 <name>$PROJ_DIR$\..\..\firmware_common\drivers\exceptions.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\..\firmware_common\drivers\interrupts.c</name>
             </file>
             <file>
                 <name>$PROJ_DIR$\..\..\firmware_common\drivers\leds.c</name>

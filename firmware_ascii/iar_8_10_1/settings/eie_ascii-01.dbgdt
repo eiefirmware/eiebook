@@ -168,7 +168,7 @@
                     <item>G_u32SystemFlags</item>
                     <item>G_u32SystemTime1ms</item>
                     <item>G_u32SystemTime1s</item>
-                    <item></item>
+                    <item />
                 </expressions>
                 <col-names>
                     <item>Expression</item>

@@ -28,13 +28,13 @@ Type Definitions
 @enum LedPortType
 @brief Processor-specific port address offsets.
 */
-typedef enum {LED_PORTA = 0, LED_PORTB = 0x80} LedPortType;                /*!< @enum @brief Offset between port registers (in 32 bit words) */
+typedef enum {LED_PORTA = 0, LED_PORTB = 0x80} LedPortType;               
 
 /*! 
 @enum LedActiveType
 @brief Real names for type of LED function.
 */
-typedef enum {LED_ACTIVE_LOW = 0, LED_ACTIVE_HIGH = 1} LedActiveType;      /*!< @enum @brief ACTIVE_HIGH means the LED is on when the pin is at Vcc - hardware dependent */
+typedef enum {LED_ACTIVE_LOW = 0, LED_ACTIVE_HIGH = 1} LedActiveType;      
 
 /*! 
 @struct LedConfigurationType
@@ -74,6 +74,11 @@ typedef enum {WHITE = 0, PURPLE, BLUE, CYAN, GREEN, YELLOW, ORANGE, RED, LCD_RED
 #define MCK                       CCLK_VALUE                                 /*!< @brief Alternate name for CPU clock 48 MHz */
 #define PERIPHERAL_DIVIDER        (u32)1                                     /*!< @brief Peripheral clock divider */
 #define PCLK_VALUE                CCLK_VALUE / PERIPHERAL_DIVIDER            /*!< @brief Peripheral clock 48 MHz */
+#define SYSTICK_DIVIDER           (u32)8                                     /*!< @brief System tick scaling value */
+
+/*!@brief To get 1 ms tick, need SYSTICK_COUNT to be 0.001 * SysTick Clock.  
+Should be 6000 for 48MHz CCLK. */
+#define U32_SYSTICK_COUNT         (u32)(0.001 * (MCK / SYSTICK_DIVIDER) )
 
 
 /***********************************************************************************************************************

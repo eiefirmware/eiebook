@@ -79,7 +79,7 @@ Function Definitions
 /*--------------------------------------------------------------------------------------------------------------------*/
 
 /*!----------------------------------------------------------------------------------------------------------------------
-@fn void LedOn(LedNameType G_asBspLedConfigurations)
+@fn void LedOn(LedNameType eLED_)
 
 @brief Turn the specified LED on.  
 
@@ -160,7 +160,7 @@ void LedOff(LedNameType eLED_)
   u32 *pu32OffAddress;
 
   /* Configure set and clear addresses */
-  if(G_asBspLedConfigurations[eLED_].eActiveState == LED_ACTIVE_HIGH)
+  if(G_asBspLedConfigurations[(u8)eLED_].eActiveState == LED_ACTIVE_HIGH)
   {
     /* Active high LEDs use CODR to turn off */
     pu32OffAddress = (u32*)(&(AT91C_BASE_PIOA->PIO_CODR) + G_asBspLedConfigurations[(u8)eLED_].ePort);
