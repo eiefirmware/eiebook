@@ -69,18 +69,13 @@ Function Definitions
 Function: ButtonInitialize
 
 Description:
-Configures the button system for the product including enabling button GPIO 
-interrupts. For all buttons, the default "Input Change Interrupt" is sufficient
-for providing the functionality needed.
+
 
 Requires:
-  - GPIO configuration is already complete for all button inputs
-  - Button interrupt initializations and handler functions are ready
+  - 
  
 Promises:
-  - G_abButtonDebounceActive, Button_aeCurrentState and Button_aeNewState 
-    are initialized
-  - The button state machine is initialized to Idle
+  - 
 */
 void ButtonInitialize(void)
 {
