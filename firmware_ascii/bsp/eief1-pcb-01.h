@@ -24,29 +24,9 @@ $$$$$ PWM and Timer setup values
 Type Definitions
 ***********************************************************************************************************************/
 
-/*! 
-@enum LedPortType
-@brief Processor-specific port address offsets.
-*/
-typedef enum {LED_PORTA = 0, LED_PORTB = 0x80} LedPortType;               
-
-/*! 
-@enum LedActiveType
-@brief Real names for type of LED function.
-*/
-typedef enum {LED_ACTIVE_LOW = 0, LED_ACTIVE_HIGH = 1} LedActiveType;      
-
-/*! 
-@struct LedConfigurationType
-@brief LED parameters necessary to fully describe an LED.
-*/
-typedef struct
-{
-  u32 u32BitPosition;             /*!< @brief LED bit position within port */
-  LedPortType ePort;              /*!< @brief LED port position */
-  LedActiveType eActiveState;     /*!< @brief LED hardware active type */
-}LedConfigurationType;
-
+/*----------------------------------------------------------------------------------------------------------------------
+%LED% LED Configuration                                                                                                  
+----------------------------------------------------------------------------------------------------------------------*/
 /*! 
 @enum LedNameType
 @brief Logical names for LEDs in the system.
@@ -59,6 +39,23 @@ typedef enum {WHITE = 0, PURPLE, BLUE, CYAN, GREEN, YELLOW, ORANGE, RED, LCD_RED
 #define U8_TOTAL_LEDS             (u8)11        /*!< @brief Total number of LEDs in the system */
 
 
+/*----------------------------------------------------------------------------------------------------------------------
+%BUTTON% Button Configuration                                                                                                  
+----------------------------------------------------------------------------------------------------------------------*/
+/*! 
+@enum ButtonNameType
+@brief Logical names for buttons in the system.
+
+The order of the buttons in ButtonNameType must match the order of the definition 
+in G_asBspButtonConfigurations Buttons_au32BitPositions from eief1-pcb-01.c 
+*/
+typedef enum {BUTTON0 = 0, BUTTON1, BUTTON2, BUTTON3, NOBUTTON} ButtonNameType;
+
+#define U8_TOTAL_BUTTONS         (u8)4       /*!< Total number of Buttons in the system */
+
+/*! All buttons on each port must be ORed together here: set to 0 if no buttons on the port */
+#define GPIOA_BUTTONS            (u32)( PA_17_BUTTON0 )
+#define GPIOB_BUTTONS            (u32)( PB_00_BUTTON1 | PB_01_BUTTON2 | PB_02_BUTTON3 )
 
 
 /***********************************************************************************************************************

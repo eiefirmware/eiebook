@@ -22,7 +22,6 @@ TYPES
   GREEN, YELLOW, ORANGE, RED, 
   LCD_RED, LCD_GREEN, LCD_BLUE}
 
-
 - LedRateType:
   {LED_0HZ = 0, LED_0_5HZ = 1000, LED_1HZ = 500, LED_2HZ = 250, 
    LED_4HZ = 125, LED_8HZ = 63, LED_PWM_100 = 20} 
@@ -57,7 +56,7 @@ extern volatile u32 G_u32SystemTime1s;                 /*!< @brief From main.c *
 extern volatile u32 G_u32SystemFlags;                  /*!< @brief From main.c */
 extern volatile u32 G_u32ApplicationFlags;             /*!< @brief From main.c */
 
-extern const LedConfigurationType G_asBspLedConfigurations[U8_TOTAL_LEDS]; /*!< @brief from board-specific file */
+extern const PinConfigurationType G_asBspLedConfigurations[U8_TOTAL_LEDS]; /*!< @brief from board-specific file */
 
 
 /***********************************************************************************************************************
@@ -109,7 +108,7 @@ void LedOn(LedNameType eLED_)
   u32 *pu32OnAddress;
 
   /* Configure set and clear addresses */
-  if(G_asBspLedConfigurations[eLED_].eActiveState == LED_ACTIVE_HIGH)
+  if(G_asBspLedConfigurations[eLED_].eActiveState == ACTIVE_HIGH)
   {
     /* Active high LEDs use SODR to turn on */
     pu32OnAddress = (u32*)(&(AT91C_BASE_PIOA->PIO_SODR) + G_asBspLedConfigurations[(u8)eLED_].ePort);
@@ -160,7 +159,7 @@ void LedOff(LedNameType eLED_)
   u32 *pu32OffAddress;
 
   /* Configure set and clear addresses */
-  if(G_asBspLedConfigurations[(u8)eLED_].eActiveState == LED_ACTIVE_HIGH)
+  if(G_asBspLedConfigurations[(u8)eLED_].eActiveState == ACTIVE_HIGH)
   {
     /* Active high LEDs use CODR to turn off */
     pu32OffAddress = (u32*)(&(AT91C_BASE_PIOA->PIO_CODR) + G_asBspLedConfigurations[(u8)eLED_].ePort);

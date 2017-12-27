@@ -37,6 +37,7 @@ Includes
 #include "core_cm3.h"
 #include "main.h"
 #include "typedefs.h"
+#include "utilities.h"
 
 /* EIEF1-PCB-01 specific header files */
 #ifdef EIE1
@@ -53,7 +54,9 @@ Includes
 #endif /* MPGL2 */
 
 /* Common driver header files */
+#include "buttons.h"
 #include "leds.h" 
+
 
 /* Common application header files */
 #include "user_app1.h"

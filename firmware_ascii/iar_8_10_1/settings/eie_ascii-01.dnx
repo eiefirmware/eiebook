@@ -12,7 +12,7 @@
         <ByteLimit>50</ByteLimit>
     </Stack>
     <DebugChecksum>
-        <Checksum>3706948499</Checksum>
+        <Checksum>2139485565</Checksum>
     </DebugChecksum>
     <CodeCoverage>
         <Enabled>_ 0</Enabled>
@@ -69,11 +69,18 @@
         <regBase0>R0 10</regBase0>
         <regBase1>R11 10</regBase1>
     </Registers>
+    <struct_types>
+        <Fmt0>ButtonStatusType-u32DebounceTimeStart	3	0</Fmt0>
+        <Fmt1>struct &lt;Unnamed 10&gt;-u32BitPosition	4	0</Fmt1>
+    </struct_types>
     <watch_formats>
         <Fmt0>{W}1:0x400E0E00	4	0</Fmt0>
         <Fmt1>{W}1:PIOB_PSR	4	0</Fmt1>
         <Fmt2>{W}3:G_u32SystemFlags	4	0</Fmt2>
         <Fmt3>{W}3:G_u32SystemTime1ms	3	0</Fmt3>
+        <Fmt4>{W}3:u32ButtonInterrupts	4	0</Fmt4>
+        <Fmt5>{W}3:u32CurrentButtonLocation	4	0</Fmt5>
+        <Fmt6>{W}3:u32GPIOInterruptSources	4	0</Fmt6>
     </watch_formats>
     <Trace1>
         <Enabled>0</Enabled>

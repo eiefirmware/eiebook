@@ -43,6 +43,7 @@ void main(void)
   InterruptSetup();
   
   /* Driver initialization */
+  ButtonInitialize();
   LedInitialize();
 
   /* Application initialization */
@@ -54,6 +55,7 @@ void main(void)
     WATCHDOG_BONE();
 
     /* Drivers */
+    ButtonRunActiveState();
     LedRunActiveState();
     
     /* Applications */
@@ -61,7 +63,11 @@ void main(void)
         
     /* System sleep */
     HEARTBEAT_OFF();
-    SystemSleep();
+    do
+    {
+      SystemSleep();
+    } while(G_u32SystemFlags & _SYSTEM_SLEEPING);
+    
     HEARTBEAT_ON();
     
   } /* end while(1) main super loop */

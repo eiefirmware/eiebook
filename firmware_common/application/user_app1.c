@@ -142,7 +142,7 @@ State Machine Function Definitions
 */
 static void UserApp1SM_Idle(void)
 {
-
+ 
 } /* end UserApp1SM_Idle() */
     
 

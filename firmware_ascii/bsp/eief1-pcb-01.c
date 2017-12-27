@@ -25,6 +25,8 @@ PROTECTED FUNCTIONS
 
 #include "configuration.h"
 
+extern	void kill_x_cycles(u32);
+
 /***********************************************************************************************************************
 Global variable definitions with scope across entire project.
 All Global variable names shall start with "G_xxBsp"
@@ -32,18 +34,28 @@ All Global variable names shall start with "G_xxBsp"
 /* New variables */
 
 /*! LED locations: order must correspond to the order set in LedNameType in the header file. */
-const LedConfigurationType G_asBspLedConfigurations[U8_TOTAL_LEDS] = { {PB_13_LED_WHT, LED_PORTB, LED_ACTIVE_HIGH}, 
-                                                                       {PB_14_LED_PRP, LED_PORTB, LED_ACTIVE_HIGH}, 
-                                                                       {PB_18_LED_BLU, LED_PORTB, LED_ACTIVE_HIGH}, 
-                                                                       {PB_16_LED_CYN, LED_PORTB, LED_ACTIVE_HIGH},
-                                                                       {PB_19_LED_GRN, LED_PORTB, LED_ACTIVE_HIGH}, 
-                                                                       {PB_17_LED_YLW, LED_PORTB, LED_ACTIVE_HIGH}, 
-                                                                       {PB_15_LED_ORG, LED_PORTB, LED_ACTIVE_HIGH}, 
-                                                                       {PB_20_LED_RED, LED_PORTB, LED_ACTIVE_HIGH},
-                                                                       {PB_10_LCD_BL_RED, LED_PORTB, LED_ACTIVE_HIGH}, 
-                                                                       {PB_11_LCD_BL_GRN, LED_PORTB, LED_ACTIVE_HIGH}, 
-                                                                       {PB_12_LCD_BL_BLU, LED_PORTB, LED_ACTIVE_HIGH} 
-                                                                     };
+const PinConfigurationType G_asBspLedConfigurations[U8_TOTAL_LEDS] = { {PB_13_LED_WHT, PORTB, ACTIVE_HIGH}, 
+                                                                       {PB_14_LED_PRP, PORTB, ACTIVE_HIGH}, 
+                                                                       {PB_18_LED_BLU, PORTB, ACTIVE_HIGH}, 
+                                                                       {PB_16_LED_CYN, PORTB, ACTIVE_HIGH},
+                                                                       {PB_19_LED_GRN, PORTB, ACTIVE_HIGH}, 
+                                                                       {PB_17_LED_YLW, PORTB, ACTIVE_HIGH}, 
+                                                                       {PB_15_LED_ORG, PORTB, ACTIVE_HIGH}, 
+                                                                       {PB_20_LED_RED, PORTB, ACTIVE_HIGH},
+                                                                       {PB_10_LCD_BL_RED, PORTB, ACTIVE_HIGH}, 
+                                                                       {PB_11_LCD_BL_GRN, PORTB, ACTIVE_HIGH}, 
+                                                                       {PB_12_LCD_BL_BLU, PORTB, ACTIVE_HIGH} 
+                                                                      };
+
+
+
+
+/*! Button locations: order must correspond to the order set in ButtonNameType in the header file. */
+const PinConfigurationType G_asBspButtonConfigurations[U8_TOTAL_BUTTONS] = { {PA_17_BUTTON0, PORTA, ACTIVE_LOW}, 
+                                                                             {PB_00_BUTTON1, PORTB, ACTIVE_LOW}, 
+                                                                             {PB_01_BUTTON2, PORTB, ACTIVE_LOW}, 
+                                                                             {PB_02_BUTTON3, PORTB, ACTIVE_LOW},
+                                                                           };
 
 
 /*--------------------------------------------------------------------------------------------------------------------*/
@@ -210,38 +222,38 @@ void GpioSetup(void)
 /*!---------------------------------------------------------------------------------------------------------------------
 @fn void SystemSleep(void)
 
-@brief Puts the system into sleep mode.  
+@brief Puts the system into sleep mode.
 
-_SYSTEM_SLEEPING is set here so if the system wakes up because of a non-Systick
-interrupt, it can go back to sleep.
-
-Deep sleep mode is currently disabled, so maximum processor power savings are 
-not yet realized.  To enable deep sleep, there are certain considerations for 
-waking up that would need to be taken care of.
+Right now, sleep mode is just a for loop that does nothing
+for 1ms of time. So it's more like "lazy" mode, even though
+it's running full speed and burning power.
 
 Requires:
-- SysTick is running with interrupt enabled for wake from Sleep LPM
+- Main clock is 48MHz
+- The "for" loop is 4 instruction cycles
 
 Promises:
-- Configures processor for sleep while still allowing any required
-  interrupt to wake it up.
-- G_u32SystemFlags _SYSTEM_SLEEPING is set
+- Processor will block to kill the desired time
 
 */
 void SystemSleep(void)
 {    
-  /* Set the sleep flag (cleared only in SysTick ISR */
+  /* Set the sleep flag (which doesn't do anything yet) */
   G_u32SystemFlags |= _SYSTEM_SLEEPING;
- 
-  /* Set the system control register for Sleep (but not Deep Sleep) */
-  AT91C_BASE_PMC->PMC_FSMR  &= ~AT91C_PMC_LPM;
-  AT91C_BASE_NVIC->NVIC_SCR &= ~AT91C_NVIC_SLEEPDEEP;
 
-  while(G_u32SystemFlags & _SYSTEM_SLEEPING)
+  /* Kill the desired number of instructions */
+  kill_x_cycles(48000);
+
+  /* Clear the sleep flag */
+  G_u32SystemFlags &= ~_SYSTEM_SLEEPING;
+  
+  /* Update Timers */
+  G_u32SystemTime1ms++;
+  if( (G_u32SystemTime1ms % 1000) == 0)
   {
-    __WFI();
+    G_u32SystemTime1s++;
   }
-    
+  
 } /* end SystemSleep(void) */
 
 
