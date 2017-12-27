@@ -56,6 +56,7 @@ Includes
 /* Common driver header files */
 #include "buttons.h"
 #include "leds.h" 
+#include "timer.h"
 
 
 /* Common application header files */
