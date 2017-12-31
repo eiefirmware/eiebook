@@ -24,7 +24,7 @@ TYPES
 
 - LedRateType:
   {LED_0HZ = 0, LED_0_5HZ = 1000, LED_1HZ = 500, LED_2HZ = 250, 
-   LED_4HZ = 125, LED_8HZ = 63, LED_PWM_100 = 20} 
+   LED_4HZ = 125, LED_8HZ = 63 } 
 
 PUBLIC FUNCTIONS
 - void LedOn(LedNameType eLED_)

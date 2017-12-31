@@ -10,7 +10,8 @@ CONSTANTS
 - NONE
 
 TYPES
-- Adc12ChannelType {ADC12_CH0 ... ADC12_CH7}
+- TimerChannelType: TIMER_CHANNEL0, TIMER_CHANNEL1, TIMER_CHANNEL2
+
 
 PUBLIC FUNCTIONS
 - void TimerSet(TimerChannelType eTimerChannel_, u16 u16TimerValue_)
@@ -32,7 +33,7 @@ Global variable definitions with scope across entire project.
 All Global variable names shall start with "G_<type>Timer"
 ***********************************************************************************************************************/
 /* New variables */
-volatile u32 G_u32TimerFlags;                      /* Global state flags */
+volatile u32 G_u32TimerFlags;                      /*!< @brief Global Timer state flags */
 
 
 /*--------------------------------------------------------------------------------------------------------------------*/

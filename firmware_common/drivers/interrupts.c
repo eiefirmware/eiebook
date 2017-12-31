@@ -92,6 +92,40 @@ void InterruptSetup(void)
 
   
 /*!----------------------------------------------------------------------------------------------------------------------
+@fn ISR void SysTick_Handler(void)
+
+@brief Updates the global ms timer.  
+
+This interrupt is always enabled and running in 
+the system and is essential for system timing and sleep wakeup.
+This ISR should be as fast as possible!
+
+Requires:
+- NONE
+
+Promises:
+- System tick interrupt pending flag is cleared
+- G_u32SystemFlags _SYSTEM_SLEEPING cleared
+
+@param G_u32SystemTime1ms counter is incremented by 1
+
+*/
+void SysTick_Handler(void)
+{
+  /* Clear the sleep flag */
+  G_u32SystemFlags &= ~_SYSTEM_SLEEPING;
+  
+  /* Update Timers */
+  G_u32SystemTime1ms++;
+  if( (G_u32SystemTime1ms % 1000) == 0)
+  {
+    G_u32SystemTime1s++;
+  }
+    
+} /* end SysTickHandler(void) */
+
+
+/*!----------------------------------------------------------------------------------------------------------------------
 @fn ISR void PIOA_IrqHandler(void)
 
 @brief Parses the PORTA GPIO interrupts and handles them appropriately.  

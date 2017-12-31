@@ -41,6 +41,7 @@ void main(void)
   ClockSetup();
   GpioSetup();
   InterruptSetup();
+  SysTickSetup();
   
   /* Driver initialization */
   ButtonInitialize();
@@ -65,11 +66,7 @@ void main(void)
         
     /* System sleep */
     HEARTBEAT_OFF();
-    do
-    {
-      SystemSleep();
-    } while(G_u32SystemFlags & _SYSTEM_SLEEPING);
-    
+    SystemSleep();
     HEARTBEAT_ON();
     
   } /* end while(1) main super loop */
