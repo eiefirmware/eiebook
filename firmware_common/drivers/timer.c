@@ -1,6 +1,6 @@
 /*!**********************************************************************************************************************
 @file timer.c                                                                
-@brief Provide easy access to setting up and running the Timer Counter (TC) Peripherals.
+@brief Provide easy access to set up and run a Timer Counter (TC) Peripheral.
 
 ------------------------------------------------------------------------------------------------------------------------
 GLOBALS
@@ -10,15 +10,10 @@ CONSTANTS
 - NONE
 
 TYPES
-- Adc12ChannelType {ADC12_CH0 ... ADC12_CH7}
+- 
 
 PUBLIC FUNCTIONS
-- void TimerSet(TimerChannelType eTimerChannel_, u16 u16TimerValue_)
-- void TimerStart(TimerChannelType eTimerChannel_)
-- void TimerStop(TimerChannelType eTimerChannel_)
-- u16 TimerGetTime(TimerChannelType eTimerChannel_)
-- void TimerAssignCallback(TimerChannelType eTimerChannel_, fnCode_type fpUserCallback_)
-
+- 
 PROTECTED FUNCTIONS
 - void TimerInitialize(void)
 - void TimerRunActiveState(void)
@@ -32,7 +27,7 @@ Global variable definitions with scope across entire project.
 All Global variable names shall start with "G_<type>Timer"
 ***********************************************************************************************************************/
 /* New variables */
-volatile u32 G_u32TimerFlags;                      /* Global state flags */
+volatile u32 G_u32TimerFlags;                      /*!< @brief Global Timer state flags */
 
 
 /*--------------------------------------------------------------------------------------------------------------------*/
