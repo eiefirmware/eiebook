@@ -10,6 +10,12 @@
 /**********************************************************************************************************************
 Type Definitions
 **********************************************************************************************************************/
+/*! 
+@enum TimerChannelType
+@brief Controlled list of available timer channels used in the member functions. 
+*/
+typedef enum {TIMER0_CHANNEL0 = 0, TIMER0_CHANNEL1 = 0x40, TIMER0_CHANNEL2 = 0x80} TimerChannelType;
+
 
 
 /**********************************************************************************************************************
@@ -19,6 +25,11 @@ Function Declarations
 /*------------------------------------------------------------------------------------------------------------------*/
 /*! @publicsection */                                                                                            
 /*--------------------------------------------------------------------------------------------------------------------*/
+void TimerSet(TimerChannelType eTimerChannel_, u16 u16TimerValue_);
+void TimerStart(TimerChannelType eTimerChannel_);
+void TimerStop(TimerChannelType eTimerChannel_);
+u16 TimerGetTime(TimerChannelType eTimerChannel_);
+void TimerAssignCallback(TimerChannelType eTimerChannel_, fnCode_type fpUserCallBack_);
 
 
 /*------------------------------------------------------------------------------------------------------------------*/
@@ -31,6 +42,7 @@ void TimerRunActiveState(void);
 /*------------------------------------------------------------------------------------------------------------------*/
 /*! @privatesection */                                                                                            
 /*--------------------------------------------------------------------------------------------------------------------*/
+static void TimerDefaultCallback(void);
 
 
 /***********************************************************************************************************************
@@ -64,7 +76,7 @@ PB6 is an open pin available for TIOB1 I/O function if set for Peripheral A
 /* Timer Channel 1 Setup */
 
 /* Default Timer 1 interrupt period of just about 100us (1 tick = 2.67us); max 65535 */
-#define TC1_RC_INIT (u32)37
+#define TC1_RC_INIT (u32)38
 
 #define TC1_CCR_INIT (u32)0x00000002
 /*
@@ -175,7 +187,7 @@ PB6 is an open pin available for TIOB1 I/O function if set for Peripheral A
     15 [0] INVIDX IDX directly drives quadrature logic
     14 [0] INVB PHB directly drive quadrature decoder logic
     13 [0] INVA PHA directly drive quadrature decoder logic
-    12 [0] EDGPHA Edges detected on PHA and PHB
+    12 [0] EDGPHA Edges detected on PHA
 
     11 [1] QDTRANS Quadrature decoding logic is inactive
     10 [0] SPEEDEN Speed measure disabled

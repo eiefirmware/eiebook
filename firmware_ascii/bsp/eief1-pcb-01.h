@@ -51,11 +51,11 @@ in G_asBspButtonConfigurations Buttons_au32BitPositions from eief1-pcb-01.c
 */
 typedef enum {BUTTON0 = 0, BUTTON1, BUTTON2, BUTTON3, NOBUTTON} ButtonNameType;
 
-#define U8_TOTAL_BUTTONS         (u8)4       /*!< Total number of Buttons in the system */
+#define U8_TOTAL_BUTTONS          (u8)4       /*!< Total number of Buttons in the system */
 
 /*! All buttons on each port must be ORed together here: set to 0 if no buttons on the port */
-#define GPIOA_BUTTONS            (u32)( PA_17_BUTTON0 )
-#define GPIOB_BUTTONS            (u32)( PB_00_BUTTON1 | PB_01_BUTTON2 | PB_02_BUTTON3 )
+#define GPIOA_BUTTONS             (u32)( PA_17_BUTTON0 )
+#define GPIOB_BUTTONS             (u32)( PB_00_BUTTON1 | PB_01_BUTTON2 | PB_02_BUTTON3 )
 
 
 /***********************************************************************************************************************
