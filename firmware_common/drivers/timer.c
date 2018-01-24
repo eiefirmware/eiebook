@@ -307,7 +307,7 @@ void TC1_IrqHandler(void)
     Timer_fpTimer1Callback();
   }
 
-  /* Clear the TC0 pending flag and exit */
+  /* Clear the TC pending flag and exit */
   NVIC_ClearPendingIRQ(IRQn_TC1);
   
 } /* end TC1_IrqHandler() */

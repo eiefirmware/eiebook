@@ -90,6 +90,12 @@ Promises:
 */
 void UserApp1Initialize(void)
 { 
+  LedOff(LCD_RED);
+  LedOff(LCD_GREEN);
+  
+  PWMAudioSetFrequency(BUZZER1, 1000);
+  PWMAudioSetFrequency(BUZZER2, 200);
+  
   /* If good initialization, set state to Idle */
   if( 1 )
   {
@@ -142,6 +148,52 @@ State Machine Function Definitions
 */
 static void UserApp1SM_Idle(void)
 {
+  static u16 u16TimeCount = 0;
+  static LedRateType eCurrentRate = LED_PWM_0;
+  
+  /* Fade the blue LCD backlight on */
+  u16TimeCount++;
+  if(u16TimeCount == U16_TIME_DELAY_MS)
+  {
+    u16TimeCount = 0;
+    
+    /* Check the current rate and either increment or go back to 0 */
+    if(eCurrentRate == LED_PWM_100)
+    {
+      eCurrentRate = LED_PWM_0;
+    }
+    else
+    {
+      eCurrentRate++;
+    }
+    
+    /* Update the LED PWM signal */
+    LedPWM(LCD_BLUE, eCurrentRate);
+  }
+
+    
+  /* BUZZER1 is on if BUTTON1 was pressed */
+  if(WasButtonPressed(BUTTON1))
+  {
+    ButtonAcknowledge(BUTTON1);
+    PWMAudioOn(BUZZER1);
+  }
+  
+  /* BUZZER2 is on if BUTTON2 was pressed */
+  if(WasButtonPressed(BUTTON2))
+  {
+    ButtonAcknowledge(BUTTON2);
+    PWMAudioOn(BUZZER2);
+  }  
+  
+  /* Both buzzers of if BUTTON3 was pressed */
+  if(WasButtonPressed(BUTTON3))
+  {
+    ButtonAcknowledge(BUTTON3);
+    PWMAudioOff(BUZZER1);
+    PWMAudioOff(BUZZER2);
+  }  
+  
  
 } /* end UserApp1SM_Idle() */
     

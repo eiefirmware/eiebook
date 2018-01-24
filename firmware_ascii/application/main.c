@@ -40,6 +40,7 @@ void main(void)
   WatchDogSetup(); 
   ClockSetup();
   GpioSetup();
+  PWMSetupAudio();
   InterruptSetup();
   SysTickSetup();
   
@@ -57,8 +58,8 @@ void main(void)
     WATCHDOG_BONE();
 
     /* Drivers */
-    ButtonRunActiveState();
     LedRunActiveState();
+    ButtonRunActiveState();
     TimerRunActiveState(); 
     
     /* Applications */

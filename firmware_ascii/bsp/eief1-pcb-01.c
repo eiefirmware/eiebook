@@ -73,10 +73,6 @@ Variable names shall start with "Bsp_" and be declared as static.
 Function Definitions
 ***********************************************************************************************************************/
 
-/*--------------------------------------------------------------------------------------------------------------------*/
-/*! @publicsection */                                                                                            
-/*--------------------------------------------------------------------------------------------------------------------*/
-
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 /*! @protectedsection */                                                                                            
@@ -153,7 +149,7 @@ void ClockSetup(void)
 
   /* Initialize UTMI for USB usage */
   AT91C_BASE_CKGR->CKGR_UCKR |= (AT91C_CKGR_UPLLCOUNT & (3 << 20)) | AT91C_CKGR_UPLLEN;
-  while ( !(AT91C_BASE_PMC->PMC_SR & AT91C_PMC_LOCKU) );
+  while ( !(AT91C_BASE_PMC->PMC_SR & AT91C_PMC_LOCKU) ); 
   
 } /* end ClockSetup */
 
@@ -280,6 +276,174 @@ void SystemSleep(void)
   
 } /* end SystemSleep(void) */
 
+
+/*!---------------------------------------------------------------------------------------------------------------------
+@fn void PWMSetupAudio(void)
+
+@brief Configures the PWM peripheral for audio operation on H0 and H1 channels.
+
+Requires:
+- Peripheral resources not used for any other function.
+
+Promises:
+- PWM is configured for PWM mode and currently off.
+
+*/
+void PWMSetupAudio(void)
+{
+  /* Set all intialization values */
+  AT91C_BASE_PWMC->PWMC_CLK = PWM_CLK_INIT;
+  
+  AT91C_BASE_PWMC_CH0->PWMC_CMR = PWM_CMR0_INIT;
+  AT91C_BASE_PWMC_CH0->PWMC_CPRDR    = PWM_CPRD0_INIT; /* Set current frequency */
+  AT91C_BASE_PWMC_CH0->PWMC_CPRDUPDR = PWM_CPRD0_INIT; /* Latch CPRD values */
+  AT91C_BASE_PWMC_CH0->PWMC_CDTYR    = PWM_CDTY0_INIT; /* Set 50% duty */
+  AT91C_BASE_PWMC_CH0->PWMC_CDTYUPDR = PWM_CDTY0_INIT; /* Latch CDTY values */
+
+  AT91C_BASE_PWMC_CH1->PWMC_CMR = PWM_CMR1_INIT;
+  AT91C_BASE_PWMC_CH1->PWMC_CPRDR    = PWM_CPRD1_INIT; /* Set current frequency  */
+  AT91C_BASE_PWMC_CH1->PWMC_CPRDUPDR = PWM_CPRD1_INIT; /* Latch CPRD values */
+  AT91C_BASE_PWMC_CH1->PWMC_CDTYR    = PWM_CDTY1_INIT; /* Set 50% duty */
+  AT91C_BASE_PWMC_CH1->PWMC_CDTYUPDR = PWM_CDTY1_INIT; /* Latch CDTY values */
+
+  
+} /* end PWMSetupAudio() */
+
+
+/*--------------------------------------------------------------------------------------------------------------------*/
+/*! @publicsection */                                                                                            
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+/*!---------------------------------------------------------------------------------------------------------------------
+@fn void PWMAudioSetFrequency(BuzzerChannelType eChannel_, u16 u16Frequency_)
+
+@brief Configures the PWM peripheral with the desired frequency on the specified channel.
+
+If the buzzer is already on, it will change frequency (essentially) immediately.  
+If it is not on, the new frequency will be audible next time PWMAudioOn() is called.
+
+Example:
+
+PWMAudioSetFrequency(BUZZER1, 1000);
+
+Requires:
+- The PWM peripheral is correctly configured for the current processor clock speed.
+- CPRE_CLCK is the clock frequency for the PWM peripheral
+
+@param eChannel_ is the channel of interest and corresponds to the channel bit 
+position of the buzzer in the PWM peripheral
+@param u16Frequency_ is in Hertz and should be in the range 100 - 20,000 since
+       that is the audible range.  Higher and lower frequencies are allowed, though.
+
+Promises:
+- The frequency and duty cycle values for the requested channel are calculated
+  and then latched to their respective update registers (CPRDUPDR, CDTYUPDR)
+- If the channel is not valid, nothing happens
+
+*/
+void PWMAudioSetFrequency(BuzzerChannelType eChannel_, u16 u16Frequency_)
+{
+  u32 u32ChannelPeriod;
+  AT91PS_PWMC_CH psChannelAddress;
+  
+  /* Get the base address of the channel */
+  switch (eChannel_)
+  {
+    case BUZZER1:
+    {
+      psChannelAddress = AT91C_BASE_PWMC_CH0;
+      break;
+    }
+
+    case BUZZER2:
+    {
+      psChannelAddress = AT91C_BASE_PWMC_CH1;
+      break;
+    }
+
+    default:
+    {
+      /* Invalid channel */
+      return;
+    }
+  }
+
+  /* Calculate the period based on the requested frequency.
+  The duty cycle is this value divided by 2 (right shift 1) */
+  u32ChannelPeriod = CPRE_CLCK / u16Frequency_;
+  
+  /* Set different registers depending on if PWM is already running */
+  if (AT91C_BASE_PWMC->PWMC_SR & eChannel_)
+  {
+    /* Beeper is already running, so use update registers */
+    psChannelAddress->PWMC_CPRDUPDR = u32ChannelPeriod;   
+    psChannelAddress->PWMC_CDTYUPDR = u32ChannelPeriod >> 1; 
+  }
+  else
+  {
+    /* Beeper is off, so use direct registers */
+    psChannelAddress->PWMC_CPRDR = u32ChannelPeriod;
+    psChannelAddress->PWMC_CDTYR = u32ChannelPeriod >> 1;
+  }
+  
+} /* end PWMAudioSetFrequency() */
+
+
+/*!---------------------------------------------------------------------------------------------------------------------
+@fn void PWMAudioOn(BuzzerChannelType eBuzzerChannel_)
+
+@brief Enables a PWM channel so the buzzer is on.
+
+Example:
+
+PWMAudioOn(BUZZER2);
+
+Requires:
+- All peripheral values should be configured
+- Frequency of the desired channel should already be set
+
+@param eBuzzerChannel_ is a valid BuzzerChannelType (BUZZER1 or BUZZER2)
+
+Promises:                                                       
+- PWM for the selected channel is enabled
+
+*/
+void PWMAudioOn(BuzzerChannelType eBuzzerChannel_)
+{
+  /* Enable the channel to turn the buzzer on*/
+  AT91C_BASE_PWMC->PWMC_ENA = (u32)eBuzzerChannel_;  
+
+} /* end PWMAudioOn() */
+
+
+/*!---------------------------------------------------------------------------------------------------------------------
+@fn void PWMAudioOff(BuzzerChannelType eBuzzerChannel_)
+
+@brief Disables a PWM channel so the buzzer is off.
+
+Example:
+
+PWMAudioOff(BUZZER2);
+
+
+Requires:
+@param eBuzzerChannel_ is a valid BuzzerChannelType (BUZZER1 or BUZZER2)
+
+Promises:
+- PWM for the selected channel is disabled
+
+*/
+void PWMAudioOff(BuzzerChannelType eBuzzerChannel_)
+{
+  /* Disable the channel to turn the buzzer off */
+  AT91C_BASE_PWMC->PWMC_DIS = (u32)eBuzzerChannel_;  
+
+} /* end PWMAudioOff() */
+
+
+/*--------------------------------------------------------------------------------------------------------------------*/
+/*! @privatesection */                                                                                            
+/*--------------------------------------------------------------------------------------------------------------------*/
 
 
 /*--------------------------------------------------------------------------------------------------------------------*/
