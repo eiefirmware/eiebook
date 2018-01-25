@@ -1,15 +1,15 @@
 /*!*********************************************************************************************************************
-@file user_app1.c                                                                
+@file user_app3.c                                                                
 @brief User's tasks / applications are written here.  This description
 should be replaced by something specific to the task.
 
 ----------------------------------------------------------------------------------------------------------------------
-To start a new task using this user_app1 as a template:
- 1. Copy both user_app1.c and user_app1.h to the Application directory
+To start a new task using this user_app2 as a template:
+ 1. Copy both user_app2.c and user_app2.h to the Application directory
  2. Rename the files yournewtaskname.c and yournewtaskname.h
  3. Add yournewtaskname.c and yournewtaskname.h to the Application Include and Source groups in the IAR project
- 4. Use ctrl-h (make sure "Match Case" is checked) to find and replace all instances of "user_app1" with "yournewtaskname"
- 5. Use ctrl-h to find and replace all instances of "UserApp1" with "YourNewTaskName"
+ 4. Use ctrl-h (make sure "Match Case" is checked) to find and replace all instances of "user_app2" with "yournewtaskname"
+ 5. Use ctrl-h to find and replace all instances of "UserApp3" with "YourNewTaskName"
  6. Use ctrl-h to find and replace all instances of "USER_APP1" with "YOUR_NEW_TASK_NAME"
  7. Add a call to YourNewTaskNameInitialize() in the init section of main
  8. Add a call to YourNewTaskNameRunActiveState() in the Super Loop section of main
@@ -31,8 +31,8 @@ PUBLIC FUNCTIONS
 - NONE
 
 PROTECTED FUNCTIONS
-- void UserApp1Initialize(void)
-- void UserApp1RunActiveState(void)
+- void UserApp3Initialize(void)
+- void UserApp3RunActiveState(void)
 
 
 **********************************************************************************************************************/
@@ -41,10 +41,10 @@ PROTECTED FUNCTIONS
 
 /***********************************************************************************************************************
 Global variable definitions with scope across entire project.
-All Global variable names shall start with "G_<type>UserApp1"
+All Global variable names shall start with "G_<type>UserApp3"
 ***********************************************************************************************************************/
 /* New variables */
-volatile u32 G_u32UserApp1Flags;                          /*!< @brief Global state flags */
+volatile u32 G_u32UserApp3Flags;                          /*!< @brief Global state flags */
 
 
 /*--------------------------------------------------------------------------------------------------------------------*/
@@ -57,10 +57,10 @@ extern volatile u32 G_u32ApplicationFlags;                /*!< @brief From main.
 
 /***********************************************************************************************************************
 Global variable definitions with scope limited to this local application.
-Variable names shall start with "UserApp1_<type>" and be declared as static.
+Variable names shall start with "UserApp3_<type>" and be declared as static.
 ***********************************************************************************************************************/
-static fnCode_type UserApp1_pfStateMachine;               /*!< @brief The state machine function pointer */
-//static u32 UserApp1_u32Timeout;                           /*!< @brief Timeout counter used across states */
+static fnCode_type UserApp3_pfStateMachine;               /*!< @brief The state machine function pointer */
+//static u32 UserApp3_u32Timeout;                           /*!< @brief Timeout counter used across states */
 
 
 /**********************************************************************************************************************
@@ -76,7 +76,7 @@ Function Definitions
 /*--------------------------------------------------------------------------------------------------------------------*/
 
 /*!--------------------------------------------------------------------------------------------------------------------
-@fn void UserApp1Initialize(void)
+@fn void UserApp3Initialize(void)
 
 @brief
 Initializes the State Machine and its variables.
@@ -90,24 +90,24 @@ Promises:
 - NONE
 
 */
-void UserApp1Initialize(void)
+void UserApp3Initialize(void)
 {
   /* If good initialization, set state to Idle */
   if( 1 )
   {
-    UserApp1_pfStateMachine = UserApp1SM_Idle;
+    UserApp3_pfStateMachine = UserApp3SM_Idle;
   }
   else
   {
     /* The task isn't properly initialized, so shut it down and don't run */
-    UserApp1_pfStateMachine = UserApp1SM_Error;
+    UserApp3_pfStateMachine = UserApp3SM_Error;
   }
 
-} /* end UserApp1Initialize() */
+} /* end UserApp3Initialize() */
 
   
 /*!----------------------------------------------------------------------------------------------------------------------
-@fn void UserApp1RunActiveState(void)
+@fn void UserApp3RunActiveState(void)
 
 @brief Selects and runs one iteration of the current state in the state machine.
 
@@ -121,11 +121,11 @@ Promises:
 - Calls the function to pointed by the state machine function pointer
 
 */
-void UserApp1RunActiveState(void)
+void UserApp3RunActiveState(void)
 {
-  UserApp1_pfStateMachine();
+  UserApp3_pfStateMachine();
 
-} /* end UserApp1RunActiveState */
+} /* end UserApp3RunActiveState */
 
 
 /*------------------------------------------------------------------------------------------------------------------*/
@@ -138,18 +138,18 @@ State Machine Function Definitions
 **********************************************************************************************************************/
 /*-------------------------------------------------------------------------------------------------------------------*/
 /* What does this state do? */
-static void UserApp1SM_Idle(void)
+static void UserApp3SM_Idle(void)
 {
     
-} /* end UserApp1SM_Idle() */
+} /* end UserApp3SM_Idle() */
      
 
 /*-------------------------------------------------------------------------------------------------------------------*/
 /* Handle an error */
-static void UserApp1SM_Error(void)          
+static void UserApp3SM_Error(void)          
 {
   
-} /* end UserApp1SM_Error() */
+} /* end UserApp3SM_Error() */
 
 
 

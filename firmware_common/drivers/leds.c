@@ -69,7 +69,7 @@ Global variable definitions with scope limited to this local application.
 Variable names shall start with "Led_<type>" and be declared as static.
 ***********************************************************************************************************************/
 static fnCode_type Led_StateMachine;                   /*!< @brief The state machine function pointer */
-//static u32 Led_u32Timeout;                           /*!< @brief Timeout counter used across states */
+//static u32 Led_u32Timeout;                             /*!< @brief Timeout counter used across states */
 
 static LedControlType Led_asControl[U8_TOTAL_LEDS];    /*!< @brief Holds individual control parameters for LEDs */
 
@@ -315,8 +315,13 @@ void LedInitialize(void)
   u32 u32Buzzer2Frequency = 500;
   u32 u32StepSize = (u32Buzzer1Frequency - u32Buzzer2Frequency) / 20;
 
+  /* Initialize the LED control array */
+  for(u8 i = 0; i < U8_TOTAL_LEDS; i++)
+  {
+    LedPWM( (LedNameType)i, LED_PWM_100);
+  }
   
-  /* Turn all LEDs on full, then fade them out over a few seconds */
+  /* Fade the LEDS out */
   for(u8Index = 20; u8Index > 0; u8Index--)
   {
 #ifdef STARTUP_SOUND
@@ -375,6 +380,17 @@ void LedInitialize(void)
   LedOn(LCD_RED);
   LedOn(LCD_GREEN);
   LedOn(LCD_BLUE);
+
+  /* If good initialization, set state to Idle */
+  if( 1 )
+  {
+    Led_StateMachine = LedSM_Idle;
+  }
+  else
+  {
+    /* The task isn't properly initialized, so shut it down and don't run */
+    Led_StateMachine = LedSM_Error;
+  }
   
 } /* end LedInitialize() */
 
