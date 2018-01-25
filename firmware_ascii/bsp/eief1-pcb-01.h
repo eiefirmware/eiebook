@@ -14,7 +14,7 @@ Bookmarks:
 !!!!! GPIO pin names
 @@@@@ Watchdog, Power Control, Clock, and Systick setup values
 ##### GPIO initial setup values
-$$$$$ PWM and Timer setup values
+$$$$$ PWM setup values
 
 ***********************************************************************************************************************/
 /*! @endcond */
@@ -1680,6 +1680,175 @@ We don't want to lock access to the GPIO registers anyway, so we won't use this 
     01 [] PB_01_BUTTON2 
     00 [] PB_00_BUTTON1 
 */
+
+
+/***********************************************************************************************************************
+$$$$$ PWM setup values
+***********************************************************************************************************************/
+#define PWM_CLK_INIT (u32)0x00010001
+/*
+    31 [0] Reserved
+    30 [0] "
+    29 [0] "
+    28 [0] "
+
+    27 [0] PREB MCK
+    26 [0] "
+    25 [0] "
+    24 [0] "
+
+    23 [0] DIVB = 1 => CLKB is on, no DIVB factor
+    22 [0] "
+    21 [0] "
+    20 [0] "
+
+    19 [0] "
+    18 [0] "
+    17 [0] "
+    16 [1] "
+
+    15 [0] Reserved
+    14 [0] "
+    13 [0] "
+    12 [0] "
+
+    11 [0] PREA MCK
+    10 [0] "
+    09 [0] "
+    08 [0] "
+
+    07 [0] DIVA = 1 => CLKA is on, no DIVA factor
+    06 [0] "
+    05 [0] "
+    04 [0] "
+
+    03 [0] "
+    02 [0] "
+    01 [0] "
+    00 [1] "
+*/
+
+
+#define PWM_ENA_INIT (u32)0x00000003
+/*
+    31 - 4 [0] Reserved
+
+    03 [0] Channel 3 not enabled
+    02 [0] Channel 2 not enabled
+    01 [1] Channel 1 enabled
+    00 [1] Channel 0 enabled
+*/
+
+#define PWM_SCM_INIT (u32)0x00000000
+/*
+    31 [0] Reserved
+    30 [0] "
+    29 [0] "
+    28 [0] "
+
+    27 [0] "
+    26 [0] "
+    25 [0] "
+    24 [0] "
+
+    23 [0] PTRCS
+    22 [0] "
+    21 [0] "
+    20 [0] "
+
+    19 [0] Reserved
+    18 [0] "
+    17 [0] UPDM
+    16 [0] "
+
+    15 [0] Reserved
+    14 [0] "
+    13 [0] "
+    12 [0] "
+
+    11 [0] "
+    10 [0] "
+    09 [0] "
+    08 [0] "
+
+    07 [0] "
+    06 [0] "
+    05 [0] "
+    04 [0] "
+
+    03 [0] SYNC3 not synchronous
+    02 [0] SYNC2 not synchronous
+    01 [0] SYNC1 not synchronous
+    00 [0] SYNC0 not synchronous
+*/
+
+#define PWM_CMR0_INIT (u32)0x00000003
+#define PWM_CMR1_INIT (u32)0x00000003
+/*
+    31 [0] Reserved
+    30 [0] "
+    29 [0] "
+    28 [0] "
+
+    27 [0] "
+    26 [0] "
+    25 [0] "
+    24 [0] "
+
+    23 [0] "
+    22 [0] "
+    21 [0] "
+    20 [0] "
+
+    19 [0] "
+    18 [0] DTLI dead-time low channel output is not inverted
+    17 [0] DTHI dead-time high channel output is not inverted
+    16 [0] DTE dead-time generator disabled
+
+    15 [0] Reserved
+    14 [0] "
+    13 [0] "
+    12 [0] "
+
+    11 [0] "
+    10 [0] CES channel event at end of PWM period
+    09 [0] CPOL channel starts low
+    08 [0] CALG period is left aligned
+
+    07 [0] Reserved
+    06 [0] "
+    05 [0] "
+    04 [0] "
+
+    03 [0] CPRE clock is MCK/8
+    02 [0] "
+    01 [1] "
+    00 [1] "
+*/
+#define CPRE_CLCK_SCALE           (u32)8
+#define CPRE_CLCK                 CCLK_VALUE / CPRE_CLCK_SCALE
+
+/* To achieve the full range of audio we want from 100Hz to 20kHz, we must be able to set periods
+of 10ms to 50us.
+10ms at 48MHz clock is 480,000 ticks
+50us at 48MHz clock is 2400 ticks
+Only 16 bits are available to set the PWM period, so scale the clock by 8:
+10ms at 6MHz clock is 60,000 ticks
+50us at 6MHz clock is 300 ticks
+
+Set the default period for audio on channel 0 as 1/1kHz
+1ms at 6MHz = 6000 (duty = 3000)
+Set the default period for audio on channel 1 as 1/4kHz
+0.25ms at 6MHz = 1500 (duty = 750)
+
+In general, the period is 6000000 / frequency and duty is always period / 2. 
+*/
+
+#define PWM_CPRD0_INIT  (u32)6000
+#define PWM_CPRD1_INIT  (u32)1500
+#define PWM_CDTY0_INIT  (u32)(PWM_CPRD0_INIT << 1)
+#define PWM_CDTY1_INIT  (u32)(PWM_CPRD1_INIT << 1)
+
 
 
 #endif /* __EIEF1 */
