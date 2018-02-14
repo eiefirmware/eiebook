@@ -2369,6 +2369,9 @@
                 <name>$PROJ_DIR$\..\..\firmware_common\drivers\leds.h</name>
             </file>
             <file>
+                <name>$PROJ_DIR$\..\..\firmware_common\drivers\messaging.h</name>
+            </file>
+            <file>
                 <name>$PROJ_DIR$\..\..\firmware_common\drivers\timer.h</name>
             </file>
             <file>
@@ -2388,6 +2391,9 @@
             </file>
             <file>
                 <name>$PROJ_DIR$\..\..\firmware_common\drivers\leds.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\..\firmware_common\drivers\messaging.c</name>
             </file>
             <file>
                 <name>$PROJ_DIR$\..\..\firmware_common\drivers\timer.c</name>
