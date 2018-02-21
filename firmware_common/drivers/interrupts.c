@@ -237,6 +237,40 @@ void PIOB_IrqHandler(void)
 } /* end PIOB_IrqHandler() */
 
 
+/*!----------------------------------------------------------------------------------------------------------------------
+@fn ISR void HardFault_Handler(void)
+ 
+@brief A non-maskable (always available) core interrupt that occurs when 
+something extraordinary occurs.  
+
+In many cases, this is referencing an invalid address, but can be other 
+events of various levels of mystery.  
+
+Requires:
+-
+
+Promises:
+- Red LED is on, all others off
+- Code is held here for debug purposes
+
+*/
+void HardFault_Handler(void)
+{
+  LedOff(WHITE);
+  LedOff(CYAN);
+  LedOff(PURPLE);
+  LedOff(ORANGE);
+  LedOff(BLUE);
+  LedOff(GREEN);
+  LedOff(YELLOW);
+  LedOn(RED);
+
+  while(1);  /* !!!!! update to log and/or report error and/or restart */
+  
+} /* end HardFault_Handler() */
+
+
+
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 /* End of File */

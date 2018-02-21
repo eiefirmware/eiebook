@@ -45,12 +45,15 @@ void main(void)
   SysTickSetup();
   
   /* Driver initialization */
+  MessagingInitialize();
   ButtonInitialize();
   TimerInitialize();  
   LedInitialize();
 
   /* Application initialization */
   UserApp1Initialize();
+  UserApp2Initialize();
+  UserApp3Initialize();
   
   /* Super loop */  
   while(1)
@@ -61,9 +64,12 @@ void main(void)
     LedRunActiveState();
     ButtonRunActiveState();
     TimerRunActiveState(); 
+    MessagingRunActiveState();
     
     /* Applications */
     UserApp1RunActiveState();
+    UserApp2RunActiveState();
+    UserApp3RunActiveState();
         
     /* System sleep */
     HEARTBEAT_OFF();
