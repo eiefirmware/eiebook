@@ -2372,6 +2372,9 @@
                 <name>$PROJ_DIR$\..\..\firmware_common\drivers\messaging.h</name>
             </file>
             <file>
+                <name>$PROJ_DIR$\..\..\firmware_common\drivers\sam3u_uart.h</name>
+            </file>
+            <file>
                 <name>$PROJ_DIR$\..\..\firmware_common\drivers\timer.h</name>
             </file>
             <file>
@@ -2396,6 +2399,9 @@
                 <name>$PROJ_DIR$\..\..\firmware_common\drivers\messaging.c</name>
             </file>
             <file>
+                <name>$PROJ_DIR$\..\..\firmware_common\drivers\sam3u_uart.c</name>
+            </file>
+            <file>
                 <name>$PROJ_DIR$\..\..\firmware_common\drivers\timer.c</name>
             </file>
             <file>
@@ -2407,6 +2413,9 @@
         <name>Application</name>
         <group>
             <name>Include</name>
+            <file>
+                <name>$PROJ_DIR$\..\..\firmware_common\application\debug.h</name>
+            </file>
             <file>
                 <name>$PROJ_DIR$\..\application\main.h</name>
             </file>
@@ -2425,6 +2434,9 @@
         </group>
         <group>
             <name>Source</name>
+            <file>
+                <name>$PROJ_DIR$\..\..\firmware_common\application\debug.c</name>
+            </file>
             <file>
                 <name>$PROJ_DIR$\..\application\main.c</name>
             </file>

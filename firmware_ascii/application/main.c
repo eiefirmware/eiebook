@@ -46,6 +46,8 @@ void main(void)
   
   /* Driver initialization */
   MessagingInitialize();
+  UartInitialize();
+
   ButtonInitialize();
   TimerInitialize();  
   LedInitialize();
@@ -63,6 +65,7 @@ void main(void)
     /* Drivers */
     LedRunActiveState();
     ButtonRunActiveState();
+    UartRunActiveState();
     TimerRunActiveState(); 
     MessagingRunActiveState();
     
