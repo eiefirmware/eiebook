@@ -1572,141 +1572,6 @@ We don't want to lock access to the GPIO registers anyway, so we won't use this 
 */
 
 
-
-/*--------------------------------------------------------------------------------------------------------------------*/
-/* End of File */
-/*--------------------------------------------------------------------------------------------------------------------*/
-
-#define TEMPLATE_INIT (u32)0x00000000
-/*
-    31 [0] 
-    30 [0] 
-    29 [0] 
-    28 [0] 
-
-    27 [0] 
-    26 [0] 
-    25 [0] 
-    24 [0] 
-
-    23 [0] 
-    22 [0] 
-    21 [0] 
-    20 [0] 
-
-    19 [0] 
-    18 [0] 
-    17 [0] 
-    16 [0] 
-
-    15 [0] 
-    14 [0] 
-    13 [0] 
-    12 [0] 
-
-    11 [0] 
-    10 [0] 
-    09 [0] 
-    08 [0] 
-
-    07 [0] 
-    06 [0] 
-    05 [0] 
-    04 [0] 
-
-    03 [0] 
-    02 [0] 
-    01 [0] 
-    00 [0] 
-*/
-
-#define TEMPLATE_PIOA_INIT (u32)0x00000000
-/* 
-    31 [] PA_31_HEARTBEAT 
-    30 [] PA_30_AN_DEMO 
-    29 [] PA_29_BUZZER2 
-    28 [] PA_28_BUZZER1 
-
-    27 [] PA_27_CLOCK_OUT 
-    26 [] PA_26_ANT_PWR_EN 
-    25 [] PA_25_ANT_USPI2_SCK 
-    24 [] PA_24_SD_USPI1_SCK P
-
-    23 [] PA_23_ANT_USPI2_MOSI 
-    22 [] PA_22_ANT_USPI2_MISO 
-    21 [] PA_21_SD_USPI1_MISO 
-    20 [] PA_20_SD_USPI1_MOSI 
-
-    19 [] PA_19_DEBUG_U0_PIMO 
-    18 [] PA_18_DEBUG_U0_POMI 
-    17 [] PA_17_BUTTON0 
-    16 [] PA_16_BLADE_CS 
-
-    15 [] PA_15_BLADE_SCK 
-    14 [] PA_14_BLADE_MOSI 
-    13 [] PA_13_BLADE_MISO 
-    12 [] PA_12_BLADE_UPOMI 
-
-    11 [] PA_11_BLADE_UPIMO 
-    10 [] PA_10_I2C_SCL 
-    09 [] PA_09_I2C_SDA 
-    08 [] PA_08_SD_CS_MCDA3 
-
-    07 [] PA_07_HSMCI_MCDA2 
-    06 [] PA_06_HSMCI_MCDA1 
-    05 [] PA_05_HSMCI_MCDA0 
-    04 [] PA_04_HSMCI_MCCDA 
-
-    03 [] PA_03_HSMCI_MCCK 
-    02 [] PA_02_SD_DETECT 
-    01 [] PA_01_SD_WP 
-    00 [] PA_00_TP54 
-*/
-
-#define PIOB_OWER_INIT (u32)0x001FFC00
-/*
-    31 [] PB_31_
-    30 [] PB_30_
-    29 [] PB_29_
-    28 [] PB_28_
-
-    27 [] PB_27_
-    26 [] PB_26_
-    25 [] PB_25_
-    24 [] PB_24_ANT_SRDY 
-
-    23 [] PB_23_ANT_MRDY 
-    22 [] PB_22_ANT_USPI2_CS 
-    21 [] PB_21_ANT_RESET 
-    20 [] PB_20_LED_RED 
-
-    19 [] PB_19_LED_GRN 
-    18 [] PB_18_LED_BLU 
-    17 [] PB_17_LED_YLW 
-    16 [] PB_16_LED_CYN 
-
-    15 [] PB_15_LED_ORG 
-    14 [] PB_14_LED_PRP 
-    13 [] PB_13_LED_WHT 
-    12 [] PB_12_LCD_BL_BLU 
-
-    11 [] PB_11_LCD_BL_GRN 
-    10 [] PB_10_LCD_BL_RED 
-    09 [] PB_09_LCD_RST 
-    08 [] PB_08_TP62  
-
-    07 [] PB_07_TP60 
-    06 [] PB_06_TP58 
-    05 [] PB_05_TP56 
-    04 [] PB_04_BLADE_AN1 
-
-    03 [] PB_03_BLADE_AN0 
-    02 [] PB_02_BUTTON3 
-    01 [] PB_01_BUTTON2 
-    00 [] PB_00_BUTTON1 
-*/
-
-
 /***********************************************************************************************************************
 $$$$$ PWM setup values
 ***********************************************************************************************************************/
@@ -1873,4 +1738,135 @@ In general, the period is 6000000 / frequency and duty is always period / 2.
 /*--------------------------------------------------------------------------------------------------------------------*/
 /* End of File                                                                                                        */
 /*--------------------------------------------------------------------------------------------------------------------*/
+
+
+#define TEMPLATE_INIT (u32)0x00000000
+/*
+    31 [0] 
+    30 [0] 
+    29 [0] 
+    28 [0] 
+
+    27 [0] 
+    26 [0] 
+    25 [0] 
+    24 [0] 
+
+    23 [0] 
+    22 [0] 
+    21 [0] 
+    20 [0] 
+
+    19 [0] 
+    18 [0] 
+    17 [0] 
+    16 [0] 
+
+    15 [0] 
+    14 [0] 
+    13 [0] 
+    12 [0] 
+
+    11 [0] 
+    10 [0] 
+    09 [0] 
+    08 [0] 
+
+    07 [0] 
+    06 [0] 
+    05 [0] 
+    04 [0] 
+
+    03 [0] 
+    02 [0] 
+    01 [0] 
+    00 [0] 
+*/
+
+#define TEMPLATE_PIOA_INIT (u32)0x00000000
+/* 
+    31 [] PA_31_HEARTBEAT 
+    30 [] PA_30_AN_DEMO 
+    29 [] PA_29_BUZZER2 
+    28 [] PA_28_BUZZER1 
+
+    27 [] PA_27_CLOCK_OUT 
+    26 [] PA_26_ANT_PWR_EN 
+    25 [] PA_25_ANT_USPI2_SCK 
+    24 [] PA_24_SD_USPI1_SCK P
+
+    23 [] PA_23_ANT_USPI2_MOSI 
+    22 [] PA_22_ANT_USPI2_MISO 
+    21 [] PA_21_SD_USPI1_MISO 
+    20 [] PA_20_SD_USPI1_MOSI 
+
+    19 [] PA_19_DEBUG_U0_PIMO 
+    18 [] PA_18_DEBUG_U0_POMI 
+    17 [] PA_17_BUTTON0 
+    16 [] PA_16_BLADE_CS 
+
+    15 [] PA_15_BLADE_SCK 
+    14 [] PA_14_BLADE_MOSI 
+    13 [] PA_13_BLADE_MISO 
+    12 [] PA_12_BLADE_UPOMI 
+
+    11 [] PA_11_BLADE_UPIMO 
+    10 [] PA_10_I2C_SCL 
+    09 [] PA_09_I2C_SDA 
+    08 [] PA_08_SD_CS_MCDA3 
+
+    07 [] PA_07_HSMCI_MCDA2 
+    06 [] PA_06_HSMCI_MCDA1 
+    05 [] PA_05_HSMCI_MCDA0 
+    04 [] PA_04_HSMCI_MCCDA 
+
+    03 [] PA_03_HSMCI_MCCK 
+    02 [] PA_02_SD_DETECT 
+    01 [] PA_01_SD_WP 
+    00 [] PA_00_TP54 
+*/
+
+#define PIOB_OWER_INIT (u32)0x001FFC00
+/*
+    31 [] PB_31_
+    30 [] PB_30_
+    29 [] PB_29_
+    28 [] PB_28_
+
+    27 [] PB_27_
+    26 [] PB_26_
+    25 [] PB_25_
+    24 [] PB_24_ANT_SRDY 
+
+    23 [] PB_23_ANT_MRDY 
+    22 [] PB_22_ANT_USPI2_CS 
+    21 [] PB_21_ANT_RESET 
+    20 [] PB_20_LED_RED 
+
+    19 [] PB_19_LED_GRN 
+    18 [] PB_18_LED_BLU 
+    17 [] PB_17_LED_YLW 
+    16 [] PB_16_LED_CYN 
+
+    15 [] PB_15_LED_ORG 
+    14 [] PB_14_LED_PRP 
+    13 [] PB_13_LED_WHT 
+    12 [] PB_12_LCD_BL_BLU 
+
+    11 [] PB_11_LCD_BL_GRN 
+    10 [] PB_10_LCD_BL_RED 
+    09 [] PB_09_LCD_RST 
+    08 [] PB_08_TP62  
+
+    07 [] PB_07_TP60 
+    06 [] PB_06_TP58 
+    05 [] PB_05_TP56 
+    04 [] PB_04_BLADE_AN1 
+
+    03 [] PB_03_BLADE_AN0 
+    02 [] PB_02_BUTTON3 
+    01 [] PB_01_BUTTON2 
+    00 [] PB_00_BUTTON1 
+*/
+
 
