@@ -36,7 +36,9 @@ Variable names shall start with "Main_" and be declared as static.
 
 void main(void)
 {
-  /* Low level initialization */
+  G_u32SystemFlags |= _SYSTEM_INITIALIZING;
+
+/* Low level initialization */
   WatchDogSetup(); 
   ClockSetup();
   GpioSetup();
@@ -56,6 +58,9 @@ void main(void)
   UserApp1Initialize();
   UserApp2Initialize();
   UserApp3Initialize();
+
+  /* Exit initialization */
+  G_u32SystemFlags &= ~_SYSTEM_INITIALIZING;
   
   /* Super loop */  
   while(1)
