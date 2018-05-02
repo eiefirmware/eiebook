@@ -11,6 +11,16 @@
 Type Definitions
 **********************************************************************************************************************/
 
+/*! 
+@struct DebugCommandType
+@brief Required members of a Debug command. 
+*/
+typedef struct
+{
+  u8 *pu8CommandName;
+  fnCode_type DebugFunction;
+} DebugCommandType;
+
 
 /***********************************************************************************************************************
 * Function Declarations
@@ -19,6 +29,9 @@ Type Definitions
 /*------------------------------------------------------------------------------------------------------------------*/
 /*! @publicsection */                                                                                            
 /*--------------------------------------------------------------------------------------------------------------------*/
+u32 DebugPrintf(u8* u8String_);
+void DebugLineFeed(void);
+void DebugPrintNumber(u32 u32Number_);
 
 
 /*------------------------------------------------------------------------------------------------------------------*/
@@ -27,10 +40,17 @@ Type Definitions
 void DebugInitialize(void);                   
 void DebugRunActiveState(void);
 
+void DebugRxCallback(void);
+
 
 /*------------------------------------------------------------------------------------------------------------------*/
 /*! @privatesection */                                                                                            
 /*--------------------------------------------------------------------------------------------------------------------*/
+static void DebugCommandPrepareList(void);
+static void DebugCommandDummy(void);
+static void DebugCommandLedTestToggle(void);
+static void DebugLedTestCharacter(u8 u8Char_);
+static void DebugCommandSysTimeToggle(void);
 
 
 /***********************************************************************************************************************

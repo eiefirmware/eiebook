@@ -10,7 +10,6 @@
 Firmware Version - Printed FIRMWARE_MAIN_REV.FIRMWARE_SUB_REV1 FIRMWARE_SUB_REV2
 
 FIRMWARE_MAIN_REV: should be updated only with RELEASES to Github.
-
 FIRMWARE_SUB_REV1: should be updated when a pull request is made to the MASTER branch.
 ***********************************************************************************************************************/
 #define FIRMWARE_VERSION     {'F','i','r','m','w','a','r','e',' ','v','e','r','s','i','o','n',':',' ', \

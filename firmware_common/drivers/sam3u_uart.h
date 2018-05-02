@@ -6,6 +6,7 @@
 #ifndef __SAM3U_UART_H
 #define __SAM3U_UART_H
 
+
 /**********************************************************************************************************************
 Type Definitions
 **********************************************************************************************************************/
@@ -70,10 +71,16 @@ void UartRunActiveState(void);
 
 static void UartManualMode(void);
 
+void UART_IRQHandler(void);
+void UART0_IRQHandler(void);
+void UART1_IRQHandler(void);
+void UART2_IRQHandler(void);
+
 
 /*------------------------------------------------------------------------------------------------------------------*/
 /*! @privatesection */                                                                                            
 /*--------------------------------------------------------------------------------------------------------------------*/
+static void UartGenericHandler(void);
 
 
 /***********************************************************************************************************************
@@ -95,6 +102,7 @@ Constants / Definitions
 #define _UART_TOO_MANY_UARTS            (u32)0x04000000   /* Set if Uart_u8ActiveUarts is 0 when decremented */
 /* end of Uart_u32Flags */
 
+#define U8_MAX_NUM_UARTS                (u8)5             /* Total number of UARTs possible on SAM3U */
 
 
 
