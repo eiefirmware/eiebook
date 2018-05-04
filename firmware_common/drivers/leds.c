@@ -384,6 +384,9 @@ void LedInitialize(void)
   /* If good initialization, set state to Idle */
   if( 1 )
   {
+    /* Final setup and report that LED system is ready */
+    G_u32ApplicationFlags |= _APPLICATION_FLAGS_LED;
+    DebugPrintf("LED functions ready\n\r");
     Led_StateMachine = LedSM_Idle;
   }
   else

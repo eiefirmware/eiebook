@@ -60,6 +60,22 @@ Constants / Definitions
 #define TERM_BKG_WHT            "\033[47m"
 
 
+#define MESSAGE_OK              "OK\r\n"
+#define MESSAGE_OK_SIZE         (u8)(sizeof(MESSAGE_OK) - 1)
+
+#define MESSAGE_FAIL            "FAIL\r\n"
+#define MESSAGE_FAIL_SIZE       (u8)(sizeof(MESSAGE_FAIL) - 1)
+
+#define MESSAGE_ON              "ON\r\n"
+#define MESSAGE_ON_SIZE         (u8)(sizeof(MESSAGE_ON) - 1)
+
+#define MESSAGE_OFF             "OFF\r\n"
+#define MESSAGE_OFF_SIZE        (u8)(sizeof(MESSAGE_OFF) - 1)
+
+#define MESSAGE_TASK_INIT       " task initializing... "
+#define MESSAGE_TASK_INIT_SIZE  (u8)(sizeof(MESSAGE_TASK_INIT) - 1)
+
+
 /***********************************************************************************************************************
 * Function Declarations
 ***********************************************************************************************************************/

@@ -120,6 +120,7 @@ void ClockSetup(void);
 void GpioSetup(void);
 
 void SysTickSetup(void);
+void SystemTimeCheck(void);
 void SystemSleep(void);
 
 void PWMSetupAudio(void);

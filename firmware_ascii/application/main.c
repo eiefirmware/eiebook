@@ -15,6 +15,7 @@ All Global variable names shall start with "G_"
 volatile u32 G_u32SystemTime1ms = 0;     /*!< @brief Global system time incremented every ms, max 2^32 (~49 days) */
 volatile u32 G_u32SystemTime1s  = 0;     /*!< @brief Global system time incremented every second, max 2^32 (~136 years) */
 volatile u32 G_u32SystemFlags   = 0;     /*!< @brief Global system flags */
+volatile u32 G_u32ApplicationFlags = 0;  /*!< @brief Global system application flags: set when application is successfully initialized */
 
 
 /*--------------------------------------------------------------------------------------------------------------------*/
@@ -49,9 +50,12 @@ void main(void)
   /* Driver initialization */
   MessagingInitialize();
   UartInitialize();
+  DebugInitialize();
 
+  /* Debug messages through DebugPrintf() are available from here */
   ButtonInitialize();
   TimerInitialize();  
+
   LedInitialize();
 
   /* Application initialization */
@@ -60,12 +64,14 @@ void main(void)
   UserApp3Initialize();
 
   /* Exit initialization */
+  SystemStatusReport();
   G_u32SystemFlags &= ~_SYSTEM_INITIALIZING;
   
   /* Super loop */  
   while(1)
   {
     WATCHDOG_BONE();
+    SystemTimeCheck();
 
     /* Drivers */
     LedRunActiveState();
@@ -73,6 +79,7 @@ void main(void)
     UartRunActiveState();
     TimerRunActiveState(); 
     MessagingRunActiveState();
+    DebugRunActiveState();
     
     /* Applications */
     UserApp1RunActiveState();

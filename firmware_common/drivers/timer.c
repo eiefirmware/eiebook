@@ -245,6 +245,10 @@ void TimerInitialize(void)
     NVIC_ClearPendingIRQ(IRQn_TC1);
     NVIC_EnableIRQ(IRQn_TC1);
     Timer_fpStateMachine = TimerSM_Idle;
+    DebugPrintf("Timer1 initialized\n\r");
+    
+    /* Flag that the Timer task is ready */
+    G_u32ApplicationFlags |= _APPLICATION_FLAGS_TIMER;
   }
   else
   {

@@ -61,12 +61,16 @@ const PinConfigurationType G_asBspButtonConfigurations[U8_TOTAL_BUTTONS] = { {PA
 extern volatile u32 G_u32SystemTime1ms;        /*!< @brief From main.c */
 extern volatile u32 G_u32SystemTime1s;         /*!< @brief From main.c */
 extern volatile u32 G_u32SystemFlags;          /*!< @brief From main.c */
+extern volatile u32 G_u32ApplicationFlags;             /*!< @brief From main.c */
+
+extern volatile u32 G_u32DebugFlags;                            /*!< @brief From debug.c */
 
 
 /***********************************************************************************************************************
 Global variable definitions with scope limited to this local application.
 Variable names shall start with "Bsp_" and be declared as static.
 ***********************************************************************************************************************/
+static u32 Bsp_u32TimingViolationsCounter = 0;        
 
 
 /***********************************************************************************************************************
@@ -236,6 +240,43 @@ void SysTickSetup(void)
   AT91C_BASE_NVIC->NVIC_STICKCSR = SYSTICK_CTRL_INIT;
  
 } /* end SysTickSetup() */
+
+
+/*!---------------------------------------------------------------------------------------------------------------------
+@fn void SystemTimeCheck(void)
+
+@brief Checks for violations of the 1ms system loop time.
+
+Requires:
+- Should be called only once in the main system loop
+
+Promises:
+@Bsp_u32TimingViolationsCounter is incremented if G_u32SystemTime1ms has
+increased by more than one since this function was last called
+
+*/
+void SystemTimeCheck(void)
+{    
+   static u32 u32PreviousSystemTick = 0;
+   
+  /* Check system timing */
+  if( (G_u32SystemTime1ms - u32PreviousSystemTick) != 1)
+  {
+    /* Flag, count and optionally display warning */
+    Bsp_u32TimingViolationsCounter++;
+    G_u32SystemFlags |= _SYSTEM_TIME_WARNING;
+    
+    if(G_u32DebugFlags & _DEBUG_TIME_WARNING_ENABLE)
+    {
+      DebugPrintf("\n\r*** 1ms timing violation: ");
+      DebugPrintNumber(Bsp_u32TimingViolationsCounter);
+      DebugLineFeed();
+    }
+  }
+  
+  u32PreviousSystemTick = G_u32SystemTime1ms;
+  
+} /* end SystemTimeCheck() */
 
 
 /*!---------------------------------------------------------------------------------------------------------------------

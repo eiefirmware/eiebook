@@ -236,6 +236,8 @@ void ButtonInitialize(void)
     
   /* Init complete: set function pointer and application flag */
   Button_pfnStateMachine = ButtonSM_Idle;
+  G_u32ApplicationFlags |= _APPLICATION_FLAGS_BUTTON;
+  DebugPrintf("Button task ready\n\r");
 
 } /* end ButtonInitialize() */
 

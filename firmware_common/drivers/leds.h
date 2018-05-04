@@ -8,7 +8,6 @@
 
 #include "configuration.h"
 
-#define STARTUP_SOUND      /*!< Define to include buzzer sound on startup */
 
 /**********************************************************************************************************************
 Type Definitions

@@ -625,7 +625,7 @@ static void UartGenericHandler(void)
     else
     {
       /* If Uart_u8ActiveUarts is already 0, then we are not properly synchronized */
-      //DebugPrintf("\n\rUART counter out of sync\n\r");
+      DebugPrintf("\n\rUART counter out of sync\n\r");
       Uart_u32Flags |= _UART_NO_ACTIVE_UARTS;
     }
     
