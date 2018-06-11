@@ -55,6 +55,8 @@ void main(void)
   /* Debug messages through DebugPrintf() are available from here */
   ButtonInitialize();
   TimerInitialize();  
+  SpiInitialize();
+  SspInitialize();
 
   LedInitialize();
 
@@ -78,6 +80,8 @@ void main(void)
     ButtonRunActiveState();
     UartRunActiveState();
     TimerRunActiveState(); 
+    SpiRunActiveState();
+    SspRunActiveState();
     MessagingRunActiveState();
     DebugRunActiveState();
     

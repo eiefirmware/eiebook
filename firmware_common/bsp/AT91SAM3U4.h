@@ -4510,8 +4510,8 @@ typedef struct _AT91S_SPI {
 // -------- SPI_MR : (SPI Offset: 0x4) SPI Mode Register -------- 
 #define AT91C_SPI_MSTR        (0x1 <<  0) // (SPI) Master/Slave Mode
 #define AT91C_SPI_PS          (0x1 <<  1) // (SPI) Peripheral Select
-#define 	AT91C_SPI_PS_FIXED                (0x0 <<  1) // (SPI) Fixed Peripheral Select
-#define 	AT91C_SPI_PS_VARIABLE             (0x1 <<  1) // (SPI) Variable Peripheral Select
+#define AT91C_SPI_PS_FIXED    (0x0 <<  1) // (SPI) Fixed Peripheral Select
+#define AT91C_SPI_PS_VARIABLE (0x1 <<  1) // (SPI) Variable Peripheral Select
 #define AT91C_SPI_PCSDEC      (0x1 <<  2) // (SPI) Chip Select Decode
 #define AT91C_SPI_FDIV        (0x1 <<  3) // (SPI) Clock Selection
 #define AT91C_SPI_MODFDIS     (0x1 <<  4) // (SPI) Mode Fault Detection

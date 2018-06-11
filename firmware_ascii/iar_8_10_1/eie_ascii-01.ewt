@@ -2372,6 +2372,12 @@
                 <name>$PROJ_DIR$\..\..\firmware_common\drivers\messaging.h</name>
             </file>
             <file>
+                <name>$PROJ_DIR$\..\..\firmware_common\drivers\sam3u_spi.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\..\firmware_common\drivers\sam3u_ssp.h</name>
+            </file>
+            <file>
                 <name>$PROJ_DIR$\..\..\firmware_common\drivers\sam3u_uart.h</name>
             </file>
             <file>
@@ -2397,6 +2403,12 @@
             </file>
             <file>
                 <name>$PROJ_DIR$\..\..\firmware_common\drivers\messaging.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\..\firmware_common\drivers\sam3u_spi.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\..\firmware_common\drivers\sam3u_ssp.c</name>
             </file>
             <file>
                 <name>$PROJ_DIR$\..\..\firmware_common\drivers\sam3u_uart.c</name>
