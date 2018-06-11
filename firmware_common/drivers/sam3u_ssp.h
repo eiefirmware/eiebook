@@ -40,7 +40,7 @@ typedef struct
   PeripheralType SspPeripheral;       /*!< @brief Easy name of peripheral */
   AT91PS_PIO pCsGpioAddress;          /*!< @brief Base address for GPIO port for chip select line */
   u32 u32CsPin;                       /*!< @brief Pin location for SSEL line */
-  Ssp BitOrderType eBitOrder;         /*!< @brief MSB_FIRST or LSB_FIRST: this is only available in SPI_SLAVE_FLOW_CONTROL mode */
+  SspBitOrderType eBitOrder;          /*!< @brief MSB_FIRST or LSB_FIRST: this is only available in SPI_SLAVE_FLOW_CONTROL mode */
   SspModeType eSspMode;               /*!< @brief Type of SPI configured */
   fnCode_type fnSlaveTxFlowCallback;  /*!< @brief Callback function for SPI_SLAVE_FLOW_CONTROL transmit */
   fnCode_type fnSlaveRxFlowCallback;  /*!< @brief Callback function for SPI_SLAVE_FLOW_CONTROL receive */
@@ -60,7 +60,7 @@ typedef struct
   AT91PS_USART pBaseAddress;          /*!< @brief Base address of the associated peripheral */
   AT91PS_PIO pCsGpioAddress;          /*!< @brief Base address for GPIO port for chip select line */
   u32 u32CsPin;                       /*!< @brief Pin location for SSEL line */
-  Ssp BitOrderType eBitOrder;         /*!< @brief MSB_FIRST or LSB_FIRST: this is only available in SPI_SLAVE_FLOW_CONTROL mode */
+  SspBitOrderType eBitOrder;          /*!< @brief MSB_FIRST or LSB_FIRST: this is only available in SPI_SLAVE_FLOW_CONTROL mode */
   SspModeType eSspMode;               /*!< @brief Type of SPI configured */
   u32 u32PrivateFlags;                /*!< @brief Private peripheral flags */
   fnCode_type fnSlaveTxFlowCallback;  /*!< @brief Callback function for SPI SLAVE transmit that uses flow control */

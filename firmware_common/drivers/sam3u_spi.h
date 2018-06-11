@@ -22,13 +22,13 @@ typedef enum {SPI_MSB_FIRST, SPI_LSB_FIRST} SpiBitOrderType;
 @enum SpiModeType
 @brief Controlled list of SPI modes. 
 */
-typedef enum {SPI_MASTER_, SPI_SLAVE} SpiModeType;
+typedef enum {SPI_MASTER, SPI_SLAVE} SpiModeType;
 
 /*! 
 @enum SpiRxStatusType
 @brief Controlled list of SPI peripheral Rx status. 
 */
-typedef enum {SPI_RX_EMPTY = 0, SPI_RX_WAITING, SPI_RX_RECEIVING, SPI_RX_COMPLETE, SPI_RX_TIMEOUT} SpiRxStatusType;
+typedef enum {SPI_RX_EMPTY = 0, SPI_RX_WAITING, SPI_RX_RECEIVING, SPI_RX_COMPLETE, SPI_RX_TIMEOUT, SPI_RX_INVALID} SpiRxStatusType;
 
 
 /*! 
@@ -54,7 +54,7 @@ typedef struct
 */
 typedef struct 
 {
-  AT91C_BASE_SPI0 pBaseAddress;       /*!< @brief Base address of the associated peripheral */
+  AT91PS_SPI pBaseAddress;            /*!< @brief Base address of the associated peripheral */
   AT91PS_PIO pCsGpioAddress;          /*!< @brief Base address for GPIO port for chip select line */
   u32 u32CsPin;                       /*!< @brief Pin location for SSEL line */
   SpiBitOrderType eBitOrder;          /*!< @brief MSB_FIRST or LSB_FIRST: this is only available in SPI_SLAVE_FLOW_CONTROL mode */
@@ -65,7 +65,7 @@ typedef struct
   u8* pu8RxBuffer;                    /*!< @brief Pointer to receive buffer in user application */
   u8** ppu8RxNextByte;                /*!< @brief Pointer to buffer location where next received byte will be placed (SPI_SLAVE_FLOW_CONTROL only) */
   u16 u16RxBufferSize;                /*!< @brief Size of receive buffer in bytes */
-  u16 u16RxBytes;                     /*!< @brief Number of bytes to receive (DMA transfers) */
+  u16 u16RxBytes;                     /*!< @brief Number of bytes to receive */
   MessageType* psTransmitBuffer;      /*!< @brief Pointer to the transmit message struct linked list */
   u32 u32CurrentTxBytesRemaining;     /*!< @brief Counter for bytes remaining in current transfer */
   u8* pu8CurrentTxData;               /*!< @brief Pointer to current location in the Tx buffer */
@@ -109,6 +109,15 @@ Constants / Definitions
 /*-------------------------------------------------------------------------------------------------------------------*/
 /*! @publicsection */                                                                                            
 /*-------------------------------------------------------------------------------------------------------------------*/
+SpiPeripheralType* SpiRequest(SpiConfigurationType* psSpiConfig_);
+void SpiRelease(SpiPeripheralType* psSpiPeripheral_);
+
+u32 SpiWriteByte(SpiPeripheralType* psSpiPeripheral_, u8 u8Byte_);
+u32 SpiWriteData(SpiPeripheralType* psSpiPeripheral_, u32 u32Size_, u8* pu8Data_);
+
+bool SpiReadByte(SpiPeripheralType* psSpiPeripheral_);
+bool SpiReadData(SpiPeripheralType* psSpiPeripheral_, u16 u16Size_);
+SpiRxStatusType SpiQueryReceiveStatus(SpiPeripheralType* psSpiPeripheral_);
 
 
 /*-------------------------------------------------------------------------------------------------------------------*/

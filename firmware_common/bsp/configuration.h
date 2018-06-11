@@ -551,7 +551,7 @@ Blade SPI Setup
 SPI mode to communicate with a Slave device on the Blade connector. 
 */
 /* SPI Control Register */
-#define BLADE_SPI_CR_INIT (u32)0x00000001
+#define BLADE_SPI_CR_INIT (u32)0x00000002
 /*
     31 - 28 [0] Reserved
 
@@ -569,8 +569,8 @@ SPI mode to communicate with a Slave device on the Blade connector.
 
     03 [0] Reserved
     02 [0] "
-    01 [0] SPIDIS SPI not disabled
-    00 [1] SPIEN SPI enabled
+    01 [1] SPIDIS SPI disabled for now
+    00 [0] SPIEN SPI not enabled yet
 */
 
 /* SPI Mode Register */
@@ -615,19 +615,19 @@ SPI mode to communicate with a Slave device on the Blade connector.
     31 - 12 [0] Reserved 
 
     11 [0] Reserved
-    10 [0] UNDES
-    09 [0] TXEMPTY
-    08 [0] NSSR
+    10 [0] UNDES not enabled
+    09 [0] TXEMPTY not enabled
+    08 [0] NSSR not enabled
 
     07 [0] Reserved
     06 [0] "
     05 [0] "
     04 [0] "
 
-    03 [0] OVRES
-    02 [0] MODF
-    01 [0] TDRE
-    00 [0] RDRF
+    03 [0] OVRES not enabled
+    02 [0] MODF not enabled
+    01 [0] TDRE not enabled yet
+    00 [0] RDRF not enabled yet
 */
 
 /* SPI Interrupt Disable Register  */

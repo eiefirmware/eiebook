@@ -68,8 +68,6 @@ static u32 SPI_u32Flags;                         /*!< @brief Application flags f
 
 static SpiPeripheralType SPI_Peripheral0;        /*!< @brief SPI peripheral object */
 
-static u8 SPI_u8Dummies = SPI_DUMMY_BYTE;        /*!< @brief Dummy source byte */
-
 
 /***********************************************************************************************************************
 Function Definitions
@@ -114,55 +112,52 @@ Promises:
 SpiPeripheralType* SpiRequest(SpiConfigurationType* psSpiConfig_)
 {
   /* If the peripheral is already assigned, return NULL now */
-  if( (SPI_Peripheral0->u32PrivateFlags) & _SPI_PERIPHERAL_ASSIGNED )
+  if( (SPI_Peripheral0.u32PrivateFlags) & _SPI_PERIPHERAL_ASSIGNED )
   {
     return(NULL);
   }
 
   /* Activate and configure the peripheral */
-  AT91C_BASE_PMC->PMC_PCER |= (1 << SPI_Peripheral0->u8PeripheralId);
+  AT91C_BASE_PMC->PMC_PCER |= (1 << SPI_Peripheral0.u8PeripheralId);
   
-  SPI_Peripheral0->pCsGpioAddress   = psSpiConfig_->pCsGpioAddress;
-  SPI_Peripheral0->u32CsPin         = psSpiConfig_->u32CsPin;
-  SPI_Peripheral0->eBitOrder        = psSpiConfig_->eBitOrder;
-  SPI_Peripheral0->eSpiMode         = psSpiConfig_->eSpiMode;
-  SPI_Peripheral0->pu8RxBuffer      = psSpiConfig_->pu8RxBufferAddress;
-  SPI_Peripheral0->ppu8RxNextByte   = psSpiConfig_->ppu8RxNextByte;
-  SPI_Peripheral0->u16RxBufferSize  = psSpiConfig_->u16RxBufferSize;
-  SPI_Peripheral0->u32PrivateFlags |= _SPI_PERIPHERAL_ASSIGNED;
+  SPI_Peripheral0.pCsGpioAddress   = psSpiConfig_->pCsGpioAddress;
+  SPI_Peripheral0.u32CsPin         = psSpiConfig_->u32CsPin;
+  SPI_Peripheral0.eBitOrder        = psSpiConfig_->eBitOrder;
+  SPI_Peripheral0.eSpiMode         = psSpiConfig_->eSpiMode;
+  SPI_Peripheral0.pu8RxBuffer      = psSpiConfig_->pu8RxBufferAddress;
+  SPI_Peripheral0.ppu8RxNextByte   = psSpiConfig_->ppu8RxNextByte;
+  SPI_Peripheral0.u16RxBufferSize  = psSpiConfig_->u16RxBufferSize;
+  SPI_Peripheral0.u32PrivateFlags |= _SPI_PERIPHERAL_ASSIGNED;
    
-  SPI_Peripheral0->pBaseAddress->SPI_CR  = SPI0_CR_INIT;
-  SPI_Peripheral0->pBaseAddress->SPI_MR  = SPI0_MR_INIT;
-  SPI_Peripheral0->pBaseAddress->SPI_IER = SPI0_IER_INIT;
-  SPI_Peripheral0->pBaseAddress->SPI_IDR = SPI0_IDR_INIT;
+  SPI_Peripheral0.pBaseAddress->SPI_CR  = SPI0_CR_INIT;
+  SPI_Peripheral0.pBaseAddress->SPI_MR  = SPI0_MR_INIT;
+  SPI_Peripheral0.pBaseAddress->SPI_IER = SPI0_IER_INIT;
+  SPI_Peripheral0.pBaseAddress->SPI_IDR = SPI0_IDR_INIT;
 
-  SPI_Peripheral0->pBaseAddress->SPI_CSR[0] = SPI0_CSR0_INIT;
-  SPI_Peripheral0->pBaseAddress->SPI_CSR[1] = SPI0_CSR1_INIT;
-  SPI_Peripheral0->pBaseAddress->SPI_CSR[2] = SPI0_CSR2_INIT;
-  SPI_Peripheral0->pBaseAddress->SPI_CSR[3] = SPI0_CSR3_INIT;
+  SPI_Peripheral0.pBaseAddress->SPI_CSR[0] = SPI0_CSR0_INIT;
+  SPI_Peripheral0.pBaseAddress->SPI_CSR[1] = SPI0_CSR1_INIT;
+  SPI_Peripheral0.pBaseAddress->SPI_CSR[2] = SPI0_CSR2_INIT;
+  SPI_Peripheral0.pBaseAddress->SPI_CSR[3] = SPI0_CSR3_INIT;
   
   /* Special considerations for SPI Slaves */
-  if(SPI_Peripheral0->eSpiMode == SPI_SLAVE)
+  if(SPI_Peripheral0.eSpiMode == SPI_SLAVE)
   {
-    /* Initialize the receive buffer to dummies */
-    for (u16 i = 0; i < SPI_Peripheral0->u16RxBufferSize; i++)
-    {
-      *(SPI_Peripheral0->pu8RxBuffer + i) = SPI_DUMMY_BYTE;
-    }
+    /* Initialize the receive buffer to dummies and set up a dummy transfer */
+    memset(SPI_Peripheral0.pu8RxBuffer, SPI_DUMMY_BYTE, SPI_Peripheral0.u16RxBufferSize);
+    SPI_Peripheral0.u32CurrentTxBytesRemaining = SPI_Peripheral0.u16RxBufferSize;
+    SPI_Peripheral0.pu8CurrentTxData = SPI_Peripheral0.pu8RxBuffer;
+    SPI_Peripheral0.pBaseAddress->SPI_TDR = *SPI_Peripheral0.pu8CurrentTxData;
 
-    /* Set up a dummy transfer */
-    SPI_Peripheral0->pu8CurrentTxData = SPI_Peripheral0->pu8RxBuffer;
-    SPI_Peripheral0->pBaseAddress->SPI_TDR = *SPI_Peripheral0->pu8CurrentTxData;
-
-    /* Enable the transmit and receive interrupts so they are ready if the Master starts clocking */
-    SPI_Peripheral0->pBaseAddress->SPI_IER = (AT91C_SPI_TDRE | AT91C_SPI_RDRF);
+    /* Enable the transmit and receive interrupts and the SPI peripheral in case the Master starts clocking */
+    SPI_Peripheral0.pBaseAddress->SPI_IER = (AT91C_SPI_TDRE | AT91C_SPI_RDRF);
+    SPI_Peripheral0.pBaseAddress->SPI_CR = AT91C_SPI_SPIEN;
   }
   
   /* Enable SPI interrupts */
-  NVIC_ClearPendingIRQ( (IRQn_Type)SPI_Peripheral0->u8PeripheralId );
-  NVIC_EnableIRQ( (IRQn_Type)SPI_Peripheral0->u8PeripheralId );
+  NVIC_ClearPendingIRQ( (IRQn_Type)SPI_Peripheral0.u8PeripheralId );
+  NVIC_EnableIRQ( (IRQn_Type)SPI_Peripheral0.u8PeripheralId );
   
-  return(SPI_Peripheral0);
+  return(&SPI_Peripheral0);
   
 } /* end SpiRequest() */
 
@@ -400,7 +395,7 @@ SpiRxStatusType SpiQueryReceiveStatus(SpiPeripheralType* psSpiPeripheral_)
   /* Check for no current bytes queued */
   if(psSpiPeripheral_->u16RxBytes == 0)
   {
-    /* If a transfer just finished and has not be queried... */
+    /* If a transfer is finished and has not be queried... */
     if( psSpiPeripheral_->u32PrivateFlags & _SPI_PERIPHERAL_RX_COMPLETE)
     {
       psSpiPeripheral_->u32PrivateFlags &= ~_SPI_PERIPHERAL_RX_COMPLETE;
@@ -537,57 +532,101 @@ Promises:
   See each section for more details.
 
 */
-static void SPI0_IrqHandler(void)
+void SPI0_IrqHandler(void)
 {
   u32 u32Byte;
-  u32 u32Timeout;
-  u32 u32Current_CSR;
+  u32 u32Current_SR;
 
-  /* Get a copy of CSR because reading it changes it */
-  u32Current_SR = SPI_Peripheral0->pBaseAddress->SPI_SR;
+  /* Get a copy of SR */
+  u32Current_SR = SPI_Peripheral0.pBaseAddress->SPI_SR;
+
+  /*** SPI ISR receive handling (RDRF) for Master and Slave ***/
+  if( (SPI_Peripheral0.pBaseAddress->SPI_IMR & AT91C_SPI_RDRF) && 
+      (u32Current_SR & AT91C_SPI_RDRF) )
+  {
+    /* Master mode has special conditions since it knows it is receiving a known number of bytes */
+    if(SPI_Peripheral0.eSpiMode == SPI_MASTER) 
+    {
+      /* Decrement counter and read the byte */
+      SPI_Peripheral0.u16RxBytes--;
+      
+      /* Check if reception is complete */
+      if(SPI_Peripheral0.u16RxBytes == 0)
+      {
+        /* Reset the byte counter and clear the RX flag */
+        SPI_Peripheral0.u32PrivateFlags &= ~_SSP_PERIPHERAL_RX;
+        SPI_Peripheral0.u32PrivateFlags |=  _SSP_PERIPHERAL_RX_COMPLETE;
+             
+        /* Disable the receive interrupt */
+        SPI_Peripheral0.pBaseAddress->SPI_IDR = AT91C_SPI_RDRF;
+
+        /* Disable the SPI peripheral to since the transfer must now be complete */
+        SPI_Peripheral0.pBaseAddress->SPI_CR = AT91C_SPI_SPIDIS;
+        
+      }
+    }
+        
+    /* Common receive functionality */
+      
+    /* Read the received byte */
+    u32Byte = 0x000000FF & SPI_Peripheral0.pBaseAddress->SPI_RDR;
+
+    /* If we need LSB first, use inline assembly to flip bits with a single instruction. */
+    if(SPI_Peripheral0.eBitOrder == SPI_LSB_FIRST)
+    {
+      u32Byte = __RBIT(u32Byte) >> 24;
+    }
+
+    /* Put the byte in the client's Rx buffer */
+    **(SPI_Peripheral0.ppu8RxNextByte) = u32Byte; // CHECK
+
+    /* Update the pointer to the next valid Rx location (account for Slave's circular buffer) */
+    *(SPI_Peripheral0.ppu8RxNextByte)++;
+    if(*(SPI_Peripheral0.ppu8RxNextByte) == (SPI_Peripheral0.pu8RxBuffer + (u32)SPI_Peripheral0.u16RxBufferSize) )
+    {
+      *(SPI_Peripheral0.ppu8RxNextByte) = SPI_Peripheral0.pu8RxBuffer;  
+    }
+    
+  } /* end AT91C_SPI_RDRF handling */
+
 
   /*** SPI ISR transmit handling (TDRE) for Master and Slave ***/
-  if( (SPI_Peripheral0->pBaseAddress->SPI_IMR & AT91C_SPI_TDRE) && 
-      (u32Current_CSR & AT91C_SPI_TDRE) )
+  if( (SPI_Peripheral0.pBaseAddress->SPI_IMR & AT91C_SPI_TDRE) && 
+      (u32Current_SR & AT91C_SPI_TDRE) )
   {
-    /* Decrement counter and read the dummy byte so the SPI peripheral doesn't overrun */
-    SPI_Peripheral0->u32CurrentTxBytesRemaining--;
-    u32Byte = SPI_psCurrentISR->pBaseAddress->US_RHR;
-    
-    if(SPI_Peripheral0->u32CurrentTxBytesRemaining != 0)
+    /* Decrement counter and check if Tx is complete */
+    SPI_Peripheral0.u32CurrentTxBytesRemaining--;
+    if(SPI_Peripheral0.u32CurrentTxBytesRemaining != 0)
     {
       /* Advance the pointer (non-circular buffer)and load the next byte */
-      SPI_Peripheral0->pu8CurrentTxData++;
-      u32Byte = 0x000000FF & *SPI_psCurrentISR->pu8CurrentTxData;
+      SPI_Peripheral0.pu8CurrentTxData++;
+      u32Byte = 0x000000FF & *SPI_Peripheral0.pu8CurrentTxData;
 
       /* If we need LSB first, use inline assembly to flip bits with a single instruction. */
-      if(SPI_Peripheral0->eBitOrder == SPI_LSB_FIRST)
+      if(SPI_Peripheral0.eBitOrder == SPI_LSB_FIRST)
       {
         u32Byte = __RBIT(u32Byte) >> 24;
       }
     
-      /* Load register and clear interrupt flag */
-      SPI_Peripheral0->pBaseAddress->SPI_TDR = (u8)u32Byte; 
+      /* Load register (clears interrupt flag) */
+      SPI_Peripheral0.pBaseAddress->SPI_TDR = (u8)u32Byte; 
     }
     else
     {
       /* Done! Disable TX interrupt */
-      SPI_Peripheral0->pBaseAddress->US_IDR = AT91C_US_TXEMPTY;
+      SPI_Peripheral0.pBaseAddress->SPI_IDR = AT91C_SPI_TDRE;
       
-      /* Clean up the message status and flags */
-      *SPI_pu32SpiApplicationFlagsISR |= _SPI_TX_COMPLETE; 
-      UpdateMessageStatus(SPI_psCurrentISR->psTransmitBuffer->u32Token, COMPLETE);
-      DeQueueMessage(&SPI_psCurrentISR->psTransmitBuffer);
-      SPI_psCurrentISR->u32PrivateFlags &= ~_SPI_PERIPHERAL_TX;  
- 
-      /* Re-enable Rx interrupt and make final call to callback */    
-      SPI_psCurrentISR->pBaseAddress->US_IER = AT91C_US_RXRDY;
+      /* If this was a transmit operation, clean up the message status and flags */
+      if(SPI_Peripheral0.u32PrivateFlags & _SPI_PERIPHERAL_TX)
+      {
+        SPI_Peripheral0.u32PrivateFlags &= ~_SPI_PERIPHERAL_TX;  
+        G_u32Spi0ApplicationFlags |= _SPI_TX_COMPLETE; 
+        UpdateMessageStatus(SPI_Peripheral0.psTransmitBuffer->u32Token, COMPLETE);
+        DeQueueMessage(&SPI_Peripheral0.psTransmitBuffer);
+      }
     }
     
-    /* Both cases use the callback */
-    SPI_psCurrentISR->fnSlaveTxFlowCallback();
-    
-  } /* end AT91C_US_TXEMPTY */
+  } /* end AT91C_SPI_TDRE */
 
   
 } /* end SPI0_IrqHandler() */
@@ -618,91 +657,70 @@ Half duplex transmissions are always assumed. Check one peripheral per iteration
 */
 static void SpiSM_Idle(void)
 {
-  if( ( (SPI_Peripheral0->psTransmitBuffer != NULL) || (SPI_Peripheral0->u16RxBytes !=0) ) && 
-     !(SPI_Peripheral0->u32PrivateFlags & (_SPI_PERIPHERAL_TX | _SPI_PERIPHERAL_RX)       ) 
+  u32 u32Byte;
+
+  if( ( (SPI_Peripheral0.psTransmitBuffer != NULL) || (SPI_Peripheral0.u16RxBytes !=0) ) && 
+     !(SPI_Peripheral0.u32PrivateFlags & (_SPI_PERIPHERAL_TX | _SPI_PERIPHERAL_RX) ) 
     )
   {
-    /* Check if the message is receiving based on expected byte count */
-    if(SPI_Peripheral0->u16RxBytes !=0)
+    /* Receiving (Master only): Check if the message is receiving based on expected byte count.
+    Do not need to check for Master because a Slave is not allowed to change u16RxBytes. */
+    if(SPI_Peripheral0.u16RxBytes !=0)
     {
       /* Receiving: flag that the peripheral is now busy */
-      SPI_Peripheral0->u32PrivateFlags |= _SPI_PERIPHERAL_RX;    
+      SPI_Peripheral0.u32PrivateFlags |= _SPI_PERIPHERAL_RX;    
       
       /* Initialize the receive buffer so we can see data changes but also so we send
       predictable dummy bytes since we'll point to this buffer to source the transmit dummies */
-      memset(SPI_Peripheral0->pu8RxBuffer, SPI_DUMMY_BYTE, SPI_Peripheral0->u16RxBufferSize);
-
-      /* Load the PDC counter and pointer registers */
-      SPI_Peripheral0->pBaseAddress->US_RPR = (unsigned int)SPI_Peripheral0->pu8RxBuffer; 
-      SPI_Peripheral0->pBaseAddress->US_TPR = (unsigned int)SPI_Peripheral0->pu8RxBuffer; 
-      SPI_Peripheral0->pBaseAddress->US_RCR = SPI_Peripheral0->u16RxBytes;
-      SPI_Peripheral0->pBaseAddress->US_TCR = SPI_Peripheral0->u16RxBytes;
-
-      /* When RCR is loaded, the ENDRX flag is cleared so it is safe to enable the interrupt */
-      SPI_Peripheral0->pBaseAddress->US_IER = AT91C_US_ENDRX;
+      memset(SPI_Peripheral0.pu8RxBuffer, SPI_DUMMY_BYTE, SPI_Peripheral0.u16RxBufferSize);
       
-      /* Enable the receiver and transmitter to start the transfer */
-      SPI_Peripheral0->pBaseAddress->US_PTCR = AT91C_PDC_RXTEN | AT91C_PDC_TXTEN;
+      /* Transmit drives the receive operation, so set it up */
+      SPI_Peripheral0.u32CurrentTxBytesRemaining = SPI_Peripheral0.u16RxBytes;
+      SPI_Peripheral0.pu8CurrentTxData = SPI_Peripheral0.pu8RxBuffer;
+      SPI_Peripheral0.pBaseAddress->SPI_TDR = *SPI_Peripheral0.pu8CurrentTxData;
       
-    } /* End of receive function */
+      /* Make sure RDR is clear then enable the transmit and receive interrupts */
+      u32Byte = SPI_Peripheral0.pBaseAddress->SPI_RDR;
+      SPI_Peripheral0.pBaseAddress->SPI_IER = (AT91C_SPI_TDRE | AT91C_SPI_RDRF);
+
+      /* Enable the SPI peripheral to start the transfer */
+      SPI_Peripheral0.pBaseAddress->SPI_CR = AT91C_SPI_SPIEN;
+      
+    } /* end of receive function */
     else
     {
       /* Transmitting: update the message's status and flag that the peripheral is now busy */
-      UpdateMessageStatus(SPI_Peripheral0->psTransmitBuffer->u32Token, SENDING);
-      SPI_Peripheral0->u32PrivateFlags |= _SPI_PERIPHERAL_TX;    
+      UpdateMessageStatus(SPI_Peripheral0.psTransmitBuffer->u32Token, SENDING);
+      SPI_Peripheral0.u32PrivateFlags |= _SPI_PERIPHERAL_TX;    
       
-      /* TRANSMIT SPI_SPI_SLAVE_FLOW_CONTROL */ 
-      if(SPI_Peripheral0->eSpiMode == SPI_SLAVE_FLOW_CONTROL)
+      /* Load in the message parameters. */
+      SPI_Peripheral0.u32CurrentTxBytesRemaining = SPI_Peripheral0.psTransmitBuffer->u32Size;
+      SPI_Peripheral0.pu8CurrentTxData = SPI_Peripheral0.psTransmitBuffer->pu8Message;
+       
+      /* Load first byte.  If we need LSB first, use inline assembly to flip bits with a single instruction. */
+      u32Byte = 0x000000FF &  *SPI_Peripheral0.pu8CurrentTxData;
+      if(SPI_Peripheral0.eBitOrder == SPI_LSB_FIRST)
       {
-        /* A Slave device with flow control uses interrupt-driven single byte transfers.
-        CS must be asserted for the Slave to have queued data to get to here. */
-
-        /* Load in the message parameters. */
-        SPI_Peripheral0->u32CurrentTxBytesRemaining = SPI_Peripheral0->psTransmitBuffer->u32Size;
-        SPI_Peripheral0->pu8CurrentTxData = SPI_Peripheral0->psTransmitBuffer->pu8Message;
-
-        /* If we need LSB first, use inline assembly to flip bits with a single instruction. */
-        u32Byte = 0x000000FF & *SPI_Peripheral0->pu8CurrentTxData;
-        if(SPI_Peripheral0->eBitOrder == SPI_LSB_FIRST)
-        {
-          u32Byte = __RBIT(u32Byte)>>24;
-        }
-        
-        /* This driver assumes half-duplex comms, so disable RX interrupt for now */
-        SPI_Peripheral0->pBaseAddress->US_IDR = AT91C_US_RXRDY;
-        
-        /* Reset the transmitter since we have not been managing dummy bytes and it tends to be
-        in the middle of a transmission or something that causes the wrong byte to get sent (at least on startup). */
-        SPI_Peripheral0->pBaseAddress->US_CR = (AT91C_US_RSTTX);
-        SPI_Peripheral0->pBaseAddress->US_CR = (AT91C_US_TXEN);
-        SPI_Peripheral0->pBaseAddress->US_THR = (u8)u32Byte;
-        SPI_Peripheral0->pBaseAddress->US_IER = AT91C_US_TXEMPTY;
-        
-        /* Trigger the callback which should provide flow-control to start transmitting */
-        SPI_Peripheral0->fnSlaveTxFlowCallback();
+        u32Byte = __RBIT(u32Byte) >> 24;
       }
       
-      /* TRANSMIT SPI_MASTER_AUTO_CS, SPI_MASTER_MANUAL_CS, SPI_SLAVE (no flow control) */
-      /* A Master or Slave device without flow control uses the PDC */
-      else
-      {
-        /* Load the PDC counter and pointer registers.  The "Next" pointers are never changed and will
-        always point to SPI_u8Dummies with length 1.  */
-        SPI_Peripheral0->pBaseAddress->US_TPR = (unsigned int)SPI_Peripheral0->psTransmitBuffer->pu8Message; 
-        SPI_Peripheral0->pBaseAddress->US_TCR = SPI_Peripheral0->psTransmitBuffer->u32Size;
-   
-        /* When TCR is loaded, the ENDTX flag is cleared so it is safe to enable the interrupt */
-        SPI_Peripheral0->pBaseAddress->US_IER = AT91C_US_ENDTX;
-        
-        /* Enable the transmitter to start the transfer */
-        SPI_Peripheral0->pBaseAddress->US_PTCR = AT91C_PDC_TXTEN;
-      }
-    } /* End of transmitting function */
-  }
+      /* Load SPI transmit register (clears interrupt flag) */
+      SPI_Peripheral0.pBaseAddress->SPI_TDR = (u8)u32Byte; 
+ 
+      /* When TDR is loaded, the TDRE flag is cleared so it is safe to enable the interrupt */
+      SPI_Peripheral0.pBaseAddress->SPI_IER = AT91C_SPI_TDRE;
+      
+      /* Enable the SPI peripheral to start the transfer */
+      SPI_Peripheral0.pBaseAddress->SPI_CR = AT91C_SPI_SPIEN;
+      
+    } /* end of transmitting function */
+    
+  } /* end if */
   
 } /* end SpiSM_Idle() */
 
 
+#if 0
 /*!-------------------------------------------------------------------------------------------------------------------
 @fn static void SpiSM_Error(void)          
 
@@ -714,7 +732,7 @@ static void SpiSM_Error(void)
   Spi_pfnStateMachine = SpiSM_Idle;
   
 } /* end SpiSM_Error() */
-
+#endif
         
 
 
