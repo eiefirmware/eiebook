@@ -137,8 +137,11 @@ Includes
 /* %SPI% Configuration */
 
 /* %SPI% Blade SPI Peripheral Allocation (SPI0) */
-#define BLASE_BASE_PORT             AT91C_BASE_PIOA
+#define BLADE_BASE_PORT             AT91C_BASE_PIOA
 #define BLADE_CS_PIN                PA_16_BLADE_CS
+#define BLADE_SPI_FLAGS             G_u32Spi0ApplicationFlags
+#define BLADE_SPI_PERIPHERAL        AT91C_ID_SPI0
+
 #define SPI0_CR_INIT                BLADE_SPI_CR_INIT
 #define SPI0_MR_INIT                BLADE_SPI_MR_INIT
 #define SPI0_IER_INIT               BLADE_SPI_IER_INIT
@@ -149,7 +152,6 @@ Includes
 #define SPI0_CSR3_INIT              BLADE_SPI_CSR3_INIT
 
 #define SPI0_IRQHandler             SPI0_IrqHandler
-#define BLADE_SPI_PERIPHERAL        AT91C_ID_SPI0
 
 
 /* %SSP% Configuration */
@@ -647,7 +649,7 @@ Delay = (32 x DLYBCT) / MCK
 DLYBCT = (3us x 48MHz) / 32
 DLYBCT = 4.5 (round up to 5)
 */
-#define BLADE_SPI_CSR0_INIT (u32)0x05303003
+#define BLADE_SPI_CSR0_INIT (u32)0x05303001
 /*
     31 [0] DLYBCT Delay between transfers = 5 (0x05)
     30 [0] "
@@ -686,16 +688,16 @@ DLYBCT = 4.5 (round up to 5)
 
     03 [0] CSAAT CS rises after data tranfer
     02 [0] CSNAAT CS not active after transfer 
-    01 [1] NCPHA Clock phase leading edge
+    01 [0] NCPHA Clock phase leading edge
     00 [1] CPOL Clock polarity high when inactive
 */
 
 /*! @endcond */
 
 /* Only a single Slave is used, so other CSRs are the same as CSR0 */
-#define BLADE_SPI_CSR1_INIT (u32)0x05303003
-#define BLADE_SPI_CSR2_INIT (u32)0x05303003
-#define BLADE_SPI_CSR3_INIT (u32)0x05303003
+#define BLADE_SPI_CSR1_INIT (u32)0x05303001
+#define BLADE_SPI_CSR2_INIT (u32)0x05303001
+#define BLADE_SPI_CSR3_INIT (u32)0x05303001
 
 
 /*----------------------------------------------------------------------------------------------------------------------

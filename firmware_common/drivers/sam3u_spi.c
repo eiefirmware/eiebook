@@ -20,8 +20,6 @@ TYPES
 PUBLIC FUNCTIONS
 - SpiPeripheralType* SpiRequest(SpiConfigurationType* psSpiConfig_)
 - void SpiRelease(SpiPeripheralType* psSpiPeripheral_)
-- void SpiAssertCS(SpiPeripheralType* psSpiPeripheral_)
-- void SpiDeAssertCS(SpiPeripheralType* psSpiPeripheral_)
 - u32 SpiWriteByte(SpiPeripheralType* psSpiPeripheral_, u8 u8Byte_)
 - u32 SpiWriteData(SpiPeripheralType* psSpiPeripheral_, u32 u32Size_, u8* pu8Data_)
 
@@ -143,7 +141,7 @@ SpiPeripheralType* SpiRequest(SpiConfigurationType* psSpiConfig_)
   if(SPI_Peripheral0.eSpiMode == SPI_SLAVE)
   {
     /* Initialize the receive buffer to dummies and set up a dummy transfer */
-    memset(SPI_Peripheral0.pu8RxBuffer, SPI_DUMMY_BYTE, SPI_Peripheral0.u16RxBufferSize);
+    memset(SPI_Peripheral0.pu8RxBuffer, SPI_DUMMY, SPI_Peripheral0.u16RxBufferSize);
     SPI_Peripheral0.u32CurrentTxBytesRemaining = SPI_Peripheral0.u16RxBufferSize;
     SPI_Peripheral0.pu8CurrentTxData = SPI_Peripheral0.pu8RxBuffer;
     SPI_Peripheral0.pBaseAddress->SPI_TDR = *SPI_Peripheral0.pu8CurrentTxData;
@@ -544,8 +542,9 @@ void SPI0_IrqHandler(void)
   if( (SPI_Peripheral0.pBaseAddress->SPI_IMR & AT91C_SPI_RDRF) && 
       (u32Current_SR & AT91C_SPI_RDRF) )
   {
-    /* Master mode has special conditions since it knows it is receiving a known number of bytes */
-    if(SPI_Peripheral0.eSpiMode == SPI_MASTER) 
+    /* Master mode has special conditions if receiving a known number of bytes */
+    if( (SPI_Peripheral0.eSpiMode == SPI_MASTER) &&
+        (SPI_Peripheral0.u32PrivateFlags & _SPI_PERIPHERAL_RX) )
     {
       /* Decrement counter and read the byte */
       SPI_Peripheral0.u16RxBytes--;
@@ -560,9 +559,8 @@ void SPI0_IrqHandler(void)
         /* Disable the receive interrupt */
         SPI_Peripheral0.pBaseAddress->SPI_IDR = AT91C_SPI_RDRF;
 
-        /* Disable the SPI peripheral to since the transfer must now be complete */
+        /* Disable the SPI peripheral since the transfer must now be complete */
         SPI_Peripheral0.pBaseAddress->SPI_CR = AT91C_SPI_SPIDIS;
-        
       }
     }
         
@@ -578,15 +576,14 @@ void SPI0_IrqHandler(void)
     }
 
     /* Put the byte in the client's Rx buffer */
-    **(SPI_Peripheral0.ppu8RxNextByte) = u32Byte; // CHECK
+    **(SPI_Peripheral0.ppu8RxNextByte) = (u8)u32Byte; 
 
     /* Update the pointer to the next valid Rx location (account for Slave's circular buffer) */
-    *(SPI_Peripheral0.ppu8RxNextByte)++;
-    if(*(SPI_Peripheral0.ppu8RxNextByte) == (SPI_Peripheral0.pu8RxBuffer + (u32)SPI_Peripheral0.u16RxBufferSize) )
+    (*SPI_Peripheral0.ppu8RxNextByte)++;
+    if( *SPI_Peripheral0.ppu8RxNextByte == (SPI_Peripheral0.pu8RxBuffer + (u32)SPI_Peripheral0.u16RxBufferSize) )
     {
-      *(SPI_Peripheral0.ppu8RxNextByte) = SPI_Peripheral0.pu8RxBuffer;  
+      *SPI_Peripheral0.ppu8RxNextByte = SPI_Peripheral0.pu8RxBuffer;  
     }
-    
   } /* end AT91C_SPI_RDRF handling */
 
 
@@ -625,9 +622,7 @@ void SPI0_IrqHandler(void)
         DeQueueMessage(&SPI_Peripheral0.psTransmitBuffer);
       }
     }
-    
   } /* end AT91C_SPI_TDRE */
-
   
 } /* end SPI0_IrqHandler() */
 
@@ -636,8 +631,6 @@ void SPI0_IrqHandler(void)
 /*----------------------------------------------------------------------------------------------------------------------*/
 /*! @privatesection */                                                                                            
 /*----------------------------------------------------------------------------------------------------------------------*/
-
-
 
 
 /***********************************************************************************************************************
@@ -672,19 +665,20 @@ static void SpiSM_Idle(void)
       
       /* Initialize the receive buffer so we can see data changes but also so we send
       predictable dummy bytes since we'll point to this buffer to source the transmit dummies */
-      memset(SPI_Peripheral0.pu8RxBuffer, SPI_DUMMY_BYTE, SPI_Peripheral0.u16RxBufferSize);
+      memset(SPI_Peripheral0.pu8RxBuffer, SPI_DUMMY, SPI_Peripheral0.u16RxBufferSize);
       
       /* Transmit drives the receive operation, so set it up */
       SPI_Peripheral0.u32CurrentTxBytesRemaining = SPI_Peripheral0.u16RxBytes;
       SPI_Peripheral0.pu8CurrentTxData = SPI_Peripheral0.pu8RxBuffer;
       SPI_Peripheral0.pBaseAddress->SPI_TDR = *SPI_Peripheral0.pu8CurrentTxData;
       
+      /* Enable the SPI peripheral */
+      SPI_Peripheral0.pBaseAddress->SPI_CR = AT91C_SPI_SPIEN;
+
       /* Make sure RDR is clear then enable the transmit and receive interrupts */
       u32Byte = SPI_Peripheral0.pBaseAddress->SPI_RDR;
       SPI_Peripheral0.pBaseAddress->SPI_IER = (AT91C_SPI_TDRE | AT91C_SPI_RDRF);
 
-      /* Enable the SPI peripheral to start the transfer */
-      SPI_Peripheral0.pBaseAddress->SPI_CR = AT91C_SPI_SPIEN;
       
     } /* end of receive function */
     else
@@ -703,15 +697,11 @@ static void SpiSM_Idle(void)
       {
         u32Byte = __RBIT(u32Byte) >> 24;
       }
-      
-      /* Load SPI transmit register (clears interrupt flag) */
-      SPI_Peripheral0.pBaseAddress->SPI_TDR = (u8)u32Byte; 
- 
-      /* When TDR is loaded, the TDRE flag is cleared so it is safe to enable the interrupt */
-      SPI_Peripheral0.pBaseAddress->SPI_IER = AT91C_SPI_TDRE;
-      
-      /* Enable the SPI peripheral to start the transfer */
+       
+      /* Enable the SPI peripheral, load the byte, then enable interrupts */
       SPI_Peripheral0.pBaseAddress->SPI_CR = AT91C_SPI_SPIEN;
+      SPI_Peripheral0.pBaseAddress->SPI_TDR = (u8)u32Byte; 
+      SPI_Peripheral0.pBaseAddress->SPI_IER = (AT91C_SPI_TDRE | AT91C_SPI_RDRF);
       
     } /* end of transmitting function */
     

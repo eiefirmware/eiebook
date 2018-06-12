@@ -1260,6 +1260,7 @@ static void SspSM_Idle(void)
 } /* end SspSM_Idle() */
 
 
+#if 0
 /*!-------------------------------------------------------------------------------------------------------------------
 @fn static void SspSM_Error(void)          
 
@@ -1271,7 +1272,7 @@ static void SspSM_Error(void)
   Ssp_pfnStateMachine = SspSM_Idle;
   
 } /* end SspSM_Error() */
-
+#endif
         
 
         

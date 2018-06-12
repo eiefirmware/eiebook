@@ -97,7 +97,7 @@ Constants / Definitions
 #define SPI_ERROR_FLAG_MASK           (u32)0xFF000000    /*!< @brief AND to SPI_u32Flags to get just error flags */
 /* end of SPI_u32Flags flags */
 
-#define SPI_DUMMY_BYTE                (u8)0xAA           /*!< @brief Byte to send for dummy */
+#define SPI_DUMMY                     (u8)0xAA           /*!< @brief Byte to send for dummy */
 
 #define SPI_TXEMPTY_TIMEOUT           (u32)100           /*!< @brief Instruction cycles of a while loop that waits for a register to clear */
 

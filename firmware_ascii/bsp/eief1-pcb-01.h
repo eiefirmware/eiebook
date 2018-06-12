@@ -613,7 +613,7 @@ Configures the pin as an output or input.
 
     23 [0] PA_23_ANT_USPI2_MOSI input
     22 [0] PA_22_ANT_USPI2_MISO output peripheral
-    21 [0] PA_21_SD_USPI1_MISO input input
+    21 [0] PA_21_SD_USPI1_MISO input 
     20 [0] PA_20_SD_USPI1_MOSI output peripheral
 
     19 [0] PA_19_DEBUG_U0_PIMO input
