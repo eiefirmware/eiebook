@@ -58,6 +58,8 @@ void main(void)
   SpiInitialize();
   SspInitialize();
   TwiInitialize();
+=======
+>>>>>>> cd37191cf57757d5ed063b46395e971b6bd59042
 
   LcdInitialize();
   LedInitialize();
@@ -85,6 +87,8 @@ void main(void)
     SpiRunActiveState();
     SspRunActiveState();
     TwiRunActiveState();
+=======
+>>>>>>> cd37191cf57757d5ed063b46395e971b6bd59042
     MessagingRunActiveState();
     DebugRunActiveState();
     LcdRunActiveState();

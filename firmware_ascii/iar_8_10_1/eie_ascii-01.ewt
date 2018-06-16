@@ -2378,6 +2378,8 @@
                 <name>$PROJ_DIR$\..\..\firmware_common\drivers\sam3u_i2c.h</name>
             </file>
             <file>
+=======
+>>>>>>> cd37191cf57757d5ed063b46395e971b6bd59042
                 <name>$PROJ_DIR$\..\..\firmware_common\drivers\sam3u_spi.h</name>
             </file>
             <file>
@@ -2417,6 +2419,8 @@
                 <name>$PROJ_DIR$\..\..\firmware_common\drivers\sam3u_i2c.c</name>
             </file>
             <file>
+=======
+>>>>>>> cd37191cf57757d5ed063b46395e971b6bd59042
                 <name>$PROJ_DIR$\..\..\firmware_common\drivers\sam3u_spi.c</name>
             </file>
             <file>

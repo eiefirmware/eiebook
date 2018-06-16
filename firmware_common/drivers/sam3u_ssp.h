@@ -26,10 +26,18 @@ typedef enum {SSP_MASTER_AUTO_CS, SSP_MASTER_MANUAL_CS, SSP_SLAVE, SSP_SLAVE_FLO
 
 /*! 
 @enum SspRxStatusType
+<<<<<<< HEAD
 @brief Controlled list of SSP Rx peripheral status. 
 */
 typedef enum {SSP_RX_EMPTY = 0, SSP_RX_WAITING, SSP_RX_RECEIVING, SSP_RX_COMPLETE, SSP_RX_TIMEOUT, SSP_RX_INVALID} SspRxStatusType;
 
+=======
+@brief Controlled list of SSP peripheral Rx status. 
+*/
+typedef enum {SSP_RX_EMPTY = 0, SSP_RX_WAITING, SSP_RX_RECEIVING, SSP_RX_COMPLETE, SSP_RX_TIMEOUT, SSP_RX_INVALID} SspRxStatusType;
+
+
+>>>>>>> cd37191cf57757d5ed063b46395e971b6bd59042
 /*! 
 @struct SspConfigurationType
 @brief User-defined SSP configuration information 
@@ -39,12 +47,21 @@ typedef struct
   PeripheralType SspPeripheral;       /*!< @brief Easy name of peripheral */
   AT91PS_PIO pCsGpioAddress;          /*!< @brief Base address for GPIO port for chip select line */
   u32 u32CsPin;                       /*!< @brief Pin location for SSEL line */
+<<<<<<< HEAD
   SspBitOrderType eBitOrder;          /*!< @brief SSP_MSB_FIRST or SSP_LSB_FIRST: this is only available in SSP_SLAVE_FLOW_CONTROL mode */
   SspModeType eSspMode;               /*!< @brief Type of SPI configured */
   fnCode_type fnSlaveTxFlowCallback;  /*!< @brief Callback function for SSP_SLAVE_FLOW_CONTROL transmit */
   fnCode_type fnSlaveRxFlowCallback;  /*!< @brief Callback function for SSP_SLAVE_FLOW_CONTROL receive */
   u8* pu8RxBufferAddress;             /*!< @brief Address to circular receive buffer */
   u8** ppu8RxNextByte;                /*!< @brief Location of pointer to next byte to write in buffer for SSP_SLAVE_FLOW_CONTROL only */
+=======
+  SspBitOrderType eBitOrder;          /*!< @brief MSB_FIRST or LSB_FIRST: this is only available in SPI_SLAVE_FLOW_CONTROL mode */
+  SspModeType eSspMode;               /*!< @brief Type of SPI configured */
+  fnCode_type fnSlaveTxFlowCallback;  /*!< @brief Callback function for SPI_SLAVE_FLOW_CONTROL transmit */
+  fnCode_type fnSlaveRxFlowCallback;  /*!< @brief Callback function for SPI_SLAVE_FLOW_CONTROL receive */
+  u8* pu8RxBufferAddress;             /*!< @brief Address to circular receive buffer */
+  u8** ppu8RxNextByte;                /*!< @brief Location of pointer to next byte to write in buffer for SPI_SLAVE_FLOW_CONTROL only */
+>>>>>>> cd37191cf57757d5ed063b46395e971b6bd59042
   u16 u16RxBufferSize;                /*!< @brief Size of receive buffer in bytes */
   u16 u16Pad;                         /*!< @brief Preserve 4-byte alignment */
 } SspConfigurationType;
@@ -59,13 +76,21 @@ typedef struct
   AT91PS_USART pBaseAddress;          /*!< @brief Base address of the associated peripheral */
   AT91PS_PIO pCsGpioAddress;          /*!< @brief Base address for GPIO port for chip select line */
   u32 u32CsPin;                       /*!< @brief Pin location for SSEL line */
+<<<<<<< HEAD
   SspBitOrderType eBitOrder;          /*!< @brief SSP_MSB_FIRST or SSP_LSB_FIRST: this is only available in SSP_SLAVE_FLOW_CONTROL mode */
+=======
+  SspBitOrderType eBitOrder;          /*!< @brief MSB_FIRST or LSB_FIRST: this is only available in SPI_SLAVE_FLOW_CONTROL mode */
+>>>>>>> cd37191cf57757d5ed063b46395e971b6bd59042
   SspModeType eSspMode;               /*!< @brief Type of SPI configured */
   u32 u32PrivateFlags;                /*!< @brief Private peripheral flags */
   fnCode_type fnSlaveTxFlowCallback;  /*!< @brief Callback function for SPI SLAVE transmit that uses flow control */
   fnCode_type fnSlaveRxFlowCallback;  /*!< @brief Callback function for SPI SLAVE receive that uses flow control */
   u8* pu8RxBuffer;                    /*!< @brief Pointer to receive buffer in user application */
+<<<<<<< HEAD
   u8** ppu8RxNextByte;                /*!< @brief Pointer to buffer location where next received byte will be placed (SSP_SLAVE_FLOW_CONTROL only) */
+=======
+  u8** ppu8RxNextByte;                /*!< @brief Pointer to buffer location where next received byte will be placed (SPI_SLAVE_FLOW_CONTROL only) */
+>>>>>>> cd37191cf57757d5ed063b46395e971b6bd59042
   u16 u16RxBufferSize;                /*!< @brief Size of receive buffer in bytes */
   u16 u16RxBytes;                     /*!< @brief Number of bytes to receive (DMA transfers) */
   u8 u8PeripheralId;                  /*!< @brief Simple peripheral ID number */
@@ -93,6 +118,10 @@ Constants / Definitions
 #define _SSP_RX_COMPLETE              (u32)0x00000004    /*!< @brief Set when expected bytes have been received; cleared automatically on CS or can be cleared by application */
 /* end G_u32SspxApplicationFlags */
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> cd37191cf57757d5ed063b46395e971b6bd59042
 /* SSP_u32Flags (local SSP application flags) */
 #define _SSP_MANUAL_MODE              (u32)0x00000001    /*!< @brief Set to push a cycle during initialization mode */
 
@@ -153,6 +182,10 @@ static void SspSM_Idle(void);
 static void SspSM_Error(void);         
 
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> cd37191cf57757d5ed063b46395e971b6bd59042
 #endif /* __SAM3U_SSP_H */
 
 
