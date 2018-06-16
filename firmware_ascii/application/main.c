@@ -55,7 +55,11 @@ void main(void)
   /* Debug messages through DebugPrintf() are available from here */
   ButtonInitialize();
   TimerInitialize();  
+  SpiInitialize();
+  SspInitialize();
+  TwiInitialize();
 
+  LcdInitialize();
   LedInitialize();
 
   /* Application initialization */
@@ -78,9 +82,13 @@ void main(void)
     ButtonRunActiveState();
     UartRunActiveState();
     TimerRunActiveState(); 
+    SpiRunActiveState();
+    SspRunActiveState();
+    TwiRunActiveState();
     MessagingRunActiveState();
     DebugRunActiveState();
-    
+    LcdRunActiveState();
+   
     /* Applications */
     UserApp1RunActiveState();
     UserApp2RunActiveState();

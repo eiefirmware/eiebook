@@ -65,7 +65,6 @@ Variable names shall start with "Uart_<type>" and be declared as static.
 ***********************************************************************************************************************/
 static fnCode_type Uart_pfnStateMachine;         /*!< @brief The UART application state machine function pointer */
 
-static u32 Uart_u32Timer;                        /*!< @brief Counter used across states */
 static u32 Uart_u32Flags;                        /*!< @brief Application flags for UART */
 static u8  Uart_u8ActiveUarts;                   /*!< @brief Counting semaphore for # of active UARTs */
 
@@ -450,6 +449,8 @@ Promises:
 */
 static void UartManualMode(void)
 {
+  u32 u32Timer;
+  
   Uart_u32Flags |=_UART_MANUAL_MODE;
   Uart_psCurrentUart = &Uart_sPeripheral;
   
@@ -458,8 +459,8 @@ static void UartManualMode(void)
     UartRunActiveState();
     MessagingRunActiveState();
 
-    Uart_u32Timer = G_u32SystemTime1ms;
-    while( !IsTimeUp(&Uart_u32Timer, 1) );
+    u32Timer = G_u32SystemTime1ms;
+    while( !IsTimeUp(&u32Timer, 1) );
   }
       
 } /* end UartManualMode() */

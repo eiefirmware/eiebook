@@ -2089,10 +2089,19 @@
                 <name>$PROJ_DIR$\..\..\firmware_common\drivers\interrupts.h</name>
             </file>
             <file>
+                <name>$PROJ_DIR$\..\drivers\lcd_nhd-c0220biz.h</name>
+            </file>
+            <file>
                 <name>$PROJ_DIR$\..\..\firmware_common\drivers\leds.h</name>
             </file>
             <file>
                 <name>$PROJ_DIR$\..\..\firmware_common\drivers\messaging.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\..\firmware_common\drivers\sam3u_i2c.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\..\firmware_common\drivers\sam3u_spi.h</name>
             </file>
             <file>
                 <name>$PROJ_DIR$\..\..\firmware_common\drivers\sam3u_ssp.h</name>
@@ -2119,10 +2128,19 @@
                 <name>$PROJ_DIR$\..\..\firmware_common\drivers\interrupts.c</name>
             </file>
             <file>
+                <name>$PROJ_DIR$\..\drivers\lcd_nhd-c0220biz.c</name>
+            </file>
+            <file>
                 <name>$PROJ_DIR$\..\..\firmware_common\drivers\leds.c</name>
             </file>
             <file>
                 <name>$PROJ_DIR$\..\..\firmware_common\drivers\messaging.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\..\firmware_common\drivers\sam3u_i2c.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\..\firmware_common\drivers\sam3u_spi.c</name>
             </file>
             <file>
                 <name>$PROJ_DIR$\..\..\firmware_common\drivers\sam3u_ssp.c</name>
