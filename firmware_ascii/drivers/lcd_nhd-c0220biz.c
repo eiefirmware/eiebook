@@ -98,19 +98,6 @@ Promises:
 */
 void LcdCommand(u8 u8Command_)
 {
-  static u8 au8LCDWriteCommand[] = {LCD_CONTROL_COMMAND, 0x00};
-
-  /* Update the command paramter into the command array */
-  au8LCDWriteCommand[1] = u8Command_;
-    
-  /* Queue the command to the I²C application */
-  TwiWriteData(U8_LCD_ADDRESS, sizeof(au8LCDWriteCommand), &au8LCDWriteCommand[0], TWI_STOP);
-
-  /* Add a delay during initialization to let the command send properly */
-  if(G_u32SystemFlags & _SYSTEM_INITIALIZING )
-  {
-    for(u32 i = 0; i < 100000; i++);
-  }
   
 } /* end LcdCommand() */
 
@@ -140,21 +127,6 @@ Promises:
 */
 void LcdMessage(u8 u8Address_, u8 *u8Message_)
 { 
-  u8 u8Index; 
-  static u8 au8LCDMessage[U8_LCD_MESSAGE_OVERHEAD_SIZE + U8_LCD_MAX_MESSAGE_SIZE] = {LCD_CONTROL_DATA};
-  
-  /* Set the cursor to the correct address */
-  LcdCommand(LCD_ADDRESS_CMD | u8Address_);
-  
-  /* Fill the message */
-  u8Index = 1;
-  while(*u8Message_ != '\0')
-  {
-    au8LCDMessage[u8Index++] = *u8Message_++;
-  }
-    
-  /* Queue the message */
-  TwiWriteData(U8_LCD_ADDRESS, u8Index, au8LCDMessage, TWI_STOP);
 
 } /* end LcdMessage() */
 
@@ -179,20 +151,6 @@ Promises:
 */
 void LcdClearChars(u8 u8Address_, u8 u8CharactersToClear_)
 { 
-  u8 u8Index; 
-  static u8 au8LCDMessage[U8_LCD_MESSAGE_OVERHEAD_SIZE + U8_LCD_MAX_MESSAGE_SIZE] =  {LCD_CONTROL_DATA};
-  
-  /* Set the cursor to the correct address */
-  LcdCommand(LCD_ADDRESS_CMD | u8Address_);
-  
-  /* Fill the message characters with ' ' */
-  for(u8Index = 0; u8Index < u8CharactersToClear_; u8Index++)
-  {
-    au8LCDMessage[u8Index + 1] = ' ';
-  }
-      
-  /* Queue the message */
-  TwiWriteData(U8_LCD_ADDRESS, u8CharactersToClear_ + 1, au8LCDMessage, TWI_STOP);
       	
 } /* end LcdClearChars() */
 
@@ -215,49 +173,6 @@ Promises:
 */
 void LcdInitialize(void)
 {
-  u8 u8Byte;
-  u8 au8Commands[] = 
-  {
-    LCD_FUNCTION_CMD, LCD_FUNCTION2_CMD, LCD_BIAS_CMD, 
-    LCD_CONTRAST_CMD, LCD_DISPLAY_SET_CMD, LCD_FOLLOWER_CMD 
-  };
-                 /* "012345567890123456789" */
-  u8 au8Welcome[] = "RAZOR SAM3U2 ASCII   ";
-  
-  /* State to Idle */
-  Lcd_pfnStateMachine = LcdSM_Idle;
-  
-  /* Turn on LCD wait 40 ms for it to setup */
-  AT91C_BASE_PIOB->PIO_SODR = PB_09_LCD_RST;
-  Lcd_u32Timer = G_u32SystemTime1ms;
-  while( !IsTimeUp(&Lcd_u32Timer, U8_LCD_STARTUP_DELAY_MS) );
-  
-  /* Send Control Command */
-  u8Byte = LCD_CONTROL_COMMAND;
-  TwiWriteData(U8_LCD_ADDRESS, 1, &u8Byte, TWI_NO_STOP);
-  
-  /* Send Control Commands */
-  TwiWriteData(U8_LCD_ADDRESS, sizeof(au8Commands), &au8Commands[0], TWI_NO_STOP);
-  
-  /* Wait for 200 ms */
-  Lcd_u32Timer = G_u32SystemTime1ms;
-  while( !IsTimeUp(&Lcd_u32Timer, U8_LCD_CONTROL_COMMAND_DELAY_MS) );
-  
-  /* Send Final Command to turn it on */
-  u8Byte = (LCD_DISPLAY_CMD | LCD_DISPLAY_ON);
-  TwiWriteData(U8_LCD_ADDRESS, 1, &u8Byte, TWI_STOP);
-
-  /* Blacklight - White */
-  LedOn(LCD_RED);
-  LedOn(LCD_GREEN);
-  LedOn(LCD_BLUE);
-  
-  u8Byte = LCD_CONTROL_DATA;
-  TwiWriteData(U8_LCD_ADDRESS, 1,  &u8Byte, TWI_NO_STOP);
-  TwiWriteData(U8_LCD_ADDRESS, 20, &au8Welcome[0], TWI_STOP);
-   
-  Lcd_u32Timer = G_u32SystemTime1ms;
-  G_u32ApplicationFlags |= _APPLICATION_FLAGS_LCD;
 
 } /* end LcdInitialize */
 
