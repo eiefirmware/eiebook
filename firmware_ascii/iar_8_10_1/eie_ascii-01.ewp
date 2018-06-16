@@ -2098,6 +2098,7 @@
                 <name>$PROJ_DIR$\..\..\firmware_common\drivers\messaging.h</name>
             </file>
             <file>
+<<<<<<< HEAD
                 <name>$PROJ_DIR$\..\..\firmware_common\drivers\sam3u_i2c.h</name>
             </file>
             <file>
@@ -2139,6 +2140,7 @@
                 <name>$PROJ_DIR$\..\..\firmware_common\drivers\messaging.c</name>
             </file>
             <file>
+<<<<<<< HEAD
                 <name>$PROJ_DIR$\..\..\firmware_common\drivers\sam3u_i2c.c</name>
             </file>
             <file>
