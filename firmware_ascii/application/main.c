@@ -57,7 +57,6 @@ void main(void)
   TimerInitialize();  
   SpiInitialize();
   SspInitialize();
-<<<<<<< HEAD
   TwiInitialize();
 =======
 >>>>>>> cd37191cf57757d5ed063b46395e971b6bd59042
@@ -87,7 +86,6 @@ void main(void)
     TimerRunActiveState(); 
     SpiRunActiveState();
     SspRunActiveState();
-<<<<<<< HEAD
     TwiRunActiveState();
 =======
 >>>>>>> cd37191cf57757d5ed063b46395e971b6bd59042
