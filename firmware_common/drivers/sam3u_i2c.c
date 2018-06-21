@@ -447,8 +447,10 @@ static void TwiSM_Idle(void)
       and the transmit buffer */
       if(TWI_psMsgBufferCurrent->u32MessageTaskToken != TWI_Peripheral0.pTransmitBuffer->u32Token)
       {
-        DebugPrintf("TWI transmit message out of sync!\n\r");
-        TWI_Peripheral0.u32PrivateFlags |= _TWI_ERROR_TX_MSG_SYNC;
+        TWI_Peripheral0.u32PrivateFlags |= _TWI_FLAG_TX_MSG_SYNC;
+        TWI_u32Flags |= _TWI_ERROR_TX_MSG_SYNC;
+        
+        TWI_pfnStateMachine = TwiSM_Error;
       }
       else
       {
@@ -655,13 +657,24 @@ static void TwiSM_NextTransferDelay(void)
 */
 static void TwiSM_Error(void)          
 {
-  /* NACK recieved (write only) */
-  if(TWI_u32Flags & _TWI_ERROR_NACK)
+  /* Transmit errors */
+  if( (TWI_u32Flags & _TWI_ERROR_NACK) ||
+      (TWI_u32Flags & _TWI_ERROR_TX_MSG_SYNC) )
   {
-    /* Announce the error and clear flag */
-    TWI_u32Flags &= ~_TWI_ERROR_NACK;
+    /* Announce the error */
     DebugPrintNumber(TWI_Peripheral0.pTransmitBuffer->u32Token);
-    DebugPrintf(" TWI NACK. Message deleted.\n\r");
+
+    if(TWI_u32Flags & _TWI_ERROR_NACK)
+    {
+      DebugPrintf(" TWI NACK.");
+    }
+    
+    if(TWI_u32Flags & _TWI_ERROR_TX_MSG_SYNC)
+    {
+      DebugPrintf("TWI transmit message out of sync!");
+    }
+
+    DebugPrintf(" Message deleted.\n\r");
     
     /* Clear flags and clean up the Message task message */
     UpdateMessageStatus(TWI_Peripheral0.pTransmitBuffer->u32Token, FAILED);
@@ -669,13 +682,15 @@ static void TwiSM_Error(void)
     TWI_Peripheral0.u32PrivateFlags &= ~(_TWI_TRANSMITTING | _TWI_TRANS_NOT_COMP);
   }
   
-  /* RX TIMEOUT (receive only) */
+  /* Receive errors */
   if(TWI_u32Flags & _TWI_ERROR_RX_TIMEOUT)
   {
-    DebugPrintf("TWI Rx Timeout. Message deleted.\n\r");
+    DebugPrintf("TWI Rx Timeout.\n\r");
   }  
 
-  /* Advance states */
+  /* Clear error flags and advance states */
+  TWI_u32Flags &= TWI_ERROR_FLAG_MASK;
+  
   TWI_u32Timer = U8_NEXT_TRANSFER_DELAY_MS;
   TWI_pfnStateMachine = TwiSM_NextTransferDelay;
 

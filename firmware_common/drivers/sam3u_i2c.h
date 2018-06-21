@@ -42,7 +42,7 @@ typedef struct
 #define _TWI_RECEIVING                 (u32)0x00000002   /* Peripheral is Receiving */
 #define _TWI_TRANS_NOT_COMP            (u32)0x00000004   /* Tx Transmit hasn't been completed */
  
-#define _TWI_ERROR_TX_MSG_SYNC         (u32)0x01000000  /*!< @brief Local Tx message token != queued token */
+#define _TWI_FLAG_TX_MSG_SYNC          (u32)0x01000000   /* Local Tx message token != queued token */
 /* end u32PrivateFlags */
 
 
@@ -71,8 +71,9 @@ Constants / Definitions
 #define _TWI_ERROR_NACK                (u32)0x01000000     /*!< @brief Set if a NACK is received */
 #define _TWI_ERROR_INTERRUPT           (u32)0x02000000     /*!< @brief Set if an unexpected interrupt occurs */
 #define _TWI_ERROR_RX_TIMEOUT          (u32)0x04000000     /*!< @brief Set if a NACK is received */
+#define _TWI_ERROR_TX_MSG_SYNC         (u32)0x08000000     /*!< @brief Set if a NACK is received */
 
-#define TWI_ERROR_FLAG_MASK            (u32)0xFF000000     /*!< @brief AND to TWI_u32Flags to get just error flags */
+#define TWI_ERROR_FLAG_MASK            (u32)0x00FFFFFF     /*!< @brief AND to TWI_u32Flags to get just error flags */
 /* end of TWI_u32Flags */
 
 #define U8_TWI_MSG_BUFFER_SIZE         (u8)32              /*!< @brief Max number of messages in the TWI msg buffer */
