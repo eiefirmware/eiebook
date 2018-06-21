@@ -61,10 +61,6 @@ Variable names shall start with "SPI_<type>" and be declared as static.
 ***********************************************************************************************************************/
 static fnCode_type Spi_pfnStateMachine;          /*!< @brief The SPI application state machine */
 
-<<<<<<< HEAD
-=======
-static u32 SPI_u32Timer;                         /*!< @brief Timeout counter used across states */
->>>>>>> cd37191cf57757d5ed063b46395e971b6bd59042
 static u32 SPI_u32Flags;                         /*!< @brief Application flags for SPI */
 
 static SpiPeripheralType SPI_Peripheral0;        /*!< @brief SPI peripheral object */
@@ -504,11 +500,8 @@ Promises:
 */
 void SpiManualMode(void)
 {
-<<<<<<< HEAD
   u32 u32Timer;
   
-=======
->>>>>>> cd37191cf57757d5ed063b46395e971b6bd59042
   /* Set up for manual mode */
   SPI_u32Flags |= _SPI_MANUAL_MODE;
 
@@ -518,13 +511,8 @@ void SpiManualMode(void)
     Spi_pfnStateMachine();
     MessagingRunActiveState();
     
-<<<<<<< HEAD
     u32Timer = G_u32SystemTime1ms;
     while( !IsTimeUp(&u32Timer, 1) );
-=======
-    SPI_u32Timer = G_u32SystemTime1ms;
-    while( !IsTimeUp(&SPI_u32Timer, 1) );
->>>>>>> cd37191cf57757d5ed063b46395e971b6bd59042
   }
       
 } /* end SpiManualMode() */

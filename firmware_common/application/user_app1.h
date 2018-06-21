@@ -48,8 +48,6 @@ void UserApp1RunActiveState(void);
 State Machine Declarations
 ***********************************************************************************************************************/
 static void UserApp1SM_Idle(void);    
-static void UserApp1SM_WaitResponse(void);          
-
 static void UserApp1SM_Error(void);         
 
 
@@ -57,7 +55,6 @@ static void UserApp1SM_Error(void);
 /**********************************************************************************************************************
 Constants / Definitions
 **********************************************************************************************************************/
-#define U16_UA1_RX_BUFFER_SIZE      (u16)264
 
 
 #endif /* __USER_APP1_H */

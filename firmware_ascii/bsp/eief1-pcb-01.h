@@ -508,7 +508,7 @@ Since we want PLLACK at 96 MHz:
 0: No effect
 1: Pin is controlled by PIO
 */
-#define PIOA_PER_INIT (u32)0x84020007
+#define PIOA_PER_INIT (u32)0x84030007
 /* 
     31 [1] PA_31_HEARTBEAT PIO control enabled
     30 [0] PA_30_AN_DEMO PIO control not enabled
@@ -528,7 +528,7 @@ Since we want PLLACK at 96 MHz:
     19 [0] PA_19_DEBUG_U0_PIMO PIO control not enabled
     18 [0] PA_18_DEBUG_U0_POMI PIO control not enabled
     17 [1] PA_17_BUTTON0 PIO control enabled
-    16 [0] PA_16_BLADE_CS PIO control not enabled
+    16 [1] PA_16_BLADE_CS PIO control enabled
 
     15 [0] PA_15_BLADE_SCK PIO control not enabled
     14 [0] PA_14_BLADE_MOSI PIO control not enabled
@@ -599,7 +599,7 @@ Configures the pin as an output or input.
 0: No effect
 1: Enables the output on the I/O line
 */
-#define PIOA_OER_INIT (u32)0x84000001
+#define PIOA_OER_INIT (u32)0x84010001
 /* 
     31 [1] PA_31_HEARTBEAT output enabled
     30 [0] PA_30_AN_DEMO input
@@ -613,13 +613,13 @@ Configures the pin as an output or input.
 
     23 [0] PA_23_ANT_USPI2_MOSI input
     22 [0] PA_22_ANT_USPI2_MISO output peripheral
-    21 [0] PA_21_SD_USPI1_MISO input 
+    21 [0] PA_21_SD_USPI1_MISO input input
     20 [0] PA_20_SD_USPI1_MOSI output peripheral
 
     19 [0] PA_19_DEBUG_U0_PIMO input
     18 [0] PA_18_DEBUG_U0_POMI output peripheral
     17 [0] PA_17_BUTTON0 input
-    16 [0] PA_16_BLADE_CS output peripheral
+    16 [1] PA_16_BLADE_CS output enabled
 
     15 [0] PA_15_BLADE_SCK output peripheral
     14 [0] PA_14_BLADE_MOSI output peripheral
@@ -781,7 +781,7 @@ Default start-up IO values are held here.
 0: No effect
 1: Sets the data to be driven on the I/O line.
 */
-#define PIOA_SODR_INIT (u32)0x88000000
+#define PIOA_SODR_INIT (u32)0x88010000
 /* 
     31 [1] PA_31_HEARTBEAT output high 
     30 [0] PA_30_AN_DEMO N/A
@@ -801,7 +801,7 @@ Default start-up IO values are held here.
     19 [0] PA_19_DEBUG_U0_PIMO N/A
     18 [0] PA_18_DEBUG_U0_POMI N/A
     17 [0] PA_17_BUTTON0 N/A
-    16 [0] PA_16_BLADE_CS N/A
+    16 [1] PA_16_BLADE_CS output high
 
     15 [0] PA_15_BLADE_SCK N/A
     14 [0] PA_14_BLADE_MOSI N/A
@@ -892,7 +892,7 @@ Initial output values are stored here.
     19 [0] PA_19_DEBUG_U0_PIMO N/A
     18 [0] PA_18_DEBUG_U0_POMI N/A
     17 [0] PA_17_BUTTON0 N/A
-    16 [0] PA_16_BLADE_CS N/A
+    16 [0] PA_16_BLADE_CS output high
 
     15 [0] PA_15_BLADE_SCK N/A
     14 [0] PA_14_BLADE_MOSI N/A

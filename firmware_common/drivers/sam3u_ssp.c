@@ -157,10 +157,6 @@ Variable names shall start with "SSP_<type>" and be declared as static.
 ***********************************************************************************************************************/
 static fnCode_type Ssp_pfnStateMachine;          /*!< @brief The SSP application state machine */
 
-<<<<<<< HEAD
-=======
-static u32 SSP_u32Timer;                         /*!< @brief Timeout counter used across states */
->>>>>>> cd37191cf57757d5ed063b46395e971b6bd59042
 static u32 SSP_u32Flags;                         /*!< @brief Application flags for SSP */
 
 static SspPeripheralType SSP_Peripheral0;        /*!< @brief SSP0 peripheral object */
@@ -177,13 +173,8 @@ static u8 SSP_u8Dummies = SSP_DUMMY_BYTE;        /*!< @brief Dummy source byte *
 static u32 SSP_u32Int0Count = 0;                 /* Debug counter for SSP0 interrupts */
 static u32 SSP_u32Int1Count = 0;                 /* Debug counter for SSP1 interrupts */
 static u32 SSP_u32Int2Count = 0;                 /* Debug counter for SSP2 interrupts */
-<<<<<<< HEAD
 static u32 SSP_u32AntCounter = 0;                /* Debug counter */
 static u32 SSP_u32RxCounter = 0;                 /* Debug counter */
-=======
-static u32 SSP_u32RxCounter = 0;                 /* Debug counter */
-static u32 SSP_u32AntCounter = 0;                /* Debug counter */
->>>>>>> cd37191cf57757d5ed063b46395e971b6bd59042
 /*! @endcond */
 
 
@@ -317,11 +308,7 @@ SspPeripheralType* SspRequest(SspConfigurationType* psSspConfig_)
     by the application.  */
     psRequestedSsp->pBaseAddress->US_TPR  = (u32)&SSP_u8Dummies; 
     psRequestedSsp->pBaseAddress->US_TNPR = (u32)&SSP_u8Dummies; 
-<<<<<<< HEAD
     psRequestedSsp->pBaseAddress->US_TCR = 1;
-=======
-    psRequestedSsp->pBaseAddress->US_TCR  = 1;
->>>>>>> cd37191cf57757d5ed063b46395e971b6bd59042
     psRequestedSsp->pBaseAddress->US_TNCR = 1;
 
     /* Enable the receiver and transmitter so they are ready to go if the Master starts clocking */
@@ -354,11 +341,7 @@ Requires:
 - Receive operation is not in progress
 
 @param psSspPeripheral_ has the SSP peripheral number, address of the RxBuffer, 
-<<<<<<< HEAD
 and the RxBuffer.
-=======
-and the RxBuffer size.
->>>>>>> cd37191cf57757d5ed063b46395e971b6bd59042
 
 Promises:
 - Resets peripheral object's pointers and data to safe values
@@ -454,11 +437,8 @@ void SspDeAssertCS(SspPeripheralType* psSspPeripheral_)
 @brief Queues a single byte for transfer on the target SSP peripheral.  
 
 Requires:
-<<<<<<< HEAD
 - A receive request cannot be in progress
 
-=======
->>>>>>> cd37191cf57757d5ed063b46395e971b6bd59042
 @param psSspPeripheral_ is the SSP peripheral to use and it has already been requested.
 @param u8Byte_ is the byte to send
 
@@ -473,7 +453,6 @@ u32 SspWriteByte(SspPeripheralType* psSspPeripheral_, u8 u8Byte_)
 {
   u32 u32Token;
   u8 u8Data = u8Byte_;
-<<<<<<< HEAD
 
   /* Make sure no receive function is already in progress based on the bytes in the buffer */
   if( psSspPeripheral_->u16RxBytes != 0)
@@ -481,10 +460,6 @@ u32 SspWriteByte(SspPeripheralType* psSspPeripheral_, u8 u8Byte_)
     return(0);
   }
 
-=======
-  
-  /* Attempt to queue message and get a response token */
->>>>>>> cd37191cf57757d5ed063b46395e971b6bd59042
   u32Token = QueueMessage(&psSspPeripheral_->psTransmitBuffer, 1, &u8Data);
   if( u32Token != 0 )
   {
@@ -507,11 +482,8 @@ u32 SspWriteByte(SspPeripheralType* psSspPeripheral_, u8 u8Byte_)
 @brief Queues a data array for transfer on the target SSP peripheral.  
 
 Requires:
-<<<<<<< HEAD
 - A receive request cannot be in progress
 
-=======
->>>>>>> cd37191cf57757d5ed063b46395e971b6bd59042
 @param psSspPeripheral_ is the SSP peripheral to use and it has already been requested.
 @param u32Size_ is the number of bytes in the data array
 @param u8Data_ points to the first byte of the data array
@@ -527,22 +499,12 @@ u32 SspWriteData(SspPeripheralType* psSspPeripheral_, u32 u32Size_, u8* pu8Data_
 {
   u32 u32Token;
 
-<<<<<<< HEAD
   /* Make sure no receive function is already in progress based on the bytes in the buffer */
   if( psSspPeripheral_->u16RxBytes != 0)
   {
     return(0);
   }
 
-=======
-  /* Check for a valid size */
-  if(u32Size_ == 0)
-  {
-    return NULL;
-  }
-
-  /* Attempt to queue message and get a response token */
->>>>>>> cd37191cf57757d5ed063b46395e971b6bd59042
   u32Token = QueueMessage(&psSspPeripheral_->psTransmitBuffer, u32Size_, pu8Data_);
   if( u32Token == 0 )
   {
@@ -797,11 +759,8 @@ Promises:
 */
 void SspManualMode(void)
 {
-<<<<<<< HEAD
   u32 u32Timer;
   
-=======
->>>>>>> cd37191cf57757d5ed063b46395e971b6bd59042
   /* Set up for manual mode */
   SSP_u32Flags |= _SSP_MANUAL_MODE;
   SSP_psCurrentSsp = &SSP_Peripheral0;
@@ -812,13 +771,8 @@ void SspManualMode(void)
     Ssp_pfnStateMachine();
     MessagingRunActiveState();
     
-<<<<<<< HEAD
     u32Timer = G_u32SystemTime1ms;
     while( !IsTimeUp(&u32Timer, 1) );
-=======
-    SSP_u32Timer = G_u32SystemTime1ms;
-    while( !IsTimeUp(&SSP_u32Timer, 1) );
->>>>>>> cd37191cf57757d5ed063b46395e971b6bd59042
   }
       
 } /* end SspManualMode() */
@@ -1177,15 +1131,9 @@ static void SspGenericHandler(void)
 /***********************************************************************************************************************
 State Machine Function Definitions
 
-<<<<<<< HEAD
 The SSP state machine monitors messaging activity on the available SSP Master peripherals.  
 It manages all SSP outgoing  messages and will transmit any message that has been queued.  
 All configured SSP peripherals can be transmitting and receiving simultaneously.
-=======
-The SSP state machine monitors messaging activity on the available SSP Master peripherals.  It manages all SSP outgoing 
-messages and will transmit any message that has been queued.  All configured SSP peripherals can be transmitting and 
-receiving simultaneously.
->>>>>>> cd37191cf57757d5ed063b46395e971b6bd59042
 ***********************************************************************************************************************/
 
 /*!-------------------------------------------------------------------------------------------------------------------
@@ -1336,11 +1284,6 @@ static void SspSM_Error(void)
 #endif
         
 
-<<<<<<< HEAD
-=======
-        
-
->>>>>>> cd37191cf57757d5ed063b46395e971b6bd59042
 
 
 
