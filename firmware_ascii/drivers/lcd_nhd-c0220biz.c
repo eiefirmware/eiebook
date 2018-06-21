@@ -74,12 +74,11 @@ static u32 Lcd_u32Timer;                        /*!< @brief Timeout counter used
 @brief Queues a command char to be sent to the LCD using the TWI messaging function. 
 
 Some common commands are shown below.
-LCD_CLEAR_CMD				Writes spaces to all chars
-LCD_HOME_CMD				Puts cursor at 0x00
-
+LCD_CLEAR_CMD			  	Writes spaces to all chars
+LCD_HOME_CMD		  		Puts cursor at 0x00
 LCD_DISPLAY_CMD		  	Root literal for managing display
-| LCD_DISPLAY_ON				OR with LCD_DISPLAY_CMD to turn display on
-| LCD_DISPLAY_CURSOR		OR with LCD_DISPLAY_CMD to turn cursor on
+| LCD_DISPLAY_ON			OR with LCD_DISPLAY_CMD to turn display on
+| LCD_DISPLAY_CURSOR	OR with LCD_DISPLAY_CMD to turn cursor on
 | LCD_DISPLAY_BLINK		OR with LCD_DISPLAY_CMD to turn cursor blink on
 
 e.g. Turn display on with a solid (non-blinking) cursor
@@ -105,12 +104,6 @@ void LcdCommand(u8 u8Command_)
     
   /* Queue the command to the I²C application */
   TwiWriteData(U8_LCD_ADDRESS, sizeof(au8LCDWriteCommand), &au8LCDWriteCommand[0], TWI_STOP);
-
-  /* Add a delay during initialization to let the command send properly */
-  if(G_u32SystemFlags & _SYSTEM_INITIALIZING )
-  {
-    for(u32 i = 0; i < 100000; i++);
-  }
   
 } /* end LcdCommand() */
 
@@ -222,7 +215,7 @@ void LcdInitialize(void)
     LCD_CONTRAST_CMD, LCD_DISPLAY_SET_CMD, LCD_FOLLOWER_CMD 
   };
                  /* "012345567890123456789" */
-  u8 au8Welcome[] = "RAZOR SAM3U2 ASCII   ";
+  u8 au8Welcome[] = "*RAZOR SAM3U2 ASCII* ";
   
   /* State to Idle */
   Lcd_pfnStateMachine = LcdSM_Idle;
