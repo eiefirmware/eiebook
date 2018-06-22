@@ -111,26 +111,6 @@ Promises:
 */
 void Adc12AssignCallback(Adc12ChannelType eAdcChannel_, fnCode_u16_type pfUserCallback_)
 {
-  bool bChannelValid = FALSE;
-
-  /* Check to ensure the requested channel exists */
-  for(u8 i = 0; i < (sizeof(Adc12_aeChannels) / sizeof (Adc12ChannelType)); i++)
-  {
-    if(Adc12_aeChannels[i] == eAdcChannel_)
-    {
-      bChannelValid = TRUE;
-    }
-  }
-  
-  /* If the channel is valid, then assign the new callback function */
-  if(bChannelValid)
-  {
-    Adc12_apfCallbacks[eAdcChannel_] = pfUserCallback_;
-  }
-  else
-  {
-    DebugPrintf("Invalid channel\n\r");
-  }
   
 } /* end Adc12AssignCallback() */
 
@@ -167,23 +147,6 @@ If Adc12_bAdcAvailable is FALSE:
 */
 bool Adc12StartConversion(Adc12ChannelType eAdcChannel_)
 {
-  if(Adc12_bAdcAvailable)
-  {
-    /* Take the semaphore so we have the ADC resource.  Since this is a binary semaphore 
-    that is only cleared in the ISR, it is safe to do this with interrupts enabled */
-    Adc12_bAdcAvailable = FALSE;
-   
-    /* Enable the channel and its interrupt */
-    AT91C_BASE_ADC12B->ADC12B_CHER = (1 << eAdcChannel_);
-    AT91C_BASE_ADC12B->ADC12B_IER  = (1 << eAdcChannel_);
-  
-    /* Start the conversion and exit */
-    AT91C_BASE_ADC12B->ADC12B_CR |= AT91C_ADC12B_CR_START;
-    return TRUE;
-  }
-  
-  /* The ADC is not available */
-  return FALSE;
 
 } /* end Adc12StartConversion() */
 
@@ -211,41 +174,6 @@ Promises:
 */
 void Adc12Initialize(void)
 {
-  u8 au8Adc12Started[] = "ADC12 task initialized\n\r";
-
-  /* Initialize peripheral registers. ADC starts totally disabled. */
-  AT91C_BASE_ADC12B->ADC12B_MR   = ADC12B_MR_INIT;
-  AT91C_BASE_ADC12B->ADC12B_CHDR = ADC12B_CHDR_INIT;
-  AT91C_BASE_ADC12B->ADC12B_ACR  = ADC12B_ACR_INIT;
-  AT91C_BASE_ADC12B->ADC12B_EMR  = ADC12B_EMR_INIT;
-  AT91C_BASE_ADC12B->ADC12B_IDR  = ADC12B_IDR_INIT;
-  
-  /* Set all the callbacks to default */
-  for(u8 i = 0; i < (sizeof(Adc12_apfCallbacks) / sizeof(fnCode_u16_type)); i++)
-  {
-    Adc12_apfCallbacks[i] = Adc12DefaultCallback;
-  }
-  
-  /* Mark the ADC semaphore as available */
-  Adc12_bAdcAvailable = TRUE;
-  
-  /* Check initialization and set first state */
-  if( 1 )
-  {
-    /* Enable required interrupts */
-    NVIC_ClearPendingIRQ(IRQn_ADCC0);
-    NVIC_EnableIRQ(IRQn_ADCC0);
-    
-    /* Write message, set "good" flag and select Idle state */
-    DebugPrintf(au8Adc12Started);
-    G_u32ApplicationFlags |= _APPLICATION_FLAGS_ADC;
-    Adc12_pfnStateMachine = Adc12SM_Idle;
-  }
-  else
-  {
-    /* The task isn't properly initialized, so shut it down and don't run */
-    Adc12_pfnStateMachine = Adc12SM_Error;
-  }
 
 } /* end Adc12Initialize() */
 
@@ -292,29 +220,6 @@ Promises:
 */
 void ADCC0_IrqHandler(void)
 {
-  u16 u16Adc12Result;
-  
-  /* WARNING: if you step through this handler with the ADC12B registers
-  debugging, the debugger reads ADC12B_SR and clears the EOC flag bits */
-
-  /* Check through all the available channels */
-  for(u8 i = 0; i < (sizeof(Adc12_aeChannels) / sizeof(Adc12ChannelType)); i++)
-  {
-    if(AT91C_BASE_ADC12B->ADC12B_SR & (1 << Adc12_aeChannels[i]))
-    {
-      /* Read the channel's result register (clears EOC bit / interrupt) and send to callback */
-      u16Adc12Result = AT91C_BASE_ADC12B->ADC12B_CDR[Adc12_aeChannels[i]];
-      Adc12_apfCallbacks[Adc12_aeChannels[i]](u16Adc12Result);
-      
-      /* Disable the channel and exit the loop since only one channel can be set */
-      AT91C_BASE_ADC12B->ADC12B_CHDR = (1 << Adc12_aeChannels[i]);
-      break;
-    }
-  }
-  
-  /* Give the Semaphore back, clear the ADC pending flag and exit */
-  Adc12_bAdcAvailable = TRUE;
-  NVIC->ICPR[0] = (1 << AT91C_ID_ADC12B);
   
 } /* end ADCC0_IrqHandler() */
 
