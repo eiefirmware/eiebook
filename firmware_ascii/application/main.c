@@ -59,6 +59,7 @@ void main(void)
   SspInitialize();
   TwiInitialize();
 
+  Adc12Initialize();
   LcdInitialize();
   LedInitialize();
 
@@ -78,16 +79,19 @@ void main(void)
     SystemTimeCheck();
 
     /* Drivers */
-    LedRunActiveState();
-    ButtonRunActiveState();
+    MessagingRunActiveState();
     UartRunActiveState();
+    DebugRunActiveState();
+
+    ButtonRunActiveState();
     TimerRunActiveState(); 
     SpiRunActiveState();
     SspRunActiveState();
     TwiRunActiveState();
-    MessagingRunActiveState();
-    DebugRunActiveState();
+
+    Adc12RunActiveState();
     LcdRunActiveState();
+    LedRunActiveState();
    
     /* Applications */
     UserApp1RunActiveState();

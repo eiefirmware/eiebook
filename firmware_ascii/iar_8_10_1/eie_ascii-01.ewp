@@ -2080,6 +2080,9 @@
         <group>
             <name>Include</name>
             <file>
+                <name>$PROJ_DIR$\..\..\firmware_common\drivers\adc12.h</name>
+            </file>
+            <file>
                 <name>$PROJ_DIR$\..\..\firmware_common\drivers\buttons.h</name>
             </file>
             <file>
@@ -2118,6 +2121,9 @@
         </group>
         <group>
             <name>Source</name>
+            <file>
+                <name>$PROJ_DIR$\..\..\firmware_common\drivers\adc12.c</name>
+            </file>
             <file>
                 <name>$PROJ_DIR$\..\..\firmware_common\drivers\buttons.c</name>
             </file>

@@ -71,6 +71,17 @@ These definitions  correspond to the Channel ID in the PWM peripheral
 typedef enum {BUZZER1 = AT91C_PWMC_CHID0, BUZZER2=AT91C_PWMC_CHID1} BuzzerChannelType;
 
 
+/*----------------------------------------------------------------------------------------------------------------------
+%ADC% Analog input channel Configuration                                                                                                  
+------------------------------------------------------------------------------------------------------------------------
+Available analog channels are defined here.  
+*/
+#define ADC12_POTENTIOMETER     ADC12_CH1
+#define ADC12_BLADE_AN0         ADC12_CH2
+#define ADC12_BLADE_AN1         ADC12_CH3
+
+#define ADC_CHANNEL_ARRAY      {ADC12_POTENTIOMETER, ADC12_BLADE_AN0, ADC12_BLADE_AN1}
+
 
 /***********************************************************************************************************************
 * Constants
