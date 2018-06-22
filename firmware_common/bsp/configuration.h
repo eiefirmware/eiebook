@@ -71,6 +71,10 @@ Includes
 #endif /* MPGL2 */
 
 /* Common driver header files */
+#include "antmessage.h"
+#include "antdefines.h"
+#include "ant.h"
+#include "ant_api.h"
 #include "buttons.h"
 #include "leds.h" 
 #include "messaging.h"
@@ -179,7 +183,7 @@ Includes
 
 /* ANT SPI Peripheral Allocation (USART2) */
 #define ANT_SPI_CS_GPIO             AT91C_BASE_PIOB
-#define ANT_SPI_CS_PIN              PB_22_ANT_SPI_USPI2_CS
+#define ANT_SPI_CS_PIN              PB_22_ANT_USPI2_CS
 #define USART2_US_CR_INIT           ANT_SPI_US_CR_INIT
 #define USART2_US_MR_INIT           ANT_SPI_US_MR_INIT
 #define USART2_US_IER_INIT          ANT_SPI_US_IER_INIT

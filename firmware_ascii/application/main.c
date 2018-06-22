@@ -62,6 +62,8 @@ void main(void)
   Adc12Initialize();
   LcdInitialize();
   LedInitialize();
+  AntInitialize();
+  AntApiInitialize();
 
   /* Application initialization */
   UserApp1Initialize();
@@ -92,6 +94,8 @@ void main(void)
     Adc12RunActiveState();
     LcdRunActiveState();
     LedRunActiveState();
+    AntRunActiveState();
+    AntApiRunActiveState();
    
     /* Applications */
     UserApp1RunActiveState();

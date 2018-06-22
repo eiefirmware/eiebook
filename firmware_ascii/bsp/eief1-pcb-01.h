@@ -37,7 +37,7 @@ in G_asBspLedConfigurations Led_au32BitPositions from eief1-pcb-01.c
 */
 typedef enum {WHITE = 0, PURPLE, BLUE, CYAN, GREEN, YELLOW, ORANGE, RED, LCD_RED, LCD_GREEN, LCD_BLUE} LedNameType;
 
-#define U8_TOTAL_LEDS             (u8)11        /*!< @brief Total number of LEDs in the system */
+#define U8_TOTAL_LEDS             (u8)11      /*!< @brief Total number of LEDs in the system */
 
 
 /*----------------------------------------------------------------------------------------------------------------------
@@ -52,7 +52,7 @@ in G_asBspButtonConfigurations Buttons_au32BitPositions from eief1-pcb-01.c
 */
 typedef enum {BUTTON0 = 0, BUTTON1, BUTTON2, BUTTON3, NOBUTTON} ButtonNameType;
 
-#define U8_TOTAL_BUTTONS          (u8)4       /*!< Total number of Buttons in the system */
+#define U8_TOTAL_BUTTONS          (u8)4       /*!< @brief Total number of Buttons in the system */
 
 /*! All buttons on each port must be ORed together here: set to 0 if no buttons on the port */
 #define GPIOA_BUTTONS             (u32)( PA_17_BUTTON0 )
@@ -73,14 +73,33 @@ typedef enum {BUZZER1 = AT91C_PWMC_CHID0, BUZZER2=AT91C_PWMC_CHID1} BuzzerChanne
 
 /*----------------------------------------------------------------------------------------------------------------------
 %ADC% Analog input channel Configuration                                                                                                  
-------------------------------------------------------------------------------------------------------------------------
-Available analog channels are defined here.  
-*/
-#define ADC12_POTENTIOMETER     ADC12_CH1
-#define ADC12_BLADE_AN0         ADC12_CH2
-#define ADC12_BLADE_AN1         ADC12_CH3
+----------------------------------------------------------------------------------------------------------------------*/
+#define ADC12_POTENTIOMETER     ADC12_CH1 /*!< @brief ADC channel for on-board potentiometer */
+#define ADC12_BLADE_AN0         ADC12_CH2 /*!< @brief ADC channel for Blade AN0 */
+#define ADC12_BLADE_AN1         ADC12_CH3 /*!< @brief ADC channel for Blade AN1 */
 
-#define ADC_CHANNEL_ARRAY      {ADC12_POTENTIOMETER, ADC12_BLADE_AN0, ADC12_BLADE_AN1}
+#define ADC_CHANNEL_ARRAY      {ADC12_POTENTIOMETER, ADC12_BLADE_AN0, ADC12_BLADE_AN1} /*!< @brief ADC channel group */
+
+
+/*----------------------------------------------------------------------------------------------------------------------
+%ANT% Interface Configuration                                                                                                  
+----------------------------------------------------------------------------------------------------------------------*/
+#define ANT_SSP_FLAGS           G_u32Ssp2ApplicationFlags  /*!< @brief Assigns the correct global Application Flags to a self-documenting symbol */
+
+#define ANT_MRDY_READ_REG      (AT91C_BASE_PIOB->PIO_PDSR & PB_23_ANT_MRDY) /*!< @brief Macro to read MRDY */
+#define ANT_MRDY_CLEAR_REG     (AT91C_BASE_PIOB->PIO_CODR = PB_23_ANT_MRDY) /*!< @brief Macro to clear MRDY */   
+#define ANT_MRDY_SET_REG       (AT91C_BASE_PIOB->PIO_SODR = PB_23_ANT_MRDY) /*!< @brief Macro to set MRDY */
+
+#define ANT_SRDY_CLEAR_REG     (AT91C_BASE_PIOB->PIO_CODR = PB_24_ANT_SRDY) /*!< @brief Macro to clear SRDY */            
+#define ANT_SRDY_SET_REG       (AT91C_BASE_PIOB->PIO_SODR = PB_24_ANT_SRDY) /*!< @brief Macro to set SRDY */
+
+#define ANT_RESET_CLEAR_REG    (AT91C_BASE_PIOB->PIO_CODR = PB_21_ANT_RESET) /*!< @brief Macro to clear ANT RESET line */
+#define ANT_RESET_SET_REG      (AT91C_BASE_PIOB->PIO_SODR = PB_21_ANT_RESET) /*!< @brief Macro to set ANT RESET line */
+
+#define ANT_PIOA_PINS          (u32)(PA_25_ANT_USPI2_SCK | PA_23_ANT_USPI2_MOSI | PA_22_ANT_USPI2_MISO)      /*!< @brief ANT pins on PIOA */
+#define ANT_PIOB_PINS          (u32)(PB_21_ANT_RESET | PB_22_ANT_USPI2_CS | PB_23_ANT_MRDY | PB_24_ANT_SRDY) /*!< @brief  ANT pins on PIOB */
+
+#define ANT_DISABLE_BUTTON     (AT91C_BASE_PIOB->PIO_PDSR & PB_00_BUTTON1) /*!< @brief Button to press to disable ANT during startup */
 
 
 /***********************************************************************************************************************

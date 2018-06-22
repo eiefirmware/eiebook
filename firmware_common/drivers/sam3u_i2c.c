@@ -294,6 +294,7 @@ void TwiInitialize(void)
 
   /* Set application pointer */
   TWI_pfnStateMachine = TwiSM_Idle;
+  DebugPrintf("TWI Peripheral Ready\n\r");
   
 } /* end TwiInitialize() */
 

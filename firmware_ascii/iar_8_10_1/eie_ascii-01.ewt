@@ -2360,6 +2360,18 @@
                 <name>$PROJ_DIR$\..\..\firmware_common\drivers\adc12.h</name>
             </file>
             <file>
+                <name>$PROJ_DIR$\..\..\firmware_common\drivers\ant.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\..\firmware_common\drivers\ant_api.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\..\firmware_common\drivers\antdefines.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\..\firmware_common\drivers\antmessage.h</name>
+            </file>
+            <file>
                 <name>$PROJ_DIR$\..\..\firmware_common\drivers\buttons.h</name>
             </file>
             <file>
@@ -2400,6 +2412,12 @@
             <name>Source</name>
             <file>
                 <name>$PROJ_DIR$\..\..\firmware_common\drivers\adc12.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\..\firmware_common\drivers\ant.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\..\firmware_common\drivers\ant_api.c</name>
             </file>
             <file>
                 <name>$PROJ_DIR$\..\..\firmware_common\drivers\buttons.c</name>
