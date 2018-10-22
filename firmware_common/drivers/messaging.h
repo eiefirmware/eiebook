@@ -60,7 +60,7 @@ typedef struct
 @enum MessageSlotType
 @brief Message node in the message list 
 */
-  typedef struct
+typedef struct
 {
   bool bFree;                               /*!< @brief TRUE if message slot is available */
   MessageType Message;                      /*!< @brief The slot's message */

@@ -79,7 +79,7 @@ void InterruptSetup(void)
   for(u8 i = 0; i < U8_SAM3U2_INTERRUPT_SOURCES; i++)
   {
     NVIC_DisableIRQ( (IRQn_Type)i );
-    NVIC_ClearPendingIRQ( (IRQn_Type) i);
+    NVIC_ClearPendingIRQ( (IRQn_Type)i);
   } 
 
   /* Set interrupt priorities */

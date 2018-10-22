@@ -31,7 +31,7 @@ Other blinking rate values may be added as required.  The labels are frequencies
 but the values are the toggling period in ms.
 
 *** The PWM rates are set up to allow incrementing and decrementing rates within the allowed values.  
-Be careful at the edge cases.
+Be careful at the edge cases. ***
 */
 typedef enum {LED_0HZ = 0, LED_0_5HZ = 1000, LED_1HZ = 500, LED_2HZ = 250, LED_4HZ = 125, LED_8HZ = 63,
               LED_PWM_0 = 0,   LED_PWM_5 = 1,   LED_PWM_10 = 2,  LED_PWM_15 = 3,  LED_PWM_20 = 4, 

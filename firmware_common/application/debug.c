@@ -114,6 +114,7 @@ DebugCommandType Debug_au8Commands[DEBUG_COMMANDS] =
 
 static u8 Debug_au8StartupMsg[] = "\n\n\r*** RAZOR SAM3U2 ASCII LCD DEVELOPMENT BOARD ***\n\n\r";
 
+
 /***********************************************************************************************************************
 * Function Definitions
 ***********************************************************************************************************************/

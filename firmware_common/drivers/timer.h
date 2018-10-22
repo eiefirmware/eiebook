@@ -133,7 +133,7 @@ PB6 is an open pin available for TIOB1 I/O function if set for Peripheral A
 
 #define TC1_IER_INIT (u32)0x00000010
 /*
-    31 -08 [0] Reserved 
+    31-08 [0] Reserved 
 
     07 [0] ETRGS RC Load interrupt not enabled
     06 [0] LDRBS RB Load interrupt not enabled

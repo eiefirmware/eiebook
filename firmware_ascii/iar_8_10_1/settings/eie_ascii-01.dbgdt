@@ -130,7 +130,7 @@
             </IarPane-34050>
             <IarPane-34104>
                 <expressions>
-                    <item></item>
+                    <item />
                 </expressions>
                 <col-names>
                     <item>Expression</item>
@@ -147,7 +147,7 @@
             </IarPane-34104>
             <IarPane-34105>
                 <expressions>
-                    <item></item>
+                    <item />
                 </expressions>
                 <col-names>
                     <item>Expression</item>
@@ -167,7 +167,7 @@
                     <item>G_u32SystemFlags</item>
                     <item>G_u32SystemTime1ms</item>
                     <item>G_u32SystemTime1s</item>
-                    <item></item>
+                    <item />
                 </expressions>
                 <col-names>
                     <item>Expression</item>
@@ -184,7 +184,7 @@
             </IarPane-34106>
             <IarPane-34107>
                 <expressions>
-                    <item></item>
+                    <item />
                 </expressions>
                 <col-names>
                     <item>Expression</item>

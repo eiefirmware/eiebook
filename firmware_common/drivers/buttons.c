@@ -214,10 +214,12 @@ void ButtonInitialize(void)
   /* Setup default data for all of the buttons in the system */
   for(u8 i = 0; i < U8_TOTAL_BUTTONS; i++)
   {
+    Button_asStatus[i].bDebounceActive = FALSE;
     Button_asStatus[i].bNewPressFlag = FALSE;
     Button_asStatus[i].eCurrentState = RELEASED;
     Button_asStatus[i].eNewState     = RELEASED;
     Button_asStatus[i].u32TimeStamp  = 0;
+    Button_asStatus[i].u32DebounceTimeStart = 0;    
   }
 
   /* Enable PIO interrupts */
