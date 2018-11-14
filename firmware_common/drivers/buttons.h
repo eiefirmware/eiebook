@@ -31,18 +31,6 @@ typedef struct
 }ButtonStatusType;
 
 
-#if 0
-/*! 
-@struct ButtonDebounceType
-@brief Required information from the button ISR to pass to the button task 
-*/
-typedef struct 
-{
-  u32 u32DebounceTimeStart;               /*!< @brief Current state of the button */
-  bool bDebounceActive;                   /*!< @brief TRUE if the press has not been acknowledged */
-}ButtonDebounceType;
-#endif
-
 /***********************************************************************************************************************
 Function Declarations
 ***********************************************************************************************************************/

@@ -61,9 +61,9 @@ const PinConfigurationType G_asBspButtonConfigurations[U8_TOTAL_BUTTONS] = { {PA
 extern volatile u32 G_u32SystemTime1ms;        /*!< @brief From main.c */
 extern volatile u32 G_u32SystemTime1s;         /*!< @brief From main.c */
 extern volatile u32 G_u32SystemFlags;          /*!< @brief From main.c */
-extern volatile u32 G_u32ApplicationFlags;             /*!< @brief From main.c */
+extern volatile u32 G_u32ApplicationFlags;     /*!< @brief From main.c */
 
-extern volatile u32 G_u32DebugFlags;                            /*!< @brief From debug.c */
+extern volatile u32 G_u32DebugFlags;           /*!< @brief From debug.c */
 
 
 /***********************************************************************************************************************

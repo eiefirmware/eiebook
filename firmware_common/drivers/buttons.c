@@ -11,17 +11,23 @@ GLOBALS
 - NONE
 
 CONSTANTS
-- 
+- U32_DEBOUNCE_TIME
 
 TYPES
-- NONE
-
+- enum ButtonStateType
+- struct ButtonStatusType
 
 PUBLIC FUNCTIONS
-- 
+- bool IsButtonPressed(ButtonNameType eButton_)
+- bool WasButtonPressed(ButtonNameType eButton_)
+- void ButtonAcknowledge(ButtonNameType eButton_)
+- bool IsButtonHeld(ButtonNameType eButton_, u32 u32ButtonHeldTime_)
 
 PROTECTED FUNCTIONS
-- 
+- void ButtonInitialize(void)
+- void ButtonRunActiveState(void)
+- void ButtonStartDebounce(u32 u32BitPosition_, PortOffsetType ePort_)
+
 
 ***********************************************************************************************************************/
 
