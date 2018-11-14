@@ -559,7 +559,7 @@ static void TwiSM_TxWaitComplete(void)
   /* Wait for TX to complete */
   if(TWI_Peripheral0.pBaseAddress->TWI_SR & AT91C_TWI_TXCOMP_MASTER)
   {
-    /*  Clear flags and advance states */
+    /* Clear flags and advance states */
     TWI_Peripheral0.u32PrivateFlags &= ~_TWI_TRANS_NOT_COMP;
     
     TWI_u32Timer = U8_NEXT_TRANSFER_DELAY_MS;

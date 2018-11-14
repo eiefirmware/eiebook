@@ -212,7 +212,7 @@ Promises:
 */
 void LedToggle(LedNameType eLED_)
 {
-  u32 *pu32Address = (u32*)(&(AT91C_BASE_PIOA->PIO_ODSR) + G_asBspLedConfigurations[eLED_].ePort);
+  u32* pu32Address = (u32*)(&(AT91C_BASE_PIOA->PIO_ODSR) + G_asBspLedConfigurations[eLED_].ePort);
 
   *pu32Address ^= G_asBspLedConfigurations[(u8)eLED_].u32BitPosition;
   
@@ -437,7 +437,7 @@ State Machine Declarations
 */
 static void LedSM_Idle(void)
 {
-  u32 *pu32Address;
+  u32* pu32Address;
   
 	/* Loop through each LED to check for blinkers */
   for(u8 i = 0; i < U8_TOTAL_LEDS; i++)

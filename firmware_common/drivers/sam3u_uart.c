@@ -684,7 +684,6 @@ static void UartSM_Idle(void)
     if(Uart_u8ActiveUarts > U8_MAX_NUM_UARTS)
     {
       /* Alert that the number of actual UARTs has been exceeded */
-      //DebugPrintf("\n\rToo many UARTs!\n\r");
       Uart_u32Flags |= _UART_TOO_MANY_UARTS;
     }
     Uart_psCurrentUart->pBaseAddress->US_PTCR = AT91C_PDC_TXTEN;
@@ -694,18 +693,24 @@ static void UartSM_Idle(void)
   switch (Uart_psCurrentUart->u8PeripheralId)
   {
     case AT91C_ID_DBGU:
+    {
       Uart_psCurrentUart = &Uart_sPeripheral0;
       break;
-
+    }
+    
     case AT91C_ID_US0:
+    {
       Uart_psCurrentUart = &Uart_sPeripheral1;
       break;
-
+    }
+    
     case AT91C_ID_US1:
-      Uart_psCurrentUart = &Uart_sPeripheral2;
+    {  Uart_psCurrentUart = &Uart_sPeripheral2;
       break;
-
+    }
+    
     case AT91C_ID_US2:
+    {
       Uart_psCurrentUart = &Uart_sPeripheral;
       
       /* Only clear _UART_MANUAL_MODE if all UARTs are done sending to ensure messages are sent during initialization */
@@ -714,10 +719,13 @@ static void UartSM_Idle(void)
         Uart_u32Flags &= ~_UART_MANUAL_MODE;
       }
       break;
-
+    }
+    
     default:
+    {
       Uart_psCurrentUart = &Uart_sPeripheral;
       break;
+    }
   } /* end switch */
   
 } /* end UartSM_Idle() */

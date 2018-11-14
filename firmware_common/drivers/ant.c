@@ -1069,9 +1069,11 @@ static u8 AntProcessMessage(void)
   u8 au8MessageCopy[MESG_MAX_SIZE];
   AntExtendedDataType sExtendedData;
   
-   /* Exit immediately if there are no messages in the RxBuffer */
+  /* Exit immediately if there are no messages in the RxBuffer */
 	if (!Ant_u8AntNewRxMessages)
+  {
     return(1);
+  }
   
   Ant_DebugProcessRxMessages++;
   
@@ -1118,10 +1120,13 @@ static u8 AntProcessMessage(void)
         switch(au8MessageCopy[BUFFER_INDEX_RESPONSE_MESG_ID])
         {
           case MESG_OPEN_SCAN_CHANNEL_ID:
+          {
             DebugPrintf("Scanning ");
-            /* Fall through */
+          /* Fall through */
+          }
             
           case MESG_OPEN_CHANNEL_ID:
+          {
             G_au8AntMessageOpen[12] = u8Channel + 0x30;
             DebugPrintf(G_au8AntMessageOpen);
             
@@ -1132,25 +1137,18 @@ static u8 AntProcessMessage(void)
               G_asAntChannelConfiguration[u8Channel].AntFlags &= ~_ANT_FLAGS_CHANNEL_OPEN_PENDING;
             }
             break;
-
+          }
+          
           case MESG_CLOSE_CHANNEL_ID:
+          {  
             G_au8AntMessageClose[12] = au8MessageCopy[BUFFER_INDEX_CHANNEL_NUM] + 0x30;
             DebugPrintf(G_au8AntMessageClose);
 
-#if 0 
-            /* 2017-11-13: Closing the channel is unique because a Closed Channel event
-            is generated once the channel is actually closed.  Therefore don't clear the
-            flag here, just clear it in when the event occurs. */
-            
-            /* Only change the flags if the command was successful */
-            if( au8MessageCopy[BUFFER_INDEX_RESPONSE_CODE] == RESPONSE_NO_ERROR )
-            {
-              G_asAntChannelConfiguration[u8Channel].AntFlags &= ~_ANT_FLAGS_CHANNEL_OPEN;
-            }
-#endif
             break;
-    
+          }
+          
           case MESG_UNASSIGN_CHANNEL_ID:
+          {
             G_au8AntMessageUnassign[12] = au8MessageCopy[BUFFER_INDEX_CHANNEL_NUM] + 0x30;
             DebugPrintf(G_au8AntMessageUnassign);
 
@@ -1158,16 +1156,12 @@ static u8 AntProcessMessage(void)
             if( au8MessageCopy[BUFFER_INDEX_RESPONSE_CODE] == RESPONSE_NO_ERROR )
             {
               G_asAntChannelConfiguration[u8Channel].AntFlags &= ~_ANT_FLAGS_CHANNEL_CONFIGURED;
-#if 0
-              /* 2017-11-13: None of these flags should be set at this point. */
-              G_asAntChannelConfiguration[u8Channel].AntFlags &= ~(_ANT_FLAGS_CHANNEL_OPEN_PENDING | 
-                                                                   _ANT_FLAGS_CHANNEL_CLOSE_PENDING | 
-                                                                   _ANT_FLAGS_CHANNEL_OPEN); /* !!!! 2016-06-14 */
-#endif
             }
             break;
- 
+          }
+          
           default:
+          {
             G_au8AntMessageUnhandled[12] = au8MessageCopy[BUFFER_INDEX_CHANNEL_NUM] + NUMBER_ASCII_TO_DEC;
             G_au8AntMessageUnhandled[24] = HexToASCIICharLower( (au8MessageCopy[BUFFER_INDEX_RESPONSE_MESG_ID] >> 4) & 0x0F );
             G_au8AntMessageUnhandled[25] = HexToASCIICharLower( (au8MessageCopy[BUFFER_INDEX_RESPONSE_MESG_ID] & 0x0F) );
@@ -1175,6 +1169,7 @@ static u8 AntProcessMessage(void)
             G_au8AntMessageUnhandled[37] = HexToASCIICharLower( (au8MessageCopy[BUFFER_INDEX_RESPONSE_CODE] & 0x0F) );
             DebugPrintf(G_au8AntMessageUnhandled);
             break;
+          }
         } /* end switch */
         
         /* All messages print an "ok" or "fail" */
@@ -1872,10 +1867,13 @@ static void AntSM_TransmitMessage(void)
   switch(eCurrentMsgStatus)
   {
     case TIMEOUT:
+    {
        DebugPrintf("\n\rTransmit message timeout\n\r");
       /* Fall through */
-      
+    }
+    
     case COMPLETE:
+    {
       /* Kill the message and update flags */
       AntDeQueueOutgoingMessage();
       Ant_u32CurrentTxMessageToken = 0;
@@ -1900,11 +1898,13 @@ static void AntSM_TransmitMessage(void)
       
       Ant_pfnStateMachine = AntSM_Idle;
       break;
-      
+    }
+    
     default:
+    {
       /* Do nothing for now */
       break;
-      
+    }  
   } /* end switch */
   
 } /* end AntSM_TransmitMessage() */
