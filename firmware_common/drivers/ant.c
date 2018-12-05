@@ -1122,7 +1122,7 @@ static u8 AntProcessMessage(void)
           case MESG_OPEN_SCAN_CHANNEL_ID:
           {
             DebugPrintf("Scanning ");
-          /* Fall through */
+            /* Fall through */
           }
             
           case MESG_OPEN_CHANNEL_ID:
@@ -1289,11 +1289,13 @@ static u8 AntProcessMessage(void)
           
           /* All other messages are unexpected for now */
           default:
+          {
             DebugPrintNumber(au8MessageCopy[BUFFER_INDEX_RESPONSE_CODE]);
             DebugPrintf(": unexpected channel event\n\r");
 
             G_u32AntFlags |= _ANT_FLAGS_UNEXPECTED_EVENT;
             break;
+          }
         } /* end Ant_pu8AntRxBufferUnreadMsg[EVENT_CODE_INDEX] */
       } /* end else RF event */
       
@@ -1319,7 +1321,7 @@ There are some legacy applications that will fail if this is removed, so
 we'll keep the code available until those can be updated.  Do not rely on
 this for future development. */
       
-      /* If this is a slave device, then a data message received means it's time to send */
+      /* If this is a Slave device, then a data message received means it's time to send */
       if(G_asAntChannelConfiguration[u8Channel].AntChannelType == CHANNEL_TYPE_SLAVE)
       {
         AntTickExtended(au8MessageCopy);
@@ -1353,8 +1355,10 @@ this for future development. */
     } /* end case MESG_RESTART_ID */
     
     default:
+    {
       G_u32AntFlags |= _ANT_FLAGS_UNEXPECTED_MSG;
       break;
+    }
   } /* end switch( Ant_pu8AntRxBufferUnreadMsg[MESG_ID_OFFSET] ) */
            
   return(0);
@@ -1459,7 +1463,7 @@ static bool AntParseExtendedData(u8* pu8SourceMessage_, AntExtendedDataType* psE
       u8BufferOffset++;
       //u8Threshold = *(pu8SourceMessage_ + BUFFER_INDEX_EXT_DATA + u8BufferOffset);
       u8BufferOffset++;
-   }   
+    }   
 
     /* Timestamp information is always last */
     if(u8Flags & LIB_CONFIG_RX_TIMESTAMP_FLAG)
