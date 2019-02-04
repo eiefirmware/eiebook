@@ -88,7 +88,7 @@ void TimerSet(TimerChannelType eTimerChannel_, u16 u16TimerValue_)
   u32TimerBaseAddress += (u32)eTimerChannel_;
 
   /* Load the new timer value */
-  (AT91_CAST(AT91PS_TC)u32TimerBaseAddress)->TC_RC = (u32)(u16TimerValue_ & 0x0000FFFF);
+  (AT91_CAST(AT91PS_TC)u32TimerBaseAddress)->TC_RC = (u32)(u16TimerValue_) & 0x0000FFFF;
 
 } /* end TimerSet() */
 

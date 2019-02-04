@@ -242,9 +242,10 @@ u32 QueueMessage(MessageType** ppsTargetTxBuffer_, u32 u32MessageSize_, u8* pu8M
   MessageSlotType *psSlotParser;
   MessageType *psNewMessage;
   MessageType *psListParser;
-  u32 u32SlotsRequired;
+  u8  u8SlotsRequired;
   u32 u32BytesRemaining = u32MessageSize_;
   u32 u32CurrentMessageSize = 0;
+  u32 u32MaxTxMessageLength = (u32)(U16_MAX_TX_MESSAGE_LENGTH) & 0x0000FFFF;
   
   /* Check for empty message */
   if(u32MessageSize_ == 0)
@@ -253,13 +254,13 @@ u32 QueueMessage(MessageType** ppsTargetTxBuffer_, u32 u32MessageSize_, u8* pu8M
   }
 
   /* Carefully check for available space in the message pool */
-  u32SlotsRequired = (u32MessageSize_ / U16_MAX_TX_MESSAGE_LENGTH);
-  if( (u32MessageSize_ % U16_MAX_TX_MESSAGE_LENGTH) != 0 )
+  u8SlotsRequired = (u8)(u32MessageSize_ / u32MaxTxMessageLength);
+  if( (u32MessageSize_ % u32MaxTxMessageLength) != 0 )
   {
-    u32SlotsRequired++;
+    u8SlotsRequired++;
   }
 
-  if( (Msg_u8QueuedMessageCount + u32SlotsRequired) > U8_TX_QUEUE_SIZE)
+  if( (Msg_u8QueuedMessageCount + u8SlotsRequired) > U8_TX_QUEUE_SIZE)
   {
     G_u32MessagingFlags |= _MESSAGING_TX_QUEUE_FULL;
     return(0);
@@ -298,10 +299,10 @@ u32 QueueMessage(MessageType** ppsTargetTxBuffer_, u32 u32MessageSize_, u8* pu8M
     psNewMessage = &(psSlotParser->Message);
   
     /* Check the message size and split the message up if necessary */
-    if(u32BytesRemaining > U16_MAX_TX_MESSAGE_LENGTH)
+    if(u32BytesRemaining > u32MaxTxMessageLength)
     {
-      u32CurrentMessageSize = U16_MAX_TX_MESSAGE_LENGTH;
-      u32BytesRemaining -= U16_MAX_TX_MESSAGE_LENGTH;
+      u32CurrentMessageSize = u32MaxTxMessageLength;
+      u32BytesRemaining -= u32MaxTxMessageLength;
     }
     else
     {
@@ -317,7 +318,8 @@ u32 QueueMessage(MessageType** ppsTargetTxBuffer_, u32 u32MessageSize_, u8* pu8M
     /* Add the data into the payload */
     for(u32 i = 0; i < psNewMessage->u32Size; i++)
     {
-      *(psNewMessage->pu8Message + i) = *pu8MessageData_++;
+      *(psNewMessage->pu8Message + i) = *pu8MessageData_;
+      pu8MessageData_++;
     }
   
     /* Link the new message into the client's transmit buffer.  This must happen
