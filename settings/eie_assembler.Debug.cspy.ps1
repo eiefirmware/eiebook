@@ -23,9 +23,9 @@ param([String]$debugfile = "");
 
 if ($debugfile -eq "")
 {
-& "C:\Program Files\IAR Systems\EWARM_8_10_1\common\bin\cspybat" -f "D:\EiE\EiE Git\eiebook\settings\eie_assembler.Debug.general.xcl" --backend -f "D:\EiE\EiE Git\eiebook\settings\eie_assembler.Debug.driver.xcl" 
+& "C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.0\common\bin\cspybat" -f "C:\Users\evers\Documents\EIE\EiE_Git\eiebook\settings\eie_assembler.Debug.general.xcl" --backend -f "C:\Users\evers\Documents\EIE\EiE_Git\eiebook\settings\eie_assembler.Debug.driver.xcl" 
 }
 else
 {
-& "C:\Program Files\IAR Systems\EWARM_8_10_1\common\bin\cspybat" -f "D:\EiE\EiE Git\eiebook\settings\eie_assembler.Debug.general.xcl" --debug_file=$debugfile --backend -f "D:\EiE\EiE Git\eiebook\settings\eie_assembler.Debug.driver.xcl" 
+& "C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.0\common\bin\cspybat" -f "C:\Users\evers\Documents\EIE\EiE_Git\eiebook\settings\eie_assembler.Debug.general.xcl" --debug_file=$debugfile --backend -f "C:\Users\evers\Documents\EIE\EiE_Git\eiebook\settings\eie_assembler.Debug.driver.xcl" 
 }
