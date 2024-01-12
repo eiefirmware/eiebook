@@ -1724,12 +1724,12 @@ static void AntSyncSerialInitialize(void)
     AntTxMessage(&G_au8ANTGetVersion[0]);   
     
     /* Process the message through AntExpectResponse */
-    AntExpectResponse(MESG_VERSION_ID, ANT_MSG_TIMEOUT_MS);
+    bErrorStatus = AntExpectResponse(MESG_VERSION_ID, ANT_MSG_TIMEOUT_MS);
   }
   
   if(bErrorStatus)
   {
-    DebugPrintf("ANT failed boot\n\r");
+    DebugPrintf("\n\rANT failed boot\n\r");
   }
  
 } /* end AntSyncSerialInitialize */
